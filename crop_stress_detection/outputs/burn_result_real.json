@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "pipeline": "burn_detection",
+    "pipeline_version": "1.0.0",
+    "processing_start": "2026-04-25T10:46:49Z",
+    "processing_end": "2026-04-25T10:47:19Z",
+    "method": {
+      "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
+      "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
+      "dnbr_formula": "dNBR = NBR_before - NBR_after",
+      "vegetation_filter": "NDVI_before > 0.3",
+      "burn_threshold": "dNBR > 0.3",
+      "severity_thresholds": {
+        "unburned": 0.1,
+        "low": 0.3,
+        "moderate": 0.6,
+        "severe": "no_upper_limit"
+      },
+      "cloud_mask": "SCL classes 0,1,3,8,9,10,11 masked",
+      "water_mask": "SCL class 6 masked",
+      "pixel_resolution_m": 10
+    },
+    "source": {
+      "before": {
+        "product": "S2A_MSIL2A_20191216T004701",
+        "level": "L2A",
+        "date": "2019-12-16",
+        "tile": "T53HQA"
+      },
+      "after": {
+        "product": "S2B_MSIL2A_20200110T004659",
+        "level": "L2A",
+        "date": "2020-01-10",
+        "tile": "T53HQA"
+      },
+      "region": "Eastern Australia",
+      "event": "2019-2020 Australian Bushfire Season",
+      "bands_used": [
+        "B04 (Red, 10m)",
+        "B08 (NIR, 10m)",
+        "B12 (SWIR, 20m→10m)"
+      ],
+      "cloud_mask": "SCL from both BEFORE and AFTER (both L2A)",
+      "valid_pixel_pct_combined": 0.0
+    }
+  },
+  "summary": {
+    "burned_area_ha": 0.0,
+    "burned_pixels": 0,
+    "burned_fraction": 0.0,
+    "severity_distribution": {
+      "unburned": {
+        "label": "Unburned",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      },
+      "low": {
+        "label": "Low Severity",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      },
+      "moderate": {
+        "label": "Moderate Severity",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      },
+      "severe": {
+        "label": "Severe",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      }
+    },
+    "confidence": 0.0
+  }
+}

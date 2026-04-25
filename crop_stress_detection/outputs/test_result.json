@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "processing_start": "2026-04-25T03:24:23Z",
+    "processing_end": "2026-04-25T03:24:23Z",
+    "source": {
+      "platform": "Sentinel-2",
+      "product_type": "L2A",
+      "product_name": "manual_input",
+      "acquisition_datetime": "UNKNOWN (manually provided bands)",
+      "bands_used": [
+        "B04 (Red, 10m)",
+        "B08 (NIR, 10m)"
+      ],
+      "cloud_mask": "SCL (Scene Classification Layer, resampled 20m\u219210m)"
+    },
+    "method": {
+      "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
+      "cloud_filtering": "SCL classes 0,1,3,8,9,10,11 masked as invalid",
+      "stress_classification": "threshold-based (see configs/pipeline_config.yaml)",
+      "tile_size_km": 5.0,
+      "coordinate_system_input": "EPSG:4326",
+      "coordinate_system_output": "EPSG:4326 (WGS84)"
+    },
+    "terramind": {
+      "used": false,
+      "reason": "Cloud coverage within acceptable range; gap-filling not required.",
+      "recommendation": "Cloud coverage was None%. TerraMind gap-filling recommended if >20%. See TERRAMIND_NOTE.md."
+    }
+  },
+  "summary": {
+    "acquisition_date": "UNKNOWN (manually provided bands)",
+    "total_tiles": 4,
+    "alert_tiles": 0,
+    "total_alerts": 0,
+    "cloud_cover_pct": null,
+    "valid_pixel_pct": null,
+    "image_shape_pixels": [
+      512,
+      512
+    ],
+    "total_pixels": 262144,
+    "valid_ndvi_pixels": 255420,
+    "ndvi_statistics": {
+      "mean": 0.691184,
+      "std": 0.221779,
+      "min": -1.0,
+      "max": 1.0,
+      "median": 0.736153,
+      "p10": 0.375763,
+      "p25": 0.663164,
+      "p75": 0.806975,
+      "p90": 0.879949
+    },
+    "stress_distribution": {
+      "mild_stress": {
+        "label": "Mild Stress / Developing",
+        "tile_count": 1,
+        "pct": 25.0
+      },
+      "healthy": {
+        "label": "Healthy Vegetation",
+        "tile_count": 3,
+        "pct": 75.0
+      }
+    }
+  },
+  "tiles": [
+    {
+      "tile_id": "T000_000",
+      "center_lat": 16.604491,
+      "center_lon": 78.988503,
+      "ndvi_mean": 0.693532,
+      "ndvi_median": 0.736619,
+      "valid_pixel_fraction": 0.9731,
+      "vegetated_ha": 2328.27,
+      "stress_class": "healthy",
+      "stress_label": "Healthy Vegetation",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T000_001",
+      "center_lat": 16.604491,
+      "center_lon": 79.011499,
+      "ndvi_mean": 0.752387,
+      "ndvi_median": 0.749502,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 60.0,
+      "stress_class": "healthy",
+      "stress_label": "Healthy Vegetation",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T001_000",
+      "center_lat": 16.581494,
+      "center_lon": 78.988503,
+      "ndvi_mean": 0.533282,
+      "ndvi_median": 0.685219,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 51.0,
+      "stress_class": "mild_stress",
+      "stress_label": "Mild Stress / Developing",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T001_001",
+      "center_lat": 16.581494,
+      "center_lon": 79.011499,
+      "ndvi_mean": 0.754556,
+      "ndvi_median": 0.752776,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1.44,
+      "stress_class": "healthy",
+      "stress_label": "Healthy Vegetation",
+      "is_alert": false
+    }
+  ],
+  "alerts": [],
+  "ndvi_trend": null,
+  "ndvi_trend_note": "NDVI trend not computed: only one acquisition date available. Run pipeline with multiple dates to enable trend analysis."
+}

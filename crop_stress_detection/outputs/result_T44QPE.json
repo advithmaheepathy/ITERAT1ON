@@ -1,0 +1,1174 @@
+{
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "processing_start": "2026-04-25T05:32:03Z",
+    "processing_end": "2026-04-25T05:32:05Z",
+    "source": {
+      "platform": "Sentinel-2",
+      "product_type": "L2A",
+      "product_name": "S2C_MSIL2A_20260424T045701_N0512_R119_T44QPE_20260424T100818.SAFE",
+      "acquisition_datetime": "2026-04-24T04:57:01Z",
+      "bands_used": [
+        "B04 (Red, 10m)",
+        "B08 (NIR, 10m)"
+      ],
+      "cloud_mask": "SCL (Scene Classification Layer, resampled 20m\u219210m)"
+    },
+    "method": {
+      "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
+      "cloud_filtering": "SCL classes 0,1,3,8,9,10,11 masked as invalid",
+      "stress_classification": "threshold-based (see configs/pipeline_config.yaml)",
+      "tile_size_km": 5.0,
+      "coordinate_system_input": "EPSG:32644",
+      "coordinate_system_output": "EPSG:4326 (WGS84)"
+    },
+    "terramind": {
+      "used": false,
+      "reason": "Cloud coverage within acceptable range; gap-filling not required.",
+      "recommendation": "Cloud coverage was 1.56%. TerraMind gap-filling recommended if >20%. See TERRAMIND_NOTE.md."
+    }
+  },
+  "summary": {
+    "acquisition_date": "2026-04-24T04:57:01Z",
+    "total_tiles": 25,
+    "alert_tiles": 25,
+    "total_alerts": 25,
+    "cloud_cover_pct": 1.56,
+    "valid_pixel_pct": 98.44,
+    "image_shape_pixels": [
+      2230,
+      2140
+    ],
+    "total_pixels": 4772200,
+    "valid_ndvi_pixels": 4695376,
+    "ndvi_statistics": {
+      "mean": 0.305544,
+      "std": 0.11254,
+      "min": -1.0,
+      "max": 0.687365,
+      "median": 0.316248,
+      "p10": 0.168462,
+      "p25": 0.239251,
+      "p75": 0.384973,
+      "p90": 0.43702
+    },
+    "stress_distribution": {
+      "severe_stress": {
+        "label": "Severe Crop Stress",
+        "tile_count": 11,
+        "pct": 44.0
+      },
+      "moderate_stress": {
+        "label": "Moderate Crop Stress",
+        "tile_count": 14,
+        "pct": 56.0
+      }
+    }
+  },
+  "tiles": [
+    {
+      "tile_id": "T000_000",
+      "center_lat": 17.678645,
+      "center_lon": 82.323443,
+      "ndvi_mean": 0.328678,
+      "ndvi_median": 0.331697,
+      "valid_pixel_fraction": 0.9673,
+      "vegetated_ha": 2383.65,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T000_001",
+      "center_lat": 17.678322,
+      "center_lon": 82.370576,
+      "ndvi_mean": 0.296873,
+      "ndvi_median": 0.302211,
+      "valid_pixel_fraction": 0.9789,
+      "vegetated_ha": 2281.02,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T000_002",
+      "center_lat": 17.677988,
+      "center_lon": 82.417709,
+      "ndvi_mean": 0.277701,
+      "ndvi_median": 0.263752,
+      "valid_pixel_fraction": 0.9862,
+      "vegetated_ha": 2294.31,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T000_003",
+      "center_lat": 17.677643,
+      "center_lon": 82.46484,
+      "ndvi_mean": 0.268356,
+      "ndvi_median": 0.30547,
+      "valid_pixel_fraction": 0.9936,
+      "vegetated_ha": 2032.75,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T000_004",
+      "center_lat": 17.677416,
+      "center_lon": 82.495003,
+      "ndvi_mean": 0.339335,
+      "ndvi_median": 0.350235,
+      "valid_pixel_fraction": 0.8786,
+      "vegetated_ha": 583.34,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T001_000",
+      "center_lat": 17.633462,
+      "center_lon": 82.323113,
+      "ndvi_mean": 0.392847,
+      "ndvi_median": 0.402182,
+      "valid_pixel_fraction": 0.9892,
+      "vegetated_ha": 2454.95,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T001_001",
+      "center_lat": 17.63314,
+      "center_lon": 82.370235,
+      "ndvi_mean": 0.319599,
+      "ndvi_median": 0.322762,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2423.26,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T001_002",
+      "center_lat": 17.632807,
+      "center_lon": 82.417355,
+      "ndvi_mean": 0.31068,
+      "ndvi_median": 0.319938,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2334.53,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T001_003",
+      "center_lat": 17.632463,
+      "center_lon": 82.464474,
+      "ndvi_mean": 0.210936,
+      "ndvi_median": 0.264555,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1424.84,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T001_004",
+      "center_lat": 17.632237,
+      "center_lon": 82.49463,
+      "ndvi_mean": 0.349215,
+      "ndvi_median": 0.356376,
+      "valid_pixel_fraction": 0.9086,
+      "vegetated_ha": 628.97,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T002_000",
+      "center_lat": 17.588279,
+      "center_lon": 82.322784,
+      "ndvi_mean": 0.317356,
+      "ndvi_median": 0.318795,
+      "valid_pixel_fraction": 0.9821,
+      "vegetated_ha": 2408.1,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T002_001",
+      "center_lat": 17.587958,
+      "center_lon": 82.369894,
+      "ndvi_mean": 0.314464,
+      "ndvi_median": 0.318784,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2430.12,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T002_002",
+      "center_lat": 17.587626,
+      "center_lon": 82.417002,
+      "ndvi_mean": 0.346615,
+      "ndvi_median": 0.352581,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2457.67,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T002_003",
+      "center_lat": 17.587283,
+      "center_lon": 82.46411,
+      "ndvi_mean": 0.320451,
+      "ndvi_median": 0.329059,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2254.55,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T002_004",
+      "center_lat": 17.587057,
+      "center_lon": 82.494258,
+      "ndvi_mean": 0.310341,
+      "ndvi_median": 0.323644,
+      "valid_pixel_fraction": 0.9369,
+      "vegetated_ha": 602.7,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T003_000",
+      "center_lat": 17.543096,
+      "center_lon": 82.322456,
+      "ndvi_mean": 0.279917,
+      "ndvi_median": 0.281451,
+      "valid_pixel_fraction": 0.9752,
+      "vegetated_ha": 2311.55,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T003_001",
+      "center_lat": 17.542776,
+      "center_lon": 82.369554,
+      "ndvi_mean": 0.284492,
+      "ndvi_median": 0.286005,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2396.04,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T003_002",
+      "center_lat": 17.542445,
+      "center_lon": 82.416651,
+      "ndvi_mean": 0.36471,
+      "ndvi_median": 0.370304,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2474.35,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T003_003",
+      "center_lat": 17.542103,
+      "center_lon": 82.463747,
+      "ndvi_mean": 0.286253,
+      "ndvi_median": 0.276224,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2238.82,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T003_004",
+      "center_lat": 17.541878,
+      "center_lon": 82.493888,
+      "ndvi_mean": 0.26967,
+      "ndvi_median": 0.258075,
+      "valid_pixel_fraction": 0.9652,
+      "vegetated_ha": 599.44,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T004_000",
+      "center_lat": 17.510112,
+      "center_lon": 82.322217,
+      "ndvi_mean": 0.28242,
+      "ndvi_median": 0.285007,
+      "valid_pixel_fraction": 0.9577,
+      "vegetated_ha": 1037.96,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T004_001",
+      "center_lat": 17.509793,
+      "center_lon": 82.369306,
+      "ndvi_mean": 0.315411,
+      "ndvi_median": 0.31489,
+      "valid_pixel_fraction": 0.9713,
+      "vegetated_ha": 1102.45,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T004_002",
+      "center_lat": 17.509463,
+      "center_lon": 82.416395,
+      "ndvi_mean": 0.305531,
+      "ndvi_median": 0.309035,
+      "valid_pixel_fraction": 0.9553,
+      "vegetated_ha": 1030.22,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T004_003",
+      "center_lat": 17.509121,
+      "center_lon": 82.463482,
+      "ndvi_mean": 0.240031,
+      "ndvi_median": 0.223481,
+      "valid_pixel_fraction": 0.9389,
+      "vegetated_ha": 948.96,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T004_004",
+      "center_lat": 17.508896,
+      "center_lon": 82.493618,
+      "ndvi_mean": 0.240312,
+      "ndvi_median": 0.218095,
+      "valid_pixel_fraction": 0.9102,
+      "vegetated_ha": 273.39,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "is_alert": true
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": "ALERT_T003_001",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T003_001",
+      "location": {
+        "center_lat": 17.542776,
+        "center_lon": 82.369554,
+        "bbox": {
+          "lat_min": 17.520112,
+          "lat_max": 17.565529,
+          "lon_min": 82.346172,
+          "lon_max": 82.392836
+        }
+      },
+      "ndvi_mean": 0.284492,
+      "ndvi_median": 0.286005,
+      "ndvi_std": 0.078486,
+      "stressed_pixel_fraction": 0.9412,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.9584,
+      "vegetated_ha": 2396.04,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.284. Approximately 94% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2396.0 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T004_004",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T004_004",
+      "location": {
+        "center_lat": 17.508896,
+        "center_lon": 82.493618,
+        "bbox": {
+          "lat_min": 17.498546,
+          "lat_max": 17.519337,
+          "lon_min": 82.48711,
+          "lon_max": 82.500031
+        }
+      },
+      "ndvi_mean": 0.240312,
+      "ndvi_median": 0.218095,
+      "ndvi_std": 0.084995,
+      "stressed_pixel_fraction": 0.9341,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9102,
+      "vegetated_fraction": 0.9328,
+      "vegetated_ha": 273.39,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.240. Approximately 93% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 273.4 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T004_003",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T004_003",
+      "location": {
+        "center_lat": 17.509121,
+        "center_lon": 82.463482,
+        "bbox": {
+          "lat_min": 17.498645,
+          "lat_max": 17.519685,
+          "lon_min": 82.440021,
+          "lon_max": 82.486848
+        }
+      },
+      "ndvi_mean": 0.240031,
+      "ndvi_median": 0.223481,
+      "ndvi_std": 0.092858,
+      "stressed_pixel_fraction": 0.9322,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9389,
+      "vegetated_fraction": 0.8788,
+      "vegetated_ha": 948.96,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.240. Approximately 93% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 949.0 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T003_000",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T003_000",
+      "location": {
+        "center_lat": 17.543096,
+        "center_lon": 82.322456,
+        "bbox": {
+          "lat_min": 17.520437,
+          "lat_max": 17.565844,
+          "lon_min": 82.299067,
+          "lon_max": 82.345745
+        }
+      },
+      "ndvi_mean": 0.279917,
+      "ndvi_median": 0.281451,
+      "ndvi_std": 0.08212,
+      "stressed_pixel_fraction": 0.9321,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9752,
+      "vegetated_fraction": 0.9481,
+      "vegetated_ha": 2311.55,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.280. Approximately 93% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2311.6 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T004_000",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T004_000",
+      "location": {
+        "center_lat": 17.510112,
+        "center_lon": 82.322217,
+        "bbox": {
+          "lat_min": 17.499653,
+          "lat_max": 17.52066,
+          "lon_min": 82.298745,
+          "lon_max": 82.345592
+        }
+      },
+      "ndvi_mean": 0.28242,
+      "ndvi_median": 0.285007,
+      "ndvi_std": 0.083357,
+      "stressed_pixel_fraction": 0.9286,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9577,
+      "vegetated_fraction": 0.9424,
+      "vegetated_ha": 1037.96,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.282. Approximately 93% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 1038.0 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T000_001",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T000_001",
+      "location": {
+        "center_lat": 17.678322,
+        "center_lon": 82.370576,
+        "bbox": {
+          "lat_min": 17.655657,
+          "lat_max": 17.701076,
+          "lon_min": 82.347178,
+          "lon_max": 82.393875
+        }
+      },
+      "ndvi_mean": 0.296873,
+      "ndvi_median": 0.302211,
+      "ndvi_std": 0.087801,
+      "stressed_pixel_fraction": 0.9224,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9789,
+      "vegetated_fraction": 0.9321,
+      "vegetated_ha": 2281.02,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.297. Approximately 92% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2281.0 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T003_004",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T003_004",
+      "location": {
+        "center_lat": 17.541878,
+        "center_lon": 82.493888,
+        "bbox": {
+          "lat_min": 17.519329,
+          "lat_max": 17.564517,
+          "lon_min": 82.487479,
+          "lon_max": 82.500202
+        }
+      },
+      "ndvi_mean": 0.26967,
+      "ndvi_median": 0.258075,
+      "ndvi_std": 0.107294,
+      "stressed_pixel_fraction": 0.919,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9652,
+      "vegetated_fraction": 0.8872,
+      "vegetated_ha": 599.44,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.270. Approximately 92% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 599.4 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T000_002",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T000_002",
+      "location": {
+        "center_lat": 17.677988,
+        "center_lon": 82.417709,
+        "bbox": {
+          "lat_min": 17.655318,
+          "lat_max": 17.700747,
+          "lon_min": 82.394317,
+          "lon_max": 82.441001
+        }
+      },
+      "ndvi_mean": 0.277701,
+      "ndvi_median": 0.263752,
+      "ndvi_std": 0.097817,
+      "stressed_pixel_fraction": 0.9162,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9862,
+      "vegetated_fraction": 0.9305,
+      "vegetated_ha": 2294.31,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.278. Approximately 92% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2294.3 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T003_003",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T003_003",
+      "location": {
+        "center_lat": 17.542103,
+        "center_lon": 82.463747,
+        "bbox": {
+          "lat_min": 17.519428,
+          "lat_max": 17.564866,
+          "lon_min": 82.440378,
+          "lon_max": 82.487017
+        }
+      },
+      "ndvi_mean": 0.286253,
+      "ndvi_median": 0.276224,
+      "ndvi_std": 0.116566,
+      "stressed_pixel_fraction": 0.9022,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.8955,
+      "vegetated_ha": 2238.82,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.286. Approximately 90% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2238.8 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T000_003",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T000_003",
+      "location": {
+        "center_lat": 17.677643,
+        "center_lon": 82.46484,
+        "bbox": {
+          "lat_min": 17.654968,
+          "lat_max": 17.700407,
+          "lon_min": 82.441455,
+          "lon_max": 82.488126
+        }
+      },
+      "ndvi_mean": 0.268356,
+      "ndvi_median": 0.30547,
+      "ndvi_std": 0.171591,
+      "stressed_pixel_fraction": 0.9002,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 0.9936,
+      "vegetated_fraction": 0.8183,
+      "vegetated_ha": 2032.75,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.268. Approximately 90% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2032.8 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T001_003",
+      "severity": "CRITICAL",
+      "severity_score": 3,
+      "tile_id": "T001_003",
+      "location": {
+        "center_lat": 17.632463,
+        "center_lon": 82.464474,
+        "bbox": {
+          "lat_min": 17.609788,
+          "lat_max": 17.655227,
+          "lon_min": 82.441094,
+          "lon_max": 82.487755
+        }
+      },
+      "ndvi_mean": 0.210936,
+      "ndvi_median": 0.264555,
+      "ndvi_std": 0.199729,
+      "stressed_pixel_fraction": 0.8799,
+      "stress_class": "severe_stress",
+      "stress_label": "Severe Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.5699,
+      "vegetated_ha": 1424.84,
+      "reason": "Severe Crop Stress detected. Mean NDVI=0.211. Approximately 88% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 1424.8 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T004_001",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T004_001",
+      "location": {
+        "center_lat": 17.509793,
+        "center_lon": 82.369306,
+        "bbox": {
+          "lat_min": 17.499328,
+          "lat_max": 17.520346,
+          "lon_min": 82.345838,
+          "lon_max": 82.392678
+        }
+      },
+      "ndvi_mean": 0.315411,
+      "ndvi_median": 0.31489,
+      "ndvi_std": 0.073674,
+      "stressed_pixel_fraction": 0.9275,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9713,
+      "vegetated_fraction": 0.987,
+      "vegetated_ha": 1102.45,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.315. Approximately 93% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 1102.5 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T002_001",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T002_001",
+      "location": {
+        "center_lat": 17.587958,
+        "center_lon": 82.369894,
+        "bbox": {
+          "lat_min": 17.565294,
+          "lat_max": 17.610712,
+          "lon_min": 82.346506,
+          "lon_max": 82.393182
+        }
+      },
+      "ndvi_mean": 0.314464,
+      "ndvi_median": 0.318784,
+      "ndvi_std": 0.081304,
+      "stressed_pixel_fraction": 0.9191,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.972,
+      "vegetated_ha": 2430.12,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.314. Approximately 92% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2430.1 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T001_001",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T001_001",
+      "location": {
+        "center_lat": 17.63314,
+        "center_lon": 82.370235,
+        "bbox": {
+          "lat_min": 17.610476,
+          "lat_max": 17.655894,
+          "lon_min": 82.346842,
+          "lon_max": 82.393528
+        }
+      },
+      "ndvi_mean": 0.319599,
+      "ndvi_median": 0.322762,
+      "ndvi_std": 0.081971,
+      "stressed_pixel_fraction": 0.9171,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.9693,
+      "vegetated_ha": 2423.26,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.320. Approximately 92% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2423.3 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T000_000",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T000_000",
+      "location": {
+        "center_lat": 17.678645,
+        "center_lon": 82.323443,
+        "bbox": {
+          "lat_min": 17.655985,
+          "lat_max": 17.701393,
+          "lon_min": 82.300039,
+          "lon_max": 82.346748
+        }
+      },
+      "ndvi_mean": 0.328678,
+      "ndvi_median": 0.331697,
+      "ndvi_std": 0.074427,
+      "stressed_pixel_fraction": 0.9147,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9673,
+      "vegetated_fraction": 0.9857,
+      "vegetated_ha": 2383.65,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.329. Approximately 91% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2383.7 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T004_002",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T004_002",
+      "location": {
+        "center_lat": 17.509463,
+        "center_lon": 82.416395,
+        "bbox": {
+          "lat_min": 17.498992,
+          "lat_max": 17.520021,
+          "lon_min": 82.39293,
+          "lon_max": 82.439763
+        }
+      },
+      "ndvi_mean": 0.305531,
+      "ndvi_median": 0.309035,
+      "ndvi_std": 0.094894,
+      "stressed_pixel_fraction": 0.9119,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9553,
+      "vegetated_fraction": 0.9378,
+      "vegetated_ha": 1030.22,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.306. Approximately 91% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 1030.2 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T002_000",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T002_000",
+      "location": {
+        "center_lat": 17.588279,
+        "center_lon": 82.322784,
+        "bbox": {
+          "lat_min": 17.56562,
+          "lat_max": 17.611027,
+          "lon_min": 82.29939,
+          "lon_max": 82.346078
+        }
+      },
+      "ndvi_mean": 0.317356,
+      "ndvi_median": 0.318795,
+      "ndvi_std": 0.086304,
+      "stressed_pixel_fraction": 0.9109,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9821,
+      "vegetated_fraction": 0.9808,
+      "vegetated_ha": 2408.1,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.317. Approximately 91% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2408.1 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T001_002",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T001_002",
+      "location": {
+        "center_lat": 17.632807,
+        "center_lon": 82.417355,
+        "bbox": {
+          "lat_min": 17.610137,
+          "lat_max": 17.655566,
+          "lon_min": 82.393969,
+          "lon_max": 82.440642
+        }
+      },
+      "ndvi_mean": 0.31068,
+      "ndvi_median": 0.319938,
+      "ndvi_std": 0.107137,
+      "stressed_pixel_fraction": 0.9091,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.9338,
+      "vegetated_ha": 2334.53,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.311. Approximately 91% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2334.5 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T002_004",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T002_004",
+      "location": {
+        "center_lat": 17.587057,
+        "center_lon": 82.494258,
+        "bbox": {
+          "lat_min": 17.564509,
+          "lat_max": 17.609697,
+          "lon_min": 82.487848,
+          "lon_max": 82.500574
+        }
+      },
+      "ndvi_mean": 0.310341,
+      "ndvi_median": 0.323644,
+      "ndvi_std": 0.105184,
+      "stressed_pixel_fraction": 0.908,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9369,
+      "vegetated_fraction": 0.919,
+      "vegetated_ha": 602.7,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.310. Approximately 91% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 602.7 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T001_004",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T001_004",
+      "location": {
+        "center_lat": 17.632237,
+        "center_lon": 82.49463,
+        "bbox": {
+          "lat_min": 17.609688,
+          "lat_max": 17.654877,
+          "lon_min": 82.488219,
+          "lon_max": 82.500946
+        }
+      },
+      "ndvi_mean": 0.349215,
+      "ndvi_median": 0.356376,
+      "ndvi_std": 0.077008,
+      "stressed_pixel_fraction": 0.9049,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9086,
+      "vegetated_fraction": 0.9889,
+      "vegetated_ha": 628.97,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.349. Approximately 90% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 629.0 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T000_004",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T000_004",
+      "location": {
+        "center_lat": 17.677416,
+        "center_lon": 82.495003,
+        "bbox": {
+          "lat_min": 17.654868,
+          "lat_max": 17.700056,
+          "lon_min": 82.488591,
+          "lon_max": 82.50132
+        }
+      },
+      "ndvi_mean": 0.339335,
+      "ndvi_median": 0.350235,
+      "ndvi_std": 0.095086,
+      "stressed_pixel_fraction": 0.8893,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.8786,
+      "vegetated_fraction": 0.9485,
+      "vegetated_ha": 583.34,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.339. Approximately 89% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 583.3 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T002_002",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T002_002",
+      "location": {
+        "center_lat": 17.587626,
+        "center_lon": 82.417002,
+        "bbox": {
+          "lat_min": 17.564957,
+          "lat_max": 17.610385,
+          "lon_min": 82.393621,
+          "lon_max": 82.440284
+        }
+      },
+      "ndvi_mean": 0.346615,
+      "ndvi_median": 0.352581,
+      "ndvi_std": 0.090369,
+      "stressed_pixel_fraction": 0.8606,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.9831,
+      "vegetated_ha": 2457.67,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.347. Approximately 86% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2457.7 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T003_002",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T003_002",
+      "location": {
+        "center_lat": 17.542445,
+        "center_lon": 82.416651,
+        "bbox": {
+          "lat_min": 17.519776,
+          "lat_max": 17.565203,
+          "lon_min": 82.393275,
+          "lon_max": 82.439927
+        }
+      },
+      "ndvi_mean": 0.36471,
+      "ndvi_median": 0.370304,
+      "ndvi_std": 0.082718,
+      "stressed_pixel_fraction": 0.8378,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.9897,
+      "vegetated_ha": 2474.35,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.365. Approximately 84% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2474.3 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T002_003",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T002_003",
+      "location": {
+        "center_lat": 17.587283,
+        "center_lon": 82.46411,
+        "bbox": {
+          "lat_min": 17.564608,
+          "lat_max": 17.610046,
+          "lon_min": 82.440735,
+          "lon_max": 82.487385
+        }
+      },
+      "ndvi_mean": 0.320451,
+      "ndvi_median": 0.329059,
+      "ndvi_std": 0.120887,
+      "stressed_pixel_fraction": 0.8322,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 1.0,
+      "vegetated_fraction": 0.9018,
+      "vegetated_ha": 2254.55,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.320. Approximately 83% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2254.6 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T001_000",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T001_000",
+      "location": {
+        "center_lat": 17.633462,
+        "center_lon": 82.323113,
+        "bbox": {
+          "lat_min": 17.610803,
+          "lat_max": 17.65621,
+          "lon_min": 82.299714,
+          "lon_max": 82.346413
+        }
+      },
+      "ndvi_mean": 0.392847,
+      "ndvi_median": 0.402182,
+      "ndvi_std": 0.065741,
+      "stressed_pixel_fraction": 0.8249,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Crop Stress",
+      "valid_pixel_fraction": 0.9892,
+      "vegetated_fraction": 0.9927,
+      "vegetated_ha": 2454.95,
+      "reason": "Moderate Crop Stress detected. Mean NDVI=0.393. Approximately 82% of vegetated pixels fall below moderate-stress threshold (NDVI<0.45). Vegetated area: 2454.9 ha.",
+      "detected_at": "2026-04-25T05:32:05Z",
+      "alert_rules_applied": {
+        "min_valid_pixel_fraction": 0.7,
+        "min_vegetated_fraction": 0.3,
+        "stress_fraction_threshold": 0.4
+      }
+    }
+  ],
+  "ndvi_trend": null,
+  "ndvi_trend_note": "NDVI trend not computed: only one acquisition date available. Run pipeline with multiple dates to enable trend analysis."
+}

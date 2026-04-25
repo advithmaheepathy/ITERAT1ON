@@ -26,5 +26,6 @@ crop_stress_detection/data/test/
 crop_stress_detection/data/tiles/
 
 # Pipeline generated outputs
-crop_stress_detection/outputs/
+crop_stress_detection/outputs/*
+!crop_stress_detection/outputs/*.json
 crop_stress_detection/logs/

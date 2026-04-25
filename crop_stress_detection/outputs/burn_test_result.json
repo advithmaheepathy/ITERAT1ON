@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "pipeline": "burn_detection",
+    "pipeline_version": "1.0.0",
+    "processing_start": "2026-04-25T07:12:14Z",
+    "processing_end": "2026-04-25T07:12:14Z",
+    "method": {
+      "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
+      "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
+      "dnbr_formula": "dNBR = NBR_before - NBR_after",
+      "vegetation_filter": "NDVI_before > 0.3",
+      "burn_threshold": "dNBR > 0.3",
+      "severity_thresholds": {
+        "unburned": 0.1,
+        "low": 0.3,
+        "moderate": 0.6,
+        "severe": "no_upper_limit"
+      },
+      "cloud_mask": "SCL classes 0,1,3,8,9,10,11 masked",
+      "water_mask": "SCL class 6 masked",
+      "pixel_resolution_m": 10
+    },
+    "source": {
+      "before_b04": "data\\test_burn\\before_B04.tif",
+      "before_b08": "data\\test_burn\\before_B08.tif",
+      "before_b12": "data\\test_burn\\before_B12.tif",
+      "after_b04": "data\\test_burn\\after_B04.tif",
+      "after_b08": "data\\test_burn\\after_B08.tif",
+      "after_b12": "data\\test_burn\\after_B12.tif",
+      "bands_used": [
+        "B04 (Red, 10m)",
+        "B08 (NIR, 10m)",
+        "B12 (SWIR, 20m→10m)"
+      ],
+      "valid_pixel_pct_before": 80.0,
+      "valid_pixel_pct_after": 80.0,
+      "valid_pixel_pct_combined": 80.0
+    }
+  },
+  "summary": {
+    "burned_area_ha": 750.0,
+    "burned_pixels": 75000,
+    "burned_fraction": 0.3,
+    "severity_distribution": {
+      "unburned": {
+        "label": "Unburned",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      },
+      "low": {
+        "label": "Low Severity",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      },
+      "moderate": {
+        "label": "Moderate Severity",
+        "pixel_count": 0,
+        "area_ha": 0.0
+      },
+      "severe": {
+        "label": "Severe",
+        "pixel_count": 75000,
+        "area_ha": 750.0
+      }
+    },
+    "confidence": 80.0
+  }
+}
