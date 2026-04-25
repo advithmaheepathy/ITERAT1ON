@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "pipeline_version": "3.0.0",
+    "analysis_type": "burn_severity_dnbr",
+    "processing_start": "2026-04-25T14:11:43Z",
+    "processing_end": "2026-04-25T14:12:15Z",
+    "pre_fire": {
+      "safe_name": "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE",
+      "acquisition_date": "2019-12-16T00:47:01Z",
+      "valid_pixel_pct": 99.9654
+    },
+    "post_fire": {
+      "safe_name": "S2B_MSIL2A_20200130T004659_N0500_R102_T53HQA_20230426T105901.SAFE",
+      "acquisition_date": "2020-01-30T00:46:59Z",
+      "valid_pixel_pct": 99.9857
+    },
+    "method": {
+      "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
+      "dnbr_formula": "dNBR = NBR_pre - NBR_post",
+      "bands_used": [
+        "B04 (Red, 10m)",
+        "B08 (NIR, 10m)",
+        "B12 (SWIR2, 20m\u219210m)"
+      ],
+      "severity_standard": "USGS Key et al. 2006",
+      "cloud_filtering": "SCL classes [0, 1, 3, 8, 9, 10, 11] masked",
+      "joint_mask": "Pixels valid in BOTH dates used for dNBR"
+    }
+  },
+  "summary": {
+    "total_pixels": 120560400,
+    "joint_valid_pixels": 120505364,
+    "joint_valid_pct": 99.9543,
+    "total_burned_pixels": 12307949,
+    "total_burned_ha": 123079.49,
+    "burned_fraction_of_valid": 0.102136,
+    "dnbr_statistics": {
+      "n": 120505364,
+      "mean": 0.022423,
+      "median": 0.005825,
+      "std": 0.066596,
+      "min": -1.024514,
+      "max": 1.031525,
+      "p5": -0.046493,
+      "p10": -0.027937,
+      "p25": -0.007997,
+      "p75": 0.03258,
+      "p90": 0.101352,
+      "p95": 0.14226
+    },
+    "nbr_pre_statistics": {
+      "n": 120518708,
+      "mean": 0.027842,
+      "median": 0.01036,
+      "std": 0.06543,
+      "min": -1.0,
+      "max": 0.652703,
+      "p5": -0.050514,
+      "p10": -0.024716,
+      "p25": 0.001437,
+      "p75": 0.039841,
+      "p90": 0.110023,
+      "p95": 0.16196
+    },
+    "nbr_post_statistics": {
+      "n": 120543180,
+      "mean": 0.005436,
+      "median": 0.006041,
+      "std": 0.075845,
+      "min": -1.0,
+      "max": 0.659041,
+      "p5": -0.124212,
+      "p10": -0.067034,
+      "p25": -0.003597,
+      "p75": 0.018243,
+      "p90": 0.041785,
+      "p95": 0.146763
+    },
+    "ndvi_change": {
+      "ndvi_pre_mean": 0.043958,
+      "ndvi_post_mean": 0.043389,
+      "ndvi_delta_mean": 0.000569,
+      "interpretation": "No significant vegetation change detected"
+    },
+    "severity_distribution": {
+      "regrowth": {
+        "label": "Enhanced Regrowth",
+        "pixel_count": 966755,
+        "area_ha": 9667.55,
+        "pct_of_valid": 0.8023,
+        "dnbr_range": [
+          -9.9,
+          -0.1
+        ]
+      },
+      "unburned": {
+        "label": "Unburned",
+        "pixel_count": 107230660,
+        "area_ha": 1072306.6,
+        "pct_of_valid": 88.9841,
+        "dnbr_range": [
+          -0.1,
+          0.1
+        ]
+      },
+      "low": {
+        "label": "Low Severity",
+        "pixel_count": 10866474,
+        "area_ha": 108664.74,
+        "pct_of_valid": 9.0174,
+        "dnbr_range": [
+          0.1,
+          0.27
+        ]
+      },
+      "moderate_low": {
+        "label": "Moderate-Low",
+        "pixel_count": 1134920,
+        "area_ha": 11349.2,
+        "pct_of_valid": 0.9418,
+        "dnbr_range": [
+          0.27,
+          0.44
+        ]
+      },
+      "moderate_high": {
+        "label": "Moderate-High",
+        "pixel_count": 306094,
+        "area_ha": 3060.94,
+        "pct_of_valid": 0.254,
+        "dnbr_range": [
+          0.44,
+          0.66
+        ]
+      },
+      "high": {
+        "label": "High Severity",
+        "pixel_count": 461,
+        "area_ha": 4.61,
+        "pct_of_valid": 0.0004,
+        "dnbr_range": [
+          0.66,
+          9.9
+        ]
+      }
+    }
+  }
+}

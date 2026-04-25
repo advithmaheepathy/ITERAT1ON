@@ -1,0 +1,3823 @@
+{
+  "metadata": {
+    "pipeline_version": "1.0.0",
+    "processing_start": "2026-04-25T13:34:29Z",
+    "processing_end": "2026-04-25T13:34:56Z",
+    "source": {
+      "platform": "Sentinel-2",
+      "product_type": "L2A",
+      "product_name": "UNKNOWN",
+      "acquisition_datetime": "2020-01-30T00:46:59Z",
+      "bands_used": [
+        "B04 (Red, 10m)",
+        "B08 (NIR, 10m)"
+      ],
+      "cloud_mask": "SCL (Scene Classification Layer, resampled 20m\u219210m)"
+    },
+    "method": {
+      "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
+      "cloud_filtering": "SCL classes 0,1,3,8,9,10,11 masked as invalid",
+      "stress_classification": "threshold-based (see configs/pipeline_config.yaml)",
+      "tile_size_km": 5.0,
+      "coordinate_system_input": "EPSG:32753",
+      "coordinate_system_output": "EPSG:4326 (WGS84)"
+    },
+    "terramind": {
+      "used": false,
+      "reason": "Cloud coverage within acceptable range; gap-filling not required.",
+      "recommendation": "Cloud coverage was 0.01%. TerraMind gap-filling recommended if >20%. See TERRAMIND_NOTE.md."
+    },
+    "improvements": {
+      "water_masking": "Enabled (SCL=6 masked to prevent false vegetation)",
+      "outlier_removal": "NDVI outside [-0.2, 1.0] removed",
+      "gaussian_smoothing": "Applied (sigma=1.0) for noise reduction",
+      "vegetation_filtering": "Only NDVI > 0.2 analyzed",
+      "strict_alerts": "30% vegetation + 40% stress required"
+    }
+  },
+  "summary": {
+    "acquisition_date": "2020-01-30T00:46:59Z",
+    "total_tiles": 156,
+    "alert_tiles": 55,
+    "total_alerts": 55,
+    "cloud_cover_pct": 0.01,
+    "valid_pixel_pct": 99.99,
+    "image_shape_pixels": [
+      10980,
+      10980
+    ],
+    "total_pixels": 120560400,
+    "valid_ndvi_pixels": 28401616,
+    "ndvi_statistics": {
+      "mean": 0.200541,
+      "std": 0.09129,
+      "min": -0.183973,
+      "max": 0.720735,
+      "median": 0.158577,
+      "p10": 0.115744,
+      "p25": 0.130164,
+      "p75": 0.280837,
+      "p90": 0.335683
+    },
+    "stress_distribution": {
+      "moderate_stress": {
+        "label": "Moderate Crop Stress",
+        "tile_count": 55,
+        "pct": 35.3
+      },
+      "no_data": {
+        "label": "no_data",
+        "tile_count": 101,
+        "pct": 64.7
+      }
+    }
+  },
+  "tiles": [
+    {
+      "tile_id": "T003_021",
+      "center_lat": -35.353555,
+      "center_lon": 138.382284,
+      "ndvi_mean": 0.135572,
+      "ndvi_median": 0.11568,
+      "valid_pixel_fraction": 0.0951,
+      "vegetated_ha": 47.52,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T004_020",
+      "center_lat": -35.400059,
+      "center_lon": 138.330296,
+      "ndvi_mean": 0.138719,
+      "ndvi_median": 0.124348,
+      "valid_pixel_fraction": 0.351,
+      "vegetated_ha": 183.32,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T004_021",
+      "center_lat": -35.39856,
+      "center_lon": 138.384164,
+      "ndvi_mean": 0.152807,
+      "ndvi_median": 0.12858,
+      "valid_pixel_fraction": 0.9847,
+      "vegetated_ha": 689.21,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T005_019",
+      "center_lat": -35.446574,
+      "center_lon": 138.277149,
+      "ndvi_mean": 0.20688,
+      "ndvi_median": 0.196056,
+      "valid_pixel_fraction": 0.0445,
+      "vegetated_ha": 90.16,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T005_020",
+      "center_lat": -35.445067,
+      "center_lon": 138.332151,
+      "ndvi_mean": 0.187351,
+      "ndvi_median": 0.165551,
+      "valid_pixel_fraction": 0.8965,
+      "vegetated_ha": 1287.47,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T005_021",
+      "center_lat": -35.443565,
+      "center_lon": 138.386049,
+      "ndvi_mean": 0.192689,
+      "ndvi_median": 0.163885,
+      "valid_pixel_fraction": 0.9998,
+      "vegetated_ha": 1479.83,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T006_018",
+      "center_lat": -35.493068,
+      "center_lon": 138.223941,
+      "ndvi_mean": 0.164618,
+      "ndvi_median": 0.134797,
+      "valid_pixel_fraction": 0.1626,
+      "vegetated_ha": 156.02,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T006_019",
+      "center_lat": -35.491583,
+      "center_lon": 138.278978,
+      "ndvi_mean": 0.159968,
+      "ndvi_median": 0.134571,
+      "valid_pixel_fraction": 0.7741,
+      "vegetated_ha": 685.81,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T006_020",
+      "center_lat": -35.490074,
+      "center_lon": 138.33401,
+      "ndvi_mean": 0.172896,
+      "ndvi_median": 0.141599,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1099.22,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T006_021",
+      "center_lat": -35.48857,
+      "center_lon": 138.387938,
+      "ndvi_mean": 0.178337,
+      "ndvi_median": 0.148426,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1165.26,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_001",
+      "center_lat": -35.559516,
+      "center_lon": 137.289041,
+      "ndvi_mean": 0.124584,
+      "ndvi_median": 0.121519,
+      "valid_pixel_fraction": 0.0054,
+      "vegetated_ha": 2.74,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_002",
+      "center_lat": -35.558457,
+      "center_lon": 137.344167,
+      "ndvi_mean": 0.115331,
+      "ndvi_median": 0.116851,
+      "valid_pixel_fraction": 0.0195,
+      "vegetated_ha": 1.41,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_006",
+      "center_lat": -35.553966,
+      "center_lon": 137.564642,
+      "ndvi_mean": 0.123058,
+      "ndvi_median": 0.118792,
+      "valid_pixel_fraction": 0.0859,
+      "vegetated_ha": 23.45,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_007",
+      "center_lat": -35.55278,
+      "center_lon": 137.619753,
+      "ndvi_mean": 0.132841,
+      "ndvi_median": 0.130012,
+      "valid_pixel_fraction": 0.1409,
+      "vegetated_ha": 37.25,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_016",
+      "center_lat": -35.540979,
+      "center_lon": 138.115596,
+      "ndvi_mean": 0.115678,
+      "ndvi_median": 0.116326,
+      "valid_pixel_fraction": 0.0994,
+      "vegetated_ha": 13.98,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_017",
+      "center_lat": -35.539542,
+      "center_lon": 138.170672,
+      "ndvi_mean": 0.146555,
+      "ndvi_median": 0.125866,
+      "valid_pixel_fraction": 0.7939,
+      "vegetated_ha": 494.15,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_018",
+      "center_lat": -35.53808,
+      "center_lon": 138.225743,
+      "ndvi_mean": 0.166379,
+      "ndvi_median": 0.137544,
+      "valid_pixel_fraction": 0.9884,
+      "vegetated_ha": 909.05,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T007_019",
+      "center_lat": -35.536593,
+      "center_lon": 138.28081,
+      "ndvi_mean": 0.234593,
+      "ndvi_median": 0.186068,
+      "valid_pixel_fraction": 0.9994,
+      "vegetated_ha": 1684.34,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T007_020",
+      "center_lat": -35.535081,
+      "center_lon": 138.335874,
+      "ndvi_mean": 0.261449,
+      "ndvi_median": 0.223775,
+      "valid_pixel_fraction": 0.9997,
+      "vegetated_ha": 2144.63,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T007_021",
+      "center_lat": -35.533574,
+      "center_lon": 138.389832,
+      "ndvi_mean": 0.214346,
+      "ndvi_median": 0.17613,
+      "valid_pixel_fraction": 0.9994,
+      "vegetated_ha": 1614.18,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_000",
+      "center_lat": -35.605599,
+      "center_lon": 137.235164,
+      "ndvi_mean": 0.20645,
+      "ndvi_median": 0.208193,
+      "valid_pixel_fraction": 0.4082,
+      "vegetated_ha": 708.09,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T008_001",
+      "center_lat": -35.604563,
+      "center_lon": 137.290324,
+      "ndvi_mean": 0.241961,
+      "ndvi_median": 0.248566,
+      "valid_pixel_fraction": 0.7399,
+      "vegetated_ha": 1591.44,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_002",
+      "center_lat": -35.603502,
+      "center_lon": 137.345481,
+      "ndvi_mean": 0.191279,
+      "ndvi_median": 0.185026,
+      "valid_pixel_fraction": 0.9318,
+      "vegetated_ha": 1394.23,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_003",
+      "center_lat": -35.602415,
+      "center_lon": 137.400635,
+      "ndvi_mean": 0.187466,
+      "ndvi_median": 0.156647,
+      "valid_pixel_fraction": 0.7985,
+      "vegetated_ha": 1063.5,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_004",
+      "center_lat": -35.601303,
+      "center_lon": 137.455786,
+      "ndvi_mean": 0.150568,
+      "ndvi_median": 0.129473,
+      "valid_pixel_fraction": 0.7125,
+      "vegetated_ha": 512.01,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T008_005",
+      "center_lat": -35.600166,
+      "center_lon": 137.510934,
+      "ndvi_mean": 0.159667,
+      "ndvi_median": 0.13488,
+      "valid_pixel_fraction": 0.7327,
+      "vegetated_ha": 689.6,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T008_006",
+      "center_lat": -35.599003,
+      "center_lon": 137.566079,
+      "ndvi_mean": 0.199712,
+      "ndvi_median": 0.158048,
+      "valid_pixel_fraction": 0.8008,
+      "vegetated_ha": 1060.66,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_007",
+      "center_lat": -35.597816,
+      "center_lon": 137.621221,
+      "ndvi_mean": 0.141843,
+      "ndvi_median": 0.132856,
+      "valid_pixel_fraction": 0.2579,
+      "vegetated_ha": 95.69,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T008_016",
+      "center_lat": -35.585995,
+      "center_lon": 138.117341,
+      "ndvi_mean": 0.15224,
+      "ndvi_median": 0.140465,
+      "valid_pixel_fraction": 0.6451,
+      "vegetated_ha": 626.98,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T008_017",
+      "center_lat": -35.584556,
+      "center_lon": 138.172447,
+      "ndvi_mean": 0.194042,
+      "ndvi_median": 0.160245,
+      "valid_pixel_fraction": 0.9999,
+      "vegetated_ha": 1452.96,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_018",
+      "center_lat": -35.583091,
+      "center_lon": 138.227549,
+      "ndvi_mean": 0.319967,
+      "ndvi_median": 0.355278,
+      "valid_pixel_fraction": 0.999,
+      "vegetated_ha": 2205.19,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_019",
+      "center_lat": -35.581602,
+      "center_lon": 138.282647,
+      "ndvi_mean": 0.281616,
+      "ndvi_median": 0.248323,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2113.07,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_020",
+      "center_lat": -35.580087,
+      "center_lon": 138.337741,
+      "ndvi_mean": 0.2355,
+      "ndvi_median": 0.190957,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1912.51,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T008_021",
+      "center_lat": -35.578578,
+      "center_lon": 138.391729,
+      "ndvi_mean": 0.245391,
+      "ndvi_median": 0.199294,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1868.87,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_000",
+      "center_lat": -35.650647,
+      "center_lon": 137.236419,
+      "ndvi_mean": 0.145602,
+      "ndvi_median": 0.136459,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 878.66,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_001",
+      "center_lat": -35.649609,
+      "center_lon": 137.29161,
+      "ndvi_mean": 0.190952,
+      "ndvi_median": 0.158243,
+      "valid_pixel_fraction": 0.9999,
+      "vegetated_ha": 1446.26,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_002",
+      "center_lat": -35.648546,
+      "center_lon": 137.346798,
+      "ndvi_mean": 0.181474,
+      "ndvi_median": 0.149041,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1229.58,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_003",
+      "center_lat": -35.647458,
+      "center_lon": 137.401983,
+      "ndvi_mean": 0.177713,
+      "ndvi_median": 0.149171,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1227.21,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_004",
+      "center_lat": -35.646344,
+      "center_lon": 137.457165,
+      "ndvi_mean": 0.152969,
+      "ndvi_median": 0.133703,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 751.64,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_005",
+      "center_lat": -35.645205,
+      "center_lon": 137.512343,
+      "ndvi_mean": 0.149531,
+      "ndvi_median": 0.128143,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 718.68,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_006",
+      "center_lat": -35.644041,
+      "center_lon": 137.567519,
+      "ndvi_mean": 0.146679,
+      "ndvi_median": 0.130161,
+      "valid_pixel_fraction": 0.7851,
+      "vegetated_ha": 538.32,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_007",
+      "center_lat": -35.642851,
+      "center_lon": 137.622692,
+      "ndvi_mean": 0.174654,
+      "ndvi_median": 0.151022,
+      "valid_pixel_fraction": 0.4523,
+      "vegetated_ha": 571.42,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_016",
+      "center_lat": -35.631011,
+      "center_lon": 138.119089,
+      "ndvi_mean": 0.167009,
+      "ndvi_median": 0.143814,
+      "valid_pixel_fraction": 0.639,
+      "vegetated_ha": 704.97,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T009_017",
+      "center_lat": -35.629569,
+      "center_lon": 138.174226,
+      "ndvi_mean": 0.237933,
+      "ndvi_median": 0.211413,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1702.93,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_018",
+      "center_lat": -35.628102,
+      "center_lon": 138.229359,
+      "ndvi_mean": 0.299065,
+      "ndvi_median": 0.334152,
+      "valid_pixel_fraction": 0.999,
+      "vegetated_ha": 2086.53,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_019",
+      "center_lat": -35.62661,
+      "center_lon": 138.284488,
+      "ndvi_mean": 0.285064,
+      "ndvi_median": 0.323523,
+      "valid_pixel_fraction": 0.8044,
+      "vegetated_ha": 1592.3,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_020",
+      "center_lat": -35.625093,
+      "center_lon": 138.339613,
+      "ndvi_mean": 0.222302,
+      "ndvi_median": 0.164525,
+      "valid_pixel_fraction": 0.8295,
+      "vegetated_ha": 1206.1,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T009_021",
+      "center_lat": -35.623582,
+      "center_lon": 138.393631,
+      "ndvi_mean": 0.203649,
+      "ndvi_median": 0.159354,
+      "valid_pixel_fraction": 0.8528,
+      "vegetated_ha": 1127.85,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T010_000",
+      "center_lat": -35.695695,
+      "center_lon": 137.237677,
+      "ndvi_mean": 0.168637,
+      "ndvi_median": 0.142445,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1003.49,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_001",
+      "center_lat": -35.694655,
+      "center_lon": 137.292898,
+      "ndvi_mean": 0.20978,
+      "ndvi_median": 0.160136,
+      "valid_pixel_fraction": 0.9998,
+      "vegetated_ha": 1475.94,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T010_002",
+      "center_lat": -35.69359,
+      "center_lon": 137.348117,
+      "ndvi_mean": 0.188974,
+      "ndvi_median": 0.156926,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1485.69,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T010_003",
+      "center_lat": -35.6925,
+      "center_lon": 137.403333,
+      "ndvi_mean": 0.148777,
+      "ndvi_median": 0.139648,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 879.23,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_004",
+      "center_lat": -35.691385,
+      "center_lon": 137.458546,
+      "ndvi_mean": 0.155274,
+      "ndvi_median": 0.136608,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 836.24,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_005",
+      "center_lat": -35.690244,
+      "center_lon": 137.513756,
+      "ndvi_mean": 0.155508,
+      "ndvi_median": 0.13294,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 787.71,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_006",
+      "center_lat": -35.689077,
+      "center_lon": 137.568963,
+      "ndvi_mean": 0.154341,
+      "ndvi_median": 0.139155,
+      "valid_pixel_fraction": 0.9556,
+      "vegetated_ha": 829.27,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_007",
+      "center_lat": -35.687886,
+      "center_lon": 137.624166,
+      "ndvi_mean": 0.191053,
+      "ndvi_median": 0.191974,
+      "valid_pixel_fraction": 0.1513,
+      "vegetated_ha": 289.66,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_016",
+      "center_lat": -35.676026,
+      "center_lon": 138.120842,
+      "ndvi_mean": 0.087664,
+      "ndvi_median": 0.087354,
+      "valid_pixel_fraction": 0.001,
+      "vegetated_ha": 0.37,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_017",
+      "center_lat": -35.674582,
+      "center_lon": 138.176009,
+      "ndvi_mean": 0.258354,
+      "ndvi_median": 0.275412,
+      "valid_pixel_fraction": 0.2135,
+      "vegetated_ha": 452.4,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T010_018",
+      "center_lat": -35.673113,
+      "center_lon": 138.231173,
+      "ndvi_mean": 0.293907,
+      "ndvi_median": 0.312328,
+      "valid_pixel_fraction": 0.1684,
+      "vegetated_ha": 386.7,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_000",
+      "center_lat": -35.740743,
+      "center_lon": 137.238937,
+      "ndvi_mean": 0.169195,
+      "ndvi_median": 0.147823,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1179.59,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_001",
+      "center_lat": -35.739701,
+      "center_lon": 137.29419,
+      "ndvi_mean": 0.105758,
+      "ndvi_median": 0.100625,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 250.03,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_002",
+      "center_lat": -35.738634,
+      "center_lon": 137.34944,
+      "ndvi_mean": 0.118164,
+      "ndvi_median": 0.124312,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 407.94,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_003",
+      "center_lat": -35.737542,
+      "center_lon": 137.404687,
+      "ndvi_mean": 0.1343,
+      "ndvi_median": 0.132761,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 554.32,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_004",
+      "center_lat": -35.736425,
+      "center_lon": 137.459931,
+      "ndvi_mean": 0.162854,
+      "ndvi_median": 0.142241,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 981.91,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_005",
+      "center_lat": -35.735282,
+      "center_lon": 137.515171,
+      "ndvi_mean": 0.155378,
+      "ndvi_median": 0.139896,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 909.37,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_006",
+      "center_lat": -35.734114,
+      "center_lon": 137.570409,
+      "ndvi_mean": 0.156041,
+      "ndvi_median": 0.139904,
+      "valid_pixel_fraction": 0.8373,
+      "vegetated_ha": 825.57,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_007",
+      "center_lat": -35.73292,
+      "center_lon": 137.625644,
+      "ndvi_mean": 0.206487,
+      "ndvi_median": 0.20739,
+      "valid_pixel_fraction": 0.461,
+      "vegetated_ha": 779.74,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_008",
+      "center_lat": -35.731702,
+      "center_lon": 137.680875,
+      "ndvi_mean": 0.157662,
+      "ndvi_median": 0.135049,
+      "valid_pixel_fraction": 0.3293,
+      "vegetated_ha": 260.33,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_009",
+      "center_lat": -35.730458,
+      "center_lon": 137.736103,
+      "ndvi_mean": 0.171726,
+      "ndvi_median": 0.137957,
+      "valid_pixel_fraction": 0.4439,
+      "vegetated_ha": 437.29,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_010",
+      "center_lat": -35.729188,
+      "center_lon": 137.791327,
+      "ndvi_mean": 0.186518,
+      "ndvi_median": 0.151491,
+      "valid_pixel_fraction": 0.3003,
+      "vegetated_ha": 377.71,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_012",
+      "center_lat": -35.726574,
+      "center_lon": 137.901765,
+      "ndvi_mean": 0.152174,
+      "ndvi_median": 0.128033,
+      "valid_pixel_fraction": 0.4212,
+      "vegetated_ha": 282.46,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_013",
+      "center_lat": -35.725228,
+      "center_lon": 137.956979,
+      "ndvi_mean": 0.173035,
+      "ndvi_median": 0.143325,
+      "valid_pixel_fraction": 0.6102,
+      "vegetated_ha": 689.28,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_014",
+      "center_lat": -35.723858,
+      "center_lon": 138.012189,
+      "ndvi_mean": 0.15468,
+      "ndvi_median": 0.139849,
+      "valid_pixel_fraction": 0.3299,
+      "vegetated_ha": 328.48,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T011_015",
+      "center_lat": -35.722462,
+      "center_lon": 138.067395,
+      "ndvi_mean": 0.217474,
+      "ndvi_median": 0.22764,
+      "valid_pixel_fraction": 0.0081,
+      "vegetated_ha": 16.74,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_000",
+      "center_lat": -35.785789,
+      "center_lon": 137.2402,
+      "ndvi_mean": 0.177203,
+      "ndvi_median": 0.152245,
+      "valid_pixel_fraction": 0.9995,
+      "vegetated_ha": 1323.44,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_001",
+      "center_lat": -35.784746,
+      "center_lon": 137.295484,
+      "ndvi_mean": 0.139647,
+      "ndvi_median": 0.139219,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 743.81,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_002",
+      "center_lat": -35.783678,
+      "center_lon": 137.350765,
+      "ndvi_mean": 0.137467,
+      "ndvi_median": 0.137283,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 665.8,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_003",
+      "center_lat": -35.782584,
+      "center_lon": 137.406043,
+      "ndvi_mean": 0.15265,
+      "ndvi_median": 0.140891,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 945.64,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_004",
+      "center_lat": -35.781465,
+      "center_lon": 137.461318,
+      "ndvi_mean": 0.159314,
+      "ndvi_median": 0.143601,
+      "valid_pixel_fraction": 0.9672,
+      "vegetated_ha": 1019.02,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_005",
+      "center_lat": -35.78032,
+      "center_lon": 137.51659,
+      "ndvi_mean": 0.154282,
+      "ndvi_median": 0.136261,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 843.04,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_006",
+      "center_lat": -35.77915,
+      "center_lon": 137.571859,
+      "ndvi_mean": 0.159888,
+      "ndvi_median": 0.134219,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 887.59,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_007",
+      "center_lat": -35.777954,
+      "center_lon": 137.627124,
+      "ndvi_mean": 0.160139,
+      "ndvi_median": 0.13599,
+      "valid_pixel_fraction": 0.9986,
+      "vegetated_ha": 900.46,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_008",
+      "center_lat": -35.776734,
+      "center_lon": 137.682387,
+      "ndvi_mean": 0.156498,
+      "ndvi_median": 0.137365,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 714.59,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_009",
+      "center_lat": -35.775488,
+      "center_lon": 137.737646,
+      "ndvi_mean": 0.166578,
+      "ndvi_median": 0.142616,
+      "valid_pixel_fraction": 0.969,
+      "vegetated_ha": 1009.25,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_010",
+      "center_lat": -35.774216,
+      "center_lon": 137.792901,
+      "ndvi_mean": 0.211558,
+      "ndvi_median": 0.216128,
+      "valid_pixel_fraction": 0.3794,
+      "vegetated_ha": 640.35,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_011",
+      "center_lat": -35.772919,
+      "center_lon": 137.848153,
+      "ndvi_mean": 0.209436,
+      "ndvi_median": 0.208246,
+      "valid_pixel_fraction": 0.1188,
+      "vegetated_ha": 200.9,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_012",
+      "center_lat": -35.771597,
+      "center_lon": 137.903401,
+      "ndvi_mean": 0.206583,
+      "ndvi_median": 0.155365,
+      "valid_pixel_fraction": 0.8974,
+      "vegetated_ha": 1199.39,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T012_013",
+      "center_lat": -35.77025,
+      "center_lon": 137.958646,
+      "ndvi_mean": 0.181915,
+      "ndvi_median": 0.14674,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1153.2,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_014",
+      "center_lat": -35.768877,
+      "center_lon": 138.013887,
+      "ndvi_mean": 0.179175,
+      "ndvi_median": 0.145986,
+      "valid_pixel_fraction": 0.9999,
+      "vegetated_ha": 1130.26,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_015",
+      "center_lat": -35.767479,
+      "center_lon": 138.069125,
+      "ndvi_mean": 0.237488,
+      "ndvi_median": 0.2612,
+      "valid_pixel_fraction": 0.4249,
+      "vegetated_ha": 783.68,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T012_019",
+      "center_lat": -35.761633,
+      "center_lon": 138.290035,
+      "ndvi_mean": 0.067402,
+      "ndvi_median": 0.071712,
+      "valid_pixel_fraction": 0.0018,
+      "vegetated_ha": 0.0,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_000",
+      "center_lat": -35.830836,
+      "center_lon": 137.241467,
+      "ndvi_mean": 0.129968,
+      "ndvi_median": 0.136502,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 543.49,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_001",
+      "center_lat": -35.829791,
+      "center_lon": 137.296782,
+      "ndvi_mean": 0.132617,
+      "ndvi_median": 0.136247,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 635.87,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_002",
+      "center_lat": -35.828721,
+      "center_lon": 137.352094,
+      "ndvi_mean": 0.129035,
+      "ndvi_median": 0.124795,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 402.28,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_003",
+      "center_lat": -35.827625,
+      "center_lon": 137.407403,
+      "ndvi_mean": 0.135162,
+      "ndvi_median": 0.132051,
+      "valid_pixel_fraction": 0.9997,
+      "vegetated_ha": 544.57,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_004",
+      "center_lat": -35.826504,
+      "center_lon": 137.462709,
+      "ndvi_mean": 0.1504,
+      "ndvi_median": 0.134385,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 751.71,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_005",
+      "center_lat": -35.825357,
+      "center_lon": 137.518012,
+      "ndvi_mean": 0.146826,
+      "ndvi_median": 0.135078,
+      "valid_pixel_fraction": 0.9769,
+      "vegetated_ha": 800.8,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_006",
+      "center_lat": -35.824186,
+      "center_lon": 137.573312,
+      "ndvi_mean": 0.155042,
+      "ndvi_median": 0.141985,
+      "valid_pixel_fraction": 0.9831,
+      "vegetated_ha": 990.02,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_007",
+      "center_lat": -35.822988,
+      "center_lon": 137.628609,
+      "ndvi_mean": 0.154863,
+      "ndvi_median": 0.141785,
+      "valid_pixel_fraction": 0.9125,
+      "vegetated_ha": 935.64,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_008",
+      "center_lat": -35.821765,
+      "center_lon": 137.683902,
+      "ndvi_mean": 0.169813,
+      "ndvi_median": 0.14147,
+      "valid_pixel_fraction": 0.999,
+      "vegetated_ha": 997.58,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T013_009",
+      "center_lat": -35.820517,
+      "center_lon": 137.739192,
+      "ndvi_mean": 0.214357,
+      "ndvi_median": 0.18709,
+      "valid_pixel_fraction": 0.7257,
+      "vegetated_ha": 1129.56,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_010",
+      "center_lat": -35.819244,
+      "center_lon": 137.794479,
+      "ndvi_mean": 0.231687,
+      "ndvi_median": 0.242073,
+      "valid_pixel_fraction": 0.691,
+      "vegetated_ha": 1433.32,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_011",
+      "center_lat": -35.817945,
+      "center_lon": 137.849762,
+      "ndvi_mean": 0.299304,
+      "ndvi_median": 0.309249,
+      "valid_pixel_fraction": 0.9552,
+      "vegetated_ha": 2360.49,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_012",
+      "center_lat": -35.81662,
+      "center_lon": 137.905041,
+      "ndvi_mean": 0.292049,
+      "ndvi_median": 0.309408,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2286.55,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_013",
+      "center_lat": -35.815271,
+      "center_lon": 137.960317,
+      "ndvi_mean": 0.194129,
+      "ndvi_median": 0.153994,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1364.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_014",
+      "center_lat": -35.813896,
+      "center_lon": 138.015589,
+      "ndvi_mean": 0.215687,
+      "ndvi_median": 0.171627,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1646.51,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_015",
+      "center_lat": -35.812495,
+      "center_lon": 138.070858,
+      "ndvi_mean": 0.204806,
+      "ndvi_median": 0.163198,
+      "valid_pixel_fraction": 0.8649,
+      "vegetated_ha": 1287.77,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T013_016",
+      "center_lat": -35.811069,
+      "center_lon": 138.126122,
+      "ndvi_mean": 0.2119,
+      "ndvi_median": 0.189063,
+      "valid_pixel_fraction": 0.2482,
+      "vegetated_ha": 421.4,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_000",
+      "center_lat": -35.875882,
+      "center_lon": 137.242735,
+      "ndvi_mean": 0.144674,
+      "ndvi_median": 0.140614,
+      "valid_pixel_fraction": 0.9999,
+      "vegetated_ha": 816.76,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_001",
+      "center_lat": -35.874836,
+      "center_lon": 137.298082,
+      "ndvi_mean": 0.185191,
+      "ndvi_median": 0.161406,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1617.94,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_002",
+      "center_lat": -35.873764,
+      "center_lon": 137.353425,
+      "ndvi_mean": 0.162863,
+      "ndvi_median": 0.144709,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1068.74,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_003",
+      "center_lat": -35.872666,
+      "center_lon": 137.408765,
+      "ndvi_mean": 0.159197,
+      "ndvi_median": 0.139671,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 937.81,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_004",
+      "center_lat": -35.871543,
+      "center_lon": 137.464103,
+      "ndvi_mean": 0.160495,
+      "ndvi_median": 0.139607,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 998.11,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_005",
+      "center_lat": -35.870395,
+      "center_lon": 137.519437,
+      "ndvi_mean": 0.152034,
+      "ndvi_median": 0.133565,
+      "valid_pixel_fraction": 0.9232,
+      "vegetated_ha": 768.74,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_006",
+      "center_lat": -35.869221,
+      "center_lon": 137.574768,
+      "ndvi_mean": 0.147862,
+      "ndvi_median": 0.137119,
+      "valid_pixel_fraction": 0.9893,
+      "vegetated_ha": 789.06,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_007",
+      "center_lat": -35.868021,
+      "center_lon": 137.630096,
+      "ndvi_mean": 0.161094,
+      "ndvi_median": 0.137821,
+      "valid_pixel_fraction": 0.9146,
+      "vegetated_ha": 918.32,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_008",
+      "center_lat": -35.866797,
+      "center_lon": 137.685421,
+      "ndvi_mean": 0.204869,
+      "ndvi_median": 0.18829,
+      "valid_pixel_fraction": 0.7532,
+      "vegetated_ha": 1144.59,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T014_009",
+      "center_lat": -35.865546,
+      "center_lon": 137.740742,
+      "ndvi_mean": 0.21903,
+      "ndvi_median": 0.227162,
+      "valid_pixel_fraction": 0.4139,
+      "vegetated_ha": 683.03,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_010",
+      "center_lat": -35.864271,
+      "center_lon": 137.79606,
+      "ndvi_mean": 0.203104,
+      "ndvi_median": 0.178034,
+      "valid_pixel_fraction": 0.2399,
+      "vegetated_ha": 405.72,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T014_011",
+      "center_lat": -35.86297,
+      "center_lon": 137.851374,
+      "ndvi_mean": 0.264696,
+      "ndvi_median": 0.279013,
+      "valid_pixel_fraction": 0.4391,
+      "vegetated_ha": 1012.25,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T014_012",
+      "center_lat": -35.861643,
+      "center_lon": 137.906685,
+      "ndvi_mean": 0.299223,
+      "ndvi_median": 0.313848,
+      "valid_pixel_fraction": 0.5583,
+      "vegetated_ha": 1341.67,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T014_013",
+      "center_lat": -35.860291,
+      "center_lon": 137.961992,
+      "ndvi_mean": 0.331546,
+      "ndvi_median": 0.346784,
+      "valid_pixel_fraction": 0.8239,
+      "vegetated_ha": 2026.93,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T014_014",
+      "center_lat": -35.858914,
+      "center_lon": 138.017295,
+      "ndvi_mean": 0.317599,
+      "ndvi_median": 0.346186,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2359.27,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T014_015",
+      "center_lat": -35.857511,
+      "center_lon": 138.072594,
+      "ndvi_mean": 0.301124,
+      "ndvi_median": 0.33292,
+      "valid_pixel_fraction": 0.8532,
+      "vegetated_ha": 1962.1,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T014_016",
+      "center_lat": -35.856083,
+      "center_lon": 138.12789,
+      "ndvi_mean": 0.200485,
+      "ndvi_median": 0.156157,
+      "valid_pixel_fraction": 0.1884,
+      "vegetated_ha": 247.8,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T015_000",
+      "center_lat": -35.920928,
+      "center_lon": 137.244007,
+      "ndvi_mean": 0.183174,
+      "ndvi_median": 0.151412,
+      "valid_pixel_fraction": 0.9991,
+      "vegetated_ha": 1298.38,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T015_001",
+      "center_lat": -35.91988,
+      "center_lon": 137.299385,
+      "ndvi_mean": 0.231154,
+      "ndvi_median": 0.254091,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1814.98,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T015_002",
+      "center_lat": -35.918806,
+      "center_lon": 137.354759,
+      "ndvi_mean": 0.213454,
+      "ndvi_median": 0.193039,
+      "valid_pixel_fraction": 0.966,
+      "vegetated_ha": 1591.38,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T015_003",
+      "center_lat": -35.917707,
+      "center_lon": 137.410131,
+      "ndvi_mean": 0.224379,
+      "ndvi_median": 0.264877,
+      "valid_pixel_fraction": 0.6327,
+      "vegetated_ha": 1122.72,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T015_004",
+      "center_lat": -35.916582,
+      "center_lon": 137.4655,
+      "ndvi_mean": 0.207906,
+      "ndvi_median": 0.181489,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1500.04,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T015_005",
+      "center_lat": -35.915431,
+      "center_lon": 137.520865,
+      "ndvi_mean": 0.204967,
+      "ndvi_median": 0.176914,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 1576.91,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T015_006",
+      "center_lat": -35.914256,
+      "center_lon": 137.576228,
+      "ndvi_mean": 0.20519,
+      "ndvi_median": 0.19438,
+      "valid_pixel_fraction": 0.9806,
+      "vegetated_ha": 1434.09,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T015_007",
+      "center_lat": -35.913054,
+      "center_lon": 137.631587,
+      "ndvi_mean": 0.251268,
+      "ndvi_median": 0.285576,
+      "valid_pixel_fraction": 0.2312,
+      "vegetated_ha": 486.59,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T015_013",
+      "center_lat": -35.905311,
+      "center_lon": 137.96367,
+      "ndvi_mean": 0.229829,
+      "ndvi_median": 0.249672,
+      "valid_pixel_fraction": 0.0228,
+      "vegetated_ha": 47.13,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T015_014",
+      "center_lat": -35.903932,
+      "center_lon": 138.019004,
+      "ndvi_mean": 0.267038,
+      "ndvi_median": 0.291446,
+      "valid_pixel_fraction": 0.3809,
+      "vegetated_ha": 839.46,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T015_015",
+      "center_lat": -35.902527,
+      "center_lon": 138.074335,
+      "ndvi_mean": 0.24036,
+      "ndvi_median": 0.236515,
+      "valid_pixel_fraction": 0.0963,
+      "vegetated_ha": 224.99,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T016_000",
+      "center_lat": -35.965974,
+      "center_lon": 137.245282,
+      "ndvi_mean": 0.266666,
+      "ndvi_median": 0.282809,
+      "valid_pixel_fraction": 0.8539,
+      "vegetated_ha": 1919.29,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_001",
+      "center_lat": -35.964924,
+      "center_lon": 137.300691,
+      "ndvi_mean": 0.293554,
+      "ndvi_median": 0.298131,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2498.5,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_002",
+      "center_lat": -35.963848,
+      "center_lon": 137.356097,
+      "ndvi_mean": 0.312028,
+      "ndvi_median": 0.315846,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2458.7,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_003",
+      "center_lat": -35.962747,
+      "center_lon": 137.4115,
+      "ndvi_mean": 0.278651,
+      "ndvi_median": 0.303212,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2199.14,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_004",
+      "center_lat": -35.96162,
+      "center_lon": 137.4669,
+      "ndvi_mean": 0.302025,
+      "ndvi_median": 0.303585,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2500.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_005",
+      "center_lat": -35.960468,
+      "center_lon": 137.522297,
+      "ndvi_mean": 0.321504,
+      "ndvi_median": 0.320151,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2500.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_006",
+      "center_lat": -35.95929,
+      "center_lon": 137.57769,
+      "ndvi_mean": 0.31297,
+      "ndvi_median": 0.316665,
+      "valid_pixel_fraction": 0.9425,
+      "vegetated_ha": 2352.68,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T016_007",
+      "center_lat": -35.958087,
+      "center_lon": 137.633081,
+      "ndvi_mean": 0.307934,
+      "ndvi_median": 0.333991,
+      "valid_pixel_fraction": 0.0495,
+      "vegetated_ha": 120.6,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T017_000",
+      "center_lat": -36.011019,
+      "center_lon": 137.246559,
+      "ndvi_mean": 0.182032,
+      "ndvi_median": 0.19979,
+      "valid_pixel_fraction": 0.0052,
+      "vegetated_ha": 9.03,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T017_001",
+      "center_lat": -36.009967,
+      "center_lon": 137.301999,
+      "ndvi_mean": 0.235077,
+      "ndvi_median": 0.251864,
+      "valid_pixel_fraction": 0.1309,
+      "vegetated_ha": 292.56,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T017_002",
+      "center_lat": -36.00889,
+      "center_lon": 137.357437,
+      "ndvi_mean": 0.232379,
+      "ndvi_median": 0.243128,
+      "valid_pixel_fraction": 0.2719,
+      "vegetated_ha": 517.86,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T017_003",
+      "center_lat": -36.007787,
+      "center_lon": 137.412871,
+      "ndvi_mean": 0.32493,
+      "ndvi_median": 0.334101,
+      "valid_pixel_fraction": 0.9459,
+      "vegetated_ha": 2317.35,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T017_004",
+      "center_lat": -36.006658,
+      "center_lon": 137.468303,
+      "ndvi_mean": 0.319349,
+      "ndvi_median": 0.324173,
+      "valid_pixel_fraction": 1.0,
+      "vegetated_ha": 2500.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T017_005",
+      "center_lat": -36.005504,
+      "center_lon": 137.523731,
+      "ndvi_mean": 0.325636,
+      "ndvi_median": 0.327203,
+      "valid_pixel_fraction": 0.9808,
+      "vegetated_ha": 2441.45,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T017_006",
+      "center_lat": -36.004324,
+      "center_lon": 137.579156,
+      "ndvi_mean": 0.322349,
+      "ndvi_median": 0.336148,
+      "valid_pixel_fraction": 0.8047,
+      "vegetated_ha": 1957.73,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T017_007",
+      "center_lat": -36.003119,
+      "center_lon": 137.634578,
+      "ndvi_mean": 0.281719,
+      "ndvi_median": 0.307624,
+      "valid_pixel_fraction": 0.0545,
+      "vegetated_ha": 122.48,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T018_003",
+      "center_lat": -36.052826,
+      "center_lon": 137.414246,
+      "ndvi_mean": 0.275768,
+      "ndvi_median": 0.292595,
+      "valid_pixel_fraction": 0.2203,
+      "vegetated_ha": 513.52,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T018_004",
+      "center_lat": -36.051696,
+      "center_lon": 137.469709,
+      "ndvi_mean": 0.294665,
+      "ndvi_median": 0.305342,
+      "valid_pixel_fraction": 0.7729,
+      "vegetated_ha": 1889.28,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "is_alert": true
+    },
+    {
+      "tile_id": "T018_005",
+      "center_lat": -36.05054,
+      "center_lon": 137.525169,
+      "ndvi_mean": 0.299211,
+      "ndvi_median": 0.315663,
+      "valid_pixel_fraction": 0.2318,
+      "vegetated_ha": 553.73,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    },
+    {
+      "tile_id": "T019_004",
+      "center_lat": -36.096733,
+      "center_lon": 137.471118,
+      "ndvi_mean": 0.105173,
+      "ndvi_median": 0.105044,
+      "valid_pixel_fraction": 0.0002,
+      "vegetated_ha": 0.1,
+      "stress_class": "unknown",
+      "stress_label": "unknown",
+      "is_alert": false
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": "ALERT_T016_001_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_001",
+      "location": {
+        "center_lat": -35.964924,
+        "center_lon": 137.300691,
+        "bbox": {
+          "lat_min": -35.986822,
+          "lat_max": -35.942929,
+          "lon_min": 137.272341,
+          "lon_max": 137.328942
+        }
+      },
+      "ndvi_mean": 0.2953,
+      "ndvi_median": 0.2986,
+      "ndvi_std": 0.0289,
+      "stressed_fraction": 1.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9845,
+      "vegetation_pixels": 246136,
+      "vegetated_ha": 2498.5,
+      "moderate_stress_pixels": 246136,
+      "mild_stress_pixels": 0,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_001. Mean NDVI = 0.295. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2498.5 ha (98% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T016_004_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_004",
+      "location": {
+        "center_lat": -35.96162,
+        "center_lon": 137.4669,
+        "bbox": {
+          "lat_min": -35.983478,
+          "lat_max": -35.939667,
+          "lon_min": 137.438508,
+          "lon_max": 137.495194
+        }
+      },
+      "ndvi_mean": 0.302,
+      "ndvi_median": 0.3036,
+      "ndvi_std": 0.0215,
+      "stressed_fraction": 1.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 1.0,
+      "vegetation_pixels": 250000,
+      "vegetated_ha": 2500.0,
+      "moderate_stress_pixels": 250000,
+      "mild_stress_pixels": 0,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_004. Mean NDVI = 0.302. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2500.0 ha (100% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T016_006_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_006",
+      "location": {
+        "center_lat": -35.95929,
+        "center_lon": 137.57769,
+        "bbox": {
+          "lat_min": -35.981121,
+          "lat_max": -35.937365,
+          "lon_min": 137.54927,
+          "lon_max": 137.606013
+        }
+      },
+      "ndvi_mean": 0.3137,
+      "ndvi_median": 0.3167,
+      "ndvi_std": 0.0247,
+      "stressed_fraction": 1.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9378,
+      "vegetation_pixels": 234444,
+      "vegetated_ha": 2352.68,
+      "moderate_stress_pixels": 234442,
+      "mild_stress_pixels": 2,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_006. Mean NDVI = 0.314. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2352.7 ha (94% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T017_004_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T017_004",
+      "location": {
+        "center_lat": -36.006658,
+        "center_lon": 137.468303,
+        "bbox": {
+          "lat_min": -36.028515,
+          "lat_max": -35.984706,
+          "lon_min": 137.439893,
+          "lon_max": 137.496614
+        }
+      },
+      "ndvi_mean": 0.3194,
+      "ndvi_median": 0.3242,
+      "ndvi_std": 0.0257,
+      "stressed_fraction": 1.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9998,
+      "vegetation_pixels": 249960,
+      "vegetated_ha": 2500.0,
+      "moderate_stress_pixels": 249958,
+      "mild_stress_pixels": 2,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T017_004. Mean NDVI = 0.319. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2500.0 ha (100% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T017_005_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T017_005",
+      "location": {
+        "center_lat": -36.005504,
+        "center_lon": 137.523731,
+        "bbox": {
+          "lat_min": -36.027347,
+          "lat_max": -35.983566,
+          "lon_min": 137.495308,
+          "lon_max": 137.552057
+        }
+      },
+      "ndvi_mean": 0.327,
+      "ndvi_median": 0.3274,
+      "ndvi_std": 0.0217,
+      "stressed_fraction": 1.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9751,
+      "vegetation_pixels": 243778,
+      "vegetated_ha": 2441.45,
+      "moderate_stress_pixels": 243768,
+      "mild_stress_pixels": 10,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T017_005. Mean NDVI = 0.327. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2441.4 ha (98% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T017_006_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T017_006",
+      "location": {
+        "center_lat": -36.004324,
+        "center_lon": 137.579156,
+        "bbox": {
+          "lat_min": -36.026154,
+          "lat_max": -35.9824,
+          "lon_min": 137.550719,
+          "lon_max": 137.607496
+        }
+      },
+      "ndvi_mean": 0.3303,
+      "ndvi_median": 0.337,
+      "ndvi_std": 0.0299,
+      "stressed_fraction": 1.0,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.7778,
+      "vegetation_pixels": 194441,
+      "vegetated_ha": 1957.73,
+      "moderate_stress_pixels": 194439,
+      "mild_stress_pixels": 2,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T017_006. Mean NDVI = 0.330. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1957.7 ha (78% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T015_006_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T015_006",
+      "location": {
+        "center_lat": -35.914256,
+        "center_lon": 137.576228,
+        "bbox": {
+          "lat_min": -35.936087,
+          "lat_max": -35.892329,
+          "lon_min": 137.547825,
+          "lon_max": 137.604533
+        }
+      },
+      "ndvi_mean": 0.2826,
+      "ndvi_median": 0.2877,
+      "ndvi_std": 0.0393,
+      "stressed_fraction": 0.9999,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4803,
+      "vegetation_pixels": 120068,
+      "vegetated_ha": 1434.09,
+      "moderate_stress_pixels": 120061,
+      "mild_stress_pixels": 7,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T015_006. Mean NDVI = 0.283. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1434.1 ha (48% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T016_005_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_005",
+      "location": {
+        "center_lat": -35.960468,
+        "center_lon": 137.522297,
+        "bbox": {
+          "lat_min": -35.982312,
+          "lat_max": -35.938529,
+          "lon_min": 137.49389,
+          "lon_max": 137.550605
+        }
+      },
+      "ndvi_mean": 0.3215,
+      "ndvi_median": 0.3202,
+      "ndvi_std": 0.0162,
+      "stressed_fraction": 0.9999,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 1.0,
+      "vegetation_pixels": 250000,
+      "vegetated_ha": 2500.0,
+      "moderate_stress_pixels": 249975,
+      "mild_stress_pixels": 25,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_005. Mean NDVI = 0.322. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2500.0 ha (100% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T018_004_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T018_004",
+      "location": {
+        "center_lat": -36.051696,
+        "center_lon": 137.469709,
+        "bbox": {
+          "lat_min": -36.073551,
+          "lat_max": -36.029745,
+          "lon_min": 137.441282,
+          "lon_max": 137.498038
+        }
+      },
+      "ndvi_mean": 0.3014,
+      "ndvi_median": 0.3067,
+      "ndvi_std": 0.0318,
+      "stressed_fraction": 0.9999,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.7442,
+      "vegetation_pixels": 186053,
+      "vegetated_ha": 1889.28,
+      "moderate_stress_pixels": 186029,
+      "mild_stress_pixels": 24,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T018_004. Mean NDVI = 0.301. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1889.3 ha (74% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T015_005_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T015_005",
+      "location": {
+        "center_lat": -35.915431,
+        "center_lon": 137.520865,
+        "bbox": {
+          "lat_min": -35.937277,
+          "lat_max": -35.893491,
+          "lon_min": 137.492476,
+          "lon_max": 137.549156
+        }
+      },
+      "ndvi_mean": 0.2861,
+      "ndvi_median": 0.2938,
+      "ndvi_std": 0.0409,
+      "stressed_fraction": 0.9998,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4402,
+      "vegetation_pixels": 110043,
+      "vegetated_ha": 1576.91,
+      "moderate_stress_pixels": 110024,
+      "mild_stress_pixels": 19,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T015_005. Mean NDVI = 0.286. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1576.9 ha (44% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T016_000_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_000",
+      "location": {
+        "center_lat": -35.965974,
+        "center_lon": 137.245282,
+        "bbox": {
+          "lat_min": -35.987886,
+          "lat_max": -35.943966,
+          "lon_min": 137.216946,
+          "lon_max": 137.273519
+        }
+      },
+      "ndvi_mean": 0.2913,
+      "ndvi_median": 0.2924,
+      "ndvi_std": 0.0395,
+      "stressed_fraction": 0.9998,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.7353,
+      "vegetation_pixels": 183814,
+      "vegetated_ha": 1919.29,
+      "moderate_stress_pixels": 183771,
+      "mild_stress_pixels": 43,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_000. Mean NDVI = 0.291. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1919.3 ha (74% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T014_012_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T014_012",
+      "location": {
+        "center_lat": -35.861643,
+        "center_lon": 137.906685,
+        "bbox": {
+          "lat_min": -35.883394,
+          "lat_max": -35.839798,
+          "lon_min": 137.878215,
+          "lon_max": 137.935055
+        }
+      },
+      "ndvi_mean": 0.3118,
+      "ndvi_median": 0.3168,
+      "ndvi_std": 0.0353,
+      "stressed_fraction": 0.9997,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.5185,
+      "vegetation_pixels": 129636,
+      "vegetated_ha": 1341.67,
+      "moderate_stress_pixels": 129596,
+      "mild_stress_pixels": 40,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T014_012. Mean NDVI = 0.312. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1341.7 ha (52% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T015_001_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T015_001",
+      "location": {
+        "center_lat": -35.91988,
+        "center_lon": 137.299385,
+        "bbox": {
+          "lat_min": -35.94178,
+          "lat_max": -35.897885,
+          "lon_min": 137.271052,
+          "lon_max": 137.327619
+        }
+      },
+      "ndvi_mean": 0.2887,
+      "ndvi_median": 0.2958,
+      "ndvi_std": 0.0353,
+      "stressed_fraction": 0.9995,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.6089,
+      "vegetation_pixels": 152215,
+      "vegetated_ha": 1814.98,
+      "moderate_stress_pixels": 152137,
+      "mild_stress_pixels": 78,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T015_001. Mean NDVI = 0.289. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1815.0 ha (61% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_002_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_002",
+      "location": {
+        "center_lat": -35.603502,
+        "center_lon": 137.345481,
+        "bbox": {
+          "lat_min": -35.625395,
+          "lat_max": -35.581513,
+          "lon_min": 137.317253,
+          "lon_max": 137.373611
+        }
+      },
+      "ndvi_mean": 0.2529,
+      "ndvi_median": 0.247,
+      "ndvi_std": 0.0324,
+      "stressed_fraction": 0.9991,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4405,
+      "vegetation_pixels": 110120,
+      "vegetated_ha": 1394.23,
+      "moderate_stress_pixels": 110017,
+      "mild_stress_pixels": 103,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T008_002. Mean NDVI = 0.253. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1394.2 ha (44% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T015_003_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T015_003",
+      "location": {
+        "center_lat": -35.917707,
+        "center_lon": 137.410131,
+        "bbox": {
+          "lat_min": -35.939579,
+          "lat_max": -35.895739,
+          "lon_min": 137.38177,
+          "lon_max": 137.438394
+        }
+      },
+      "ndvi_mean": 0.2892,
+      "ndvi_median": 0.2928,
+      "ndvi_std": 0.0351,
+      "stressed_fraction": 0.9989,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4007,
+      "vegetation_pixels": 100177,
+      "vegetated_ha": 1122.72,
+      "moderate_stress_pixels": 100069,
+      "mild_stress_pixels": 108,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T015_003. Mean NDVI = 0.289. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1122.7 ha (40% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_011_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_011",
+      "location": {
+        "center_lat": -35.817945,
+        "center_lon": 137.849762,
+        "bbox": {
+          "lat_min": -35.83971,
+          "lat_max": -35.796084,
+          "lon_min": 137.821324,
+          "lon_max": 137.878101
+        }
+      },
+      "ndvi_mean": 0.308,
+      "ndvi_median": 0.3117,
+      "ndvi_std": 0.0345,
+      "stressed_fraction": 0.9973,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9001,
+      "vegetation_pixels": 225031,
+      "vegetated_ha": 2360.49,
+      "moderate_stress_pixels": 224430,
+      "mild_stress_pixels": 601,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_011. Mean NDVI = 0.308. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2360.5 ha (90% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T015_002_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T015_002",
+      "location": {
+        "center_lat": -35.918806,
+        "center_lon": 137.354759,
+        "bbox": {
+          "lat_min": -35.940692,
+          "lat_max": -35.896825,
+          "lon_min": 137.326413,
+          "lon_max": 137.383008
+        }
+      },
+      "ndvi_mean": 0.2904,
+      "ndvi_median": 0.2933,
+      "ndvi_std": 0.0395,
+      "stressed_fraction": 0.9969,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4676,
+      "vegetation_pixels": 116890,
+      "vegetated_ha": 1591.38,
+      "moderate_stress_pixels": 116522,
+      "mild_stress_pixels": 368,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T015_002. Mean NDVI = 0.290. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1591.4 ha (47% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_003_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_003",
+      "location": {
+        "center_lat": -35.602415,
+        "center_lon": 137.400635,
+        "bbox": {
+          "lat_min": -35.624295,
+          "lat_max": -35.580439,
+          "lon_min": 137.372393,
+          "lon_max": 137.428779
+        }
+      },
+      "ndvi_mean": 0.2658,
+      "ndvi_median": 0.2607,
+      "ndvi_std": 0.0398,
+      "stressed_fraction": 0.9965,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3116,
+      "vegetation_pixels": 77906,
+      "vegetated_ha": 1063.5,
+      "moderate_stress_pixels": 77634,
+      "mild_stress_pixels": 272,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T008_003. Mean NDVI = 0.266. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1063.5 ha (31% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T016_002_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_002",
+      "location": {
+        "center_lat": -35.963848,
+        "center_lon": 137.356097,
+        "bbox": {
+          "lat_min": -35.985733,
+          "lat_max": -35.941868,
+          "lon_min": 137.327733,
+          "lon_max": 137.384363
+        }
+      },
+      "ndvi_mean": 0.3164,
+      "ndvi_median": 0.3164,
+      "ndvi_std": 0.0257,
+      "stressed_fraction": 0.9963,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9787,
+      "vegetation_pixels": 244665,
+      "vegetated_ha": 2458.7,
+      "moderate_stress_pixels": 243768,
+      "mild_stress_pixels": 897,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_002. Mean NDVI = 0.316. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2458.7 ha (98% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T017_003_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T017_003",
+      "location": {
+        "center_lat": -36.007787,
+        "center_lon": 137.412871,
+        "bbox": {
+          "lat_min": -36.029657,
+          "lat_max": -35.985821,
+          "lon_min": 137.384476,
+          "lon_max": 137.441169
+        }
+      },
+      "ndvi_mean": 0.3315,
+      "ndvi_median": 0.3351,
+      "ndvi_std": 0.0319,
+      "stressed_fraction": 0.9961,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.9169,
+      "vegetation_pixels": 229228,
+      "vegetated_ha": 2317.35,
+      "moderate_stress_pixels": 228334,
+      "mild_stress_pixels": 894,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T017_003. Mean NDVI = 0.332. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2317.3 ha (92% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T014_008_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T014_008",
+      "location": {
+        "center_lat": -35.866797,
+        "center_lon": 137.685421,
+        "bbox": {
+          "lat_min": -35.888602,
+          "lat_max": -35.844896,
+          "lon_min": 137.657007,
+          "lon_max": 137.713736
+        }
+      },
+      "ndvi_mean": 0.2905,
+      "ndvi_median": 0.294,
+      "ndvi_std": 0.0471,
+      "stressed_fraction": 0.9959,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3576,
+      "vegetation_pixels": 89395,
+      "vegetated_ha": 1144.59,
+      "moderate_stress_pixels": 89026,
+      "mild_stress_pixels": 369,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T014_008. Mean NDVI = 0.290. 100% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1144.6 ha (36% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_010_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_010",
+      "location": {
+        "center_lat": -35.819244,
+        "center_lon": 137.794479,
+        "bbox": {
+          "lat_min": -35.841023,
+          "lat_max": -35.797369,
+          "lon_min": 137.766054,
+          "lon_max": 137.822805
+        }
+      },
+      "ndvi_mean": 0.2789,
+      "ndvi_median": 0.2764,
+      "ndvi_std": 0.0437,
+      "stressed_fraction": 0.9949,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4429,
+      "vegetation_pixels": 110732,
+      "vegetated_ha": 1433.32,
+      "moderate_stress_pixels": 110167,
+      "mild_stress_pixels": 565,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_010. Mean NDVI = 0.279. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1433.3 ha (44% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T014_011_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T014_011",
+      "location": {
+        "center_lat": -35.86297,
+        "center_lon": 137.851374,
+        "bbox": {
+          "lat_min": -35.884734,
+          "lat_max": -35.84111,
+          "lon_min": 137.822918,
+          "lon_max": 137.879731
+        }
+      },
+      "ndvi_mean": 0.2966,
+      "ndvi_median": 0.2976,
+      "ndvi_std": 0.045,
+      "stressed_fraction": 0.9947,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.341,
+      "vegetation_pixels": 85258,
+      "vegetated_ha": 1012.25,
+      "moderate_stress_pixels": 84804,
+      "mild_stress_pixels": 454,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T014_011. Mean NDVI = 0.297. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1012.2 ha (34% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T016_003_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T016_003",
+      "location": {
+        "center_lat": -35.962747,
+        "center_lon": 137.4115,
+        "bbox": {
+          "lat_min": -35.984618,
+          "lat_max": -35.94078,
+          "lon_min": 137.383122,
+          "lon_max": 137.43978
+        }
+      },
+      "ndvi_mean": 0.309,
+      "ndvi_median": 0.3082,
+      "ndvi_std": 0.0329,
+      "stressed_fraction": 0.9946,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.8651,
+      "vegetation_pixels": 216282,
+      "vegetated_ha": 2199.14,
+      "moderate_stress_pixels": 215116,
+      "mild_stress_pixels": 1166,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T016_003. Mean NDVI = 0.309. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2199.1 ha (87% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T014_015_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T014_015",
+      "location": {
+        "center_lat": -35.857511,
+        "center_lon": 138.072594,
+        "bbox": {
+          "lat_min": -35.87922,
+          "lat_max": -35.835707,
+          "lon_min": 138.044084,
+          "lon_max": 138.101006
+        }
+      },
+      "ndvi_mean": 0.3338,
+      "ndvi_median": 0.3405,
+      "ndvi_std": 0.0364,
+      "stressed_fraction": 0.9935,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.7007,
+      "vegetation_pixels": 175165,
+      "vegetated_ha": 1962.1,
+      "moderate_stress_pixels": 174031,
+      "mild_stress_pixels": 1134,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T014_015. Mean NDVI = 0.334. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1962.1 ha (70% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T015_004_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T015_004",
+      "location": {
+        "center_lat": -35.916582,
+        "center_lon": 137.4655,
+        "bbox": {
+          "lat_min": -35.938441,
+          "lat_max": -35.894628,
+          "lon_min": 137.437125,
+          "lon_max": 137.493777
+        }
+      },
+      "ndvi_mean": 0.2928,
+      "ndvi_median": 0.2998,
+      "ndvi_std": 0.0462,
+      "stressed_fraction": 0.9926,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4538,
+      "vegetation_pixels": 113452,
+      "vegetated_ha": 1500.04,
+      "moderate_stress_pixels": 112615,
+      "mild_stress_pixels": 837,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T015_004. Mean NDVI = 0.293. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1500.0 ha (45% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T014_013_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T014_013",
+      "location": {
+        "center_lat": -35.860291,
+        "center_lon": 137.961992,
+        "bbox": {
+          "lat_min": -35.882028,
+          "lat_max": -35.83846,
+          "lon_min": 137.933509,
+          "lon_max": 137.990376
+        }
+      },
+      "ndvi_mean": 0.3379,
+      "ndvi_median": 0.3479,
+      "ndvi_std": 0.0399,
+      "stressed_fraction": 0.9883,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.798,
+      "vegetation_pixels": 199501,
+      "vegetated_ha": 2026.93,
+      "moderate_stress_pixels": 197165,
+      "mild_stress_pixels": 2336,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T014_013. Mean NDVI = 0.338. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2026.9 ha (80% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_001_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_001",
+      "location": {
+        "center_lat": -35.604563,
+        "center_lon": 137.290324,
+        "bbox": {
+          "lat_min": -35.62647,
+          "lat_max": -35.582561,
+          "lon_min": 137.26211,
+          "lon_max": 137.31844
+        }
+      },
+      "ndvi_mean": 0.2744,
+      "ndvi_median": 0.2624,
+      "ndvi_std": 0.0462,
+      "stressed_fraction": 0.9877,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.5587,
+      "vegetation_pixels": 139664,
+      "vegetated_ha": 1591.44,
+      "moderate_stress_pixels": 137940,
+      "mild_stress_pixels": 1724,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T008_001. Mean NDVI = 0.274. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1591.4 ha (56% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_006_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_006",
+      "location": {
+        "center_lat": -35.599003,
+        "center_lon": 137.566079,
+        "bbox": {
+          "lat_min": -35.620843,
+          "lat_max": -35.577069,
+          "lon_min": 137.537796,
+          "lon_max": 137.594264
+        }
+      },
+      "ndvi_mean": 0.297,
+      "ndvi_median": 0.2999,
+      "ndvi_std": 0.0538,
+      "stressed_fraction": 0.986,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3208,
+      "vegetation_pixels": 80199,
+      "vegetated_ha": 1060.66,
+      "moderate_stress_pixels": 79074,
+      "mild_stress_pixels": 1125,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T008_006. Mean NDVI = 0.297. 99% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1060.7 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_015_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_015",
+      "location": {
+        "center_lat": -35.812495,
+        "center_lon": 138.070858,
+        "bbox": {
+          "lat_min": -35.834206,
+          "lat_max": -35.79069,
+          "lon_min": 138.042365,
+          "lon_max": 138.099252
+        }
+      },
+      "ndvi_mean": 0.2997,
+      "ndvi_median": 0.3026,
+      "ndvi_std": 0.0545,
+      "stressed_fraction": 0.9849,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3345,
+      "vegetation_pixels": 83621,
+      "vegetated_ha": 1287.77,
+      "moderate_stress_pixels": 82355,
+      "mild_stress_pixels": 1266,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_015. Mean NDVI = 0.300. 98% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1287.8 ha (33% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_009_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_009",
+      "location": {
+        "center_lat": -35.820517,
+        "center_lon": 137.739192,
+        "bbox": {
+          "lat_min": -35.84231,
+          "lat_max": -35.798629,
+          "lon_min": 137.710782,
+          "lon_max": 137.767504
+        }
+      },
+      "ndvi_mean": 0.3,
+      "ndvi_median": 0.3022,
+      "ndvi_std": 0.0552,
+      "stressed_fraction": 0.981,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3428,
+      "vegetation_pixels": 85690,
+      "vegetated_ha": 1129.56,
+      "moderate_stress_pixels": 84063,
+      "mild_stress_pixels": 1627,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_009. Mean NDVI = 0.300. 98% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1129.6 ha (34% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_002_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_002",
+      "location": {
+        "center_lat": -35.648546,
+        "center_lon": 137.346798,
+        "bbox": {
+          "lat_min": -35.670439,
+          "lat_max": -35.626558,
+          "lon_min": 137.318553,
+          "lon_max": 137.374945
+        }
+      },
+      "ndvi_mean": 0.2755,
+      "ndvi_median": 0.2682,
+      "ndvi_std": 0.0457,
+      "stressed_fraction": 0.9798,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3168,
+      "vegetation_pixels": 79210,
+      "vegetated_ha": 1229.58,
+      "moderate_stress_pixels": 77607,
+      "mild_stress_pixels": 1603,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T009_002. Mean NDVI = 0.276. 98% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1229.6 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T010_002_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T010_002",
+      "location": {
+        "center_lat": -35.69359,
+        "center_lon": 137.348117,
+        "bbox": {
+          "lat_min": -35.715482,
+          "lat_max": -35.671604,
+          "lon_min": 137.319856,
+          "lon_max": 137.376281
+        }
+      },
+      "ndvi_mean": 0.2832,
+      "ndvi_median": 0.2721,
+      "ndvi_std": 0.0518,
+      "stressed_fraction": 0.9706,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3173,
+      "vegetation_pixels": 79336,
+      "vegetated_ha": 1485.69,
+      "moderate_stress_pixels": 77007,
+      "mild_stress_pixels": 2329,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T010_002. Mean NDVI = 0.283. 97% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1485.7 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_012_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_012",
+      "location": {
+        "center_lat": -35.81662,
+        "center_lon": 137.905041,
+        "bbox": {
+          "lat_min": -35.838372,
+          "lat_max": -35.794774,
+          "lon_min": 137.876589,
+          "lon_max": 137.933395
+        }
+      },
+      "ndvi_mean": 0.3208,
+      "ndvi_median": 0.3204,
+      "ndvi_std": 0.0419,
+      "stressed_fraction": 0.969,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.8295,
+      "vegetation_pixels": 207382,
+      "vegetated_ha": 2286.55,
+      "moderate_stress_pixels": 200957,
+      "mild_stress_pixels": 6425,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_012. Mean NDVI = 0.321. 97% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2286.6 ha (83% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T005_020_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T005_020",
+      "location": {
+        "center_lat": -35.445067,
+        "center_lon": 138.332151,
+        "bbox": {
+          "lat_min": -35.46672,
+          "lat_max": -35.423319,
+          "lon_min": 138.30373,
+          "lon_max": 138.360474
+        }
+      },
+      "ndvi_mean": 0.2715,
+      "ndvi_median": 0.2586,
+      "ndvi_std": 0.0583,
+      "stressed_fraction": 0.9686,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3201,
+      "vegetation_pixels": 80017,
+      "vegetated_ha": 1287.47,
+      "moderate_stress_pixels": 77505,
+      "mild_stress_pixels": 2479,
+      "healthy_pixels": 33,
+      "reason": "Moderate Stress detected in tile T005_020. Mean NDVI = 0.272. 97% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1287.5 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_014_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_014",
+      "location": {
+        "center_lat": -35.813896,
+        "center_lon": 138.015589,
+        "bbox": {
+          "lat_min": -35.83562,
+          "lat_max": -35.792076,
+          "lon_min": 137.98711,
+          "lon_max": 138.04397
+        }
+      },
+      "ndvi_mean": 0.305,
+      "ndvi_median": 0.3049,
+      "ndvi_std": 0.0573,
+      "stressed_fraction": 0.9654,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4297,
+      "vegetation_pixels": 107423,
+      "vegetated_ha": 1646.51,
+      "moderate_stress_pixels": 103708,
+      "mild_stress_pixels": 3715,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_014. Mean NDVI = 0.305. 97% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1646.5 ha (43% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_001_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_001",
+      "location": {
+        "center_lat": -35.649609,
+        "center_lon": 137.29161,
+        "bbox": {
+          "lat_min": -35.671516,
+          "lat_max": -35.627608,
+          "lon_min": 137.263379,
+          "lon_max": 137.319743
+        }
+      },
+      "ndvi_mean": 0.2927,
+      "ndvi_median": 0.291,
+      "ndvi_std": 0.0525,
+      "stressed_fraction": 0.9629,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3051,
+      "vegetation_pixels": 76281,
+      "vegetated_ha": 1446.26,
+      "moderate_stress_pixels": 73453,
+      "mild_stress_pixels": 2828,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T009_001. Mean NDVI = 0.293. 96% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1446.3 ha (31% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T014_014_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T014_014",
+      "location": {
+        "center_lat": -35.858914,
+        "center_lon": 138.017295,
+        "bbox": {
+          "lat_min": -35.880637,
+          "lat_max": -35.837096,
+          "lon_min": 137.988798,
+          "lon_max": 138.045693
+        }
+      },
+      "ndvi_mean": 0.3446,
+      "ndvi_median": 0.3525,
+      "ndvi_std": 0.0418,
+      "stressed_fraction": 0.9586,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.8547,
+      "vegetation_pixels": 213670,
+      "vegetated_ha": 2359.27,
+      "moderate_stress_pixels": 204818,
+      "mild_stress_pixels": 8852,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T014_014. Mean NDVI = 0.345. 96% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2359.3 ha (85% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T013_013_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T013_013",
+      "location": {
+        "center_lat": -35.815271,
+        "center_lon": 137.960317,
+        "bbox": {
+          "lat_min": -35.837009,
+          "lat_max": -35.793438,
+          "lon_min": 137.931851,
+          "lon_max": 137.988684
+        }
+      },
+      "ndvi_mean": 0.2988,
+      "ndvi_median": 0.2944,
+      "ndvi_std": 0.0626,
+      "stressed_fraction": 0.947,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3162,
+      "vegetation_pixels": 79038,
+      "vegetated_ha": 1364.0,
+      "moderate_stress_pixels": 74846,
+      "mild_stress_pixels": 4192,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T013_013. Mean NDVI = 0.299. 95% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1364.0 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T012_012_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T012_012",
+      "location": {
+        "center_lat": -35.771597,
+        "center_lon": 137.903401,
+        "bbox": {
+          "lat_min": -35.79335,
+          "lat_max": -35.749749,
+          "lon_min": 137.874967,
+          "lon_max": 137.931738
+        }
+      },
+      "ndvi_mean": 0.3183,
+      "ndvi_median": 0.3313,
+      "ndvi_std": 0.0602,
+      "stressed_fraction": 0.9462,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.331,
+      "vegetation_pixels": 82758,
+      "vegetated_ha": 1199.39,
+      "moderate_stress_pixels": 78305,
+      "mild_stress_pixels": 4453,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T012_012. Mean NDVI = 0.318. 95% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1199.4 ha (33% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T005_021_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T005_021",
+      "location": {
+        "center_lat": -35.443565,
+        "center_lon": 138.386049,
+        "bbox": {
+          "lat_min": -35.465236,
+          "lat_max": -35.4218,
+          "lon_min": 138.358715,
+          "lon_max": 138.413284
+        }
+      },
+      "ndvi_mean": 0.2833,
+      "ndvi_median": 0.2662,
+      "ndvi_std": 0.0737,
+      "stressed_fraction": 0.9455,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3309,
+      "vegetation_pixels": 79423,
+      "vegetated_ha": 1479.83,
+      "moderate_stress_pixels": 75095,
+      "mild_stress_pixels": 3616,
+      "healthy_pixels": 712,
+      "reason": "Moderate Stress detected in tile T005_021. Mean NDVI = 0.283. 95% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1479.8 ha (33% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_017_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_017",
+      "location": {
+        "center_lat": -35.629569,
+        "center_lon": 138.174226,
+        "bbox": {
+          "lat_min": -35.651258,
+          "lat_max": -35.607786,
+          "lon_min": 138.145776,
+          "lon_max": 138.202578
+        }
+      },
+      "ndvi_mean": 0.3223,
+      "ndvi_median": 0.3287,
+      "ndvi_std": 0.0639,
+      "stressed_fraction": 0.9162,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.5219,
+      "vegetation_pixels": 130469,
+      "vegetated_ha": 1702.93,
+      "moderate_stress_pixels": 119532,
+      "mild_stress_pixels": 10901,
+      "healthy_pixels": 36,
+      "reason": "Moderate Stress detected in tile T009_017. Mean NDVI = 0.322. 92% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1702.9 ha (52% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_017_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_017",
+      "location": {
+        "center_lat": -35.584556,
+        "center_lon": 138.172447,
+        "bbox": {
+          "lat_min": -35.606246,
+          "lat_max": -35.562771,
+          "lon_min": 138.144014,
+          "lon_max": 138.200781
+        }
+      },
+      "ndvi_mean": 0.2948,
+      "ndvi_median": 0.282,
+      "ndvi_std": 0.0706,
+      "stressed_fraction": 0.9066,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3216,
+      "vegetation_pixels": 80396,
+      "vegetated_ha": 1452.96,
+      "moderate_stress_pixels": 72883,
+      "mild_stress_pixels": 7513,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T008_017. Mean NDVI = 0.295. 91% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1453.0 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T007_021_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T007_021",
+      "location": {
+        "center_lat": -35.533574,
+        "center_lon": 138.389832,
+        "bbox": {
+          "lat_min": -35.555242,
+          "lat_max": -35.511812,
+          "lon_min": 138.362464,
+          "lon_max": 138.4171
+        }
+      },
+      "ndvi_mean": 0.3083,
+      "ndvi_median": 0.3013,
+      "ndvi_std": 0.0771,
+      "stressed_fraction": 0.8674,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.406,
+      "vegetation_pixels": 97436,
+      "vegetated_ha": 1614.18,
+      "moderate_stress_pixels": 84517,
+      "mild_stress_pixels": 12780,
+      "healthy_pixels": 139,
+      "reason": "Moderate Stress detected in tile T007_021. Mean NDVI = 0.308. 87% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1614.2 ha (41% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_021_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_021",
+      "location": {
+        "center_lat": -35.623582,
+        "center_lon": 138.393631,
+        "bbox": {
+          "lat_min": -35.645247,
+          "lat_max": -35.601823,
+          "lon_min": 138.366229,
+          "lon_max": 138.420933
+        }
+      },
+      "ndvi_mean": 0.3132,
+      "ndvi_median": 0.3111,
+      "ndvi_std": 0.0716,
+      "stressed_fraction": 0.8575,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3206,
+      "vegetation_pixels": 76951,
+      "vegetated_ha": 1127.85,
+      "moderate_stress_pixels": 65989,
+      "mild_stress_pixels": 10962,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T009_021. Mean NDVI = 0.313. 86% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1127.8 ha (32% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_020_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_020",
+      "location": {
+        "center_lat": -35.625093,
+        "center_lon": 138.339613,
+        "bbox": {
+          "lat_min": -35.64674,
+          "lat_max": -35.603351,
+          "lon_min": 138.311122,
+          "lon_max": 138.368004
+        }
+      },
+      "ndvi_mean": 0.3379,
+      "ndvi_median": 0.3496,
+      "ndvi_std": 0.0663,
+      "stressed_fraction": 0.8315,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.3507,
+      "vegetation_pixels": 87678,
+      "vegetated_ha": 1206.1,
+      "moderate_stress_pixels": 72907,
+      "mild_stress_pixels": 14771,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T009_020. Mean NDVI = 0.338. 83% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1206.1 ha (35% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T010_001_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T010_001",
+      "location": {
+        "center_lat": -35.694655,
+        "center_lon": 137.292898,
+        "bbox": {
+          "lat_min": -35.716561,
+          "lat_max": -35.672655,
+          "lon_min": 137.264651,
+          "lon_max": 137.321048
+        }
+      },
+      "ndvi_mean": 0.3217,
+      "ndvi_median": 0.3262,
+      "ndvi_std": 0.069,
+      "stressed_fraction": 0.8307,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.375,
+      "vegetation_pixels": 93745,
+      "vegetated_ha": 1475.94,
+      "moderate_stress_pixels": 77875,
+      "mild_stress_pixels": 15870,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T010_001. Mean NDVI = 0.322. 83% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1475.9 ha (38% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_018_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_018",
+      "location": {
+        "center_lat": -35.628102,
+        "center_lon": 138.229359,
+        "bbox": {
+          "lat_min": -35.649777,
+          "lat_max": -35.606333,
+          "lon_min": 138.200895,
+          "lon_max": 138.257724
+        }
+      },
+      "ndvi_mean": 0.3566,
+      "ndvi_median": 0.3643,
+      "ndvi_std": 0.0602,
+      "stressed_fraction": 0.7794,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.7245,
+      "vegetation_pixels": 181122,
+      "vegetated_ha": 2086.53,
+      "moderate_stress_pixels": 141166,
+      "mild_stress_pixels": 39893,
+      "healthy_pixels": 63,
+      "reason": "Moderate Stress detected in tile T009_018. Mean NDVI = 0.357. 78% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2086.5 ha (72% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T009_019_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T009_019",
+      "location": {
+        "center_lat": -35.62661,
+        "center_lon": 138.284488,
+        "bbox": {
+          "lat_min": -35.648271,
+          "lat_max": -35.604854,
+          "lon_min": 138.256011,
+          "lon_max": 138.312866
+        }
+      },
+      "ndvi_mean": 0.3535,
+      "ndvi_median": 0.3662,
+      "ndvi_std": 0.0621,
+      "stressed_fraction": 0.7731,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.5436,
+      "vegetation_pixels": 135890,
+      "vegetated_ha": 1592.3,
+      "moderate_stress_pixels": 105056,
+      "mild_stress_pixels": 30834,
+      "healthy_pixels": 0,
+      "reason": "Moderate Stress detected in tile T009_019. Mean NDVI = 0.353. 77% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1592.3 ha (54% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T007_019_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T007_019",
+      "location": {
+        "center_lat": -35.536593,
+        "center_lon": 138.28081,
+        "bbox": {
+          "lat_min": -35.558257,
+          "lat_max": -35.514834,
+          "lon_min": 138.252368,
+          "lon_max": 138.309154
+        }
+      },
+      "ndvi_mean": 0.3387,
+      "ndvi_median": 0.3484,
+      "ndvi_std": 0.087,
+      "stressed_fraction": 0.7499,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4573,
+      "vegetation_pixels": 114324,
+      "vegetated_ha": 1684.34,
+      "moderate_stress_pixels": 85731,
+      "mild_stress_pixels": 28124,
+      "healthy_pixels": 469,
+      "reason": "Moderate Stress detected in tile T007_019. Mean NDVI = 0.339. 75% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1684.3 ha (46% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_020_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_020",
+      "location": {
+        "center_lat": -35.580087,
+        "center_lon": 138.337741,
+        "bbox": {
+          "lat_min": -35.601736,
+          "lat_max": -35.558344,
+          "lon_min": 138.309268,
+          "lon_max": 138.366115
+        }
+      },
+      "ndvi_mean": 0.3272,
+      "ndvi_median": 0.3171,
+      "ndvi_std": 0.0884,
+      "stressed_fraction": 0.7331,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.466,
+      "vegetation_pixels": 116502,
+      "vegetated_ha": 1912.51,
+      "moderate_stress_pixels": 85411,
+      "mild_stress_pixels": 31066,
+      "healthy_pixels": 25,
+      "reason": "Moderate Stress detected in tile T008_020. Mean NDVI = 0.327. 73% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1912.5 ha (47% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T007_020_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T007_020",
+      "location": {
+        "center_lat": -35.535081,
+        "center_lon": 138.335874,
+        "bbox": {
+          "lat_min": -35.556731,
+          "lat_max": -35.513336,
+          "lon_min": 138.307418,
+          "lon_max": 138.364231
+        }
+      },
+      "ndvi_mean": 0.3377,
+      "ndvi_median": 0.3404,
+      "ndvi_std": 0.0873,
+      "stressed_fraction": 0.6973,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.5717,
+      "vegetation_pixels": 142914,
+      "vegetated_ha": 2144.63,
+      "moderate_stress_pixels": 99655,
+      "mild_stress_pixels": 42856,
+      "healthy_pixels": 403,
+      "reason": "Moderate Stress detected in tile T007_020. Mean NDVI = 0.338. 70% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2144.6 ha (57% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_021_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_021",
+      "location": {
+        "center_lat": -35.578578,
+        "center_lon": 138.391729,
+        "bbox": {
+          "lat_min": -35.600245,
+          "lat_max": -35.556818,
+          "lon_min": 138.364345,
+          "lon_max": 138.419014
+        }
+      },
+      "ndvi_mean": 0.3368,
+      "ndvi_median": 0.3433,
+      "ndvi_std": 0.0878,
+      "stressed_fraction": 0.6962,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.4977,
+      "vegetation_pixels": 119449,
+      "vegetated_ha": 1868.87,
+      "moderate_stress_pixels": 83158,
+      "mild_stress_pixels": 36272,
+      "healthy_pixels": 19,
+      "reason": "Moderate Stress detected in tile T008_021. Mean NDVI = 0.337. 70% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 1868.9 ha (50% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_019_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_019",
+      "location": {
+        "center_lat": -35.581602,
+        "center_lon": 138.282647,
+        "bbox": {
+          "lat_min": -35.603264,
+          "lat_max": -35.559845,
+          "lon_min": 138.254187,
+          "lon_max": 138.311008
+        }
+      },
+      "ndvi_mean": 0.3676,
+      "ndvi_median": 0.3785,
+      "ndvi_std": 0.0936,
+      "stressed_fraction": 0.5865,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.5906,
+      "vegetation_pixels": 147643,
+      "vegetated_ha": 2113.07,
+      "moderate_stress_pixels": 86600,
+      "mild_stress_pixels": 61033,
+      "healthy_pixels": 10,
+      "reason": "Moderate Stress detected in tile T008_019. Mean NDVI = 0.368. 59% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2113.1 ha (59% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    },
+    {
+      "alert_id": "ALERT_T008_018_20260425T133456Z",
+      "severity": "WARNING",
+      "severity_score": 2,
+      "tile_id": "T008_018",
+      "location": {
+        "center_lat": -35.583091,
+        "center_lon": 138.227549,
+        "bbox": {
+          "lat_min": -35.604767,
+          "lat_max": -35.56132,
+          "lon_min": 138.199103,
+          "lon_max": 138.255897
+        }
+      },
+      "ndvi_mean": 0.3784,
+      "ndvi_median": 0.3998,
+      "ndvi_std": 0.0848,
+      "stressed_fraction": 0.501,
+      "stress_class": "moderate_stress",
+      "stress_label": "Moderate Stress",
+      "vegetation_fraction": 0.7389,
+      "vegetation_pixels": 184717,
+      "vegetated_ha": 2205.19,
+      "moderate_stress_pixels": 92540,
+      "mild_stress_pixels": 92146,
+      "healthy_pixels": 31,
+      "reason": "Moderate Stress detected in tile T008_018. Mean NDVI = 0.378. 50% of vegetation pixels show stress (NDVI < 0.4). Vegetated area: 2205.2 ha (74% of tile). Recommend field inspection and possible intervention.",
+      "detected_at": "2026-04-25T13:34:56Z",
+      "alert_rules": {
+        "min_vegetation_fraction": 0.3,
+        "min_stressed_fraction": 0.4
+      }
+    }
+  ],
+  "ndvi_trend": null,
+  "ndvi_trend_note": "NDVI trend not computed: only one acquisition date available. Run pipeline with multiple dates to enable trend analysis."
+}

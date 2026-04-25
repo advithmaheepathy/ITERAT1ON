@@ -178,7 +178,7 @@ def write_json(output: dict, output_path: str):
                 f"lat={alert['location']['center_lat']:.4f} "
                 f"lon={alert['location']['center_lon']:.4f} "
                 f"NDVI={alert['ndvi_mean']:.3f} "
-                f"stress={alert['stressed_pixel_fraction']*100:.0f}%"
+                f"stress={alert['stressed_fraction']*100:.0f}%"
             )
     
     print(f"\nFull output: {output_path}")

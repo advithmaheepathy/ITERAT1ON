@@ -202,35 +202,38 @@ def compute_dnbr(
 def build_burn_mask(
     dnbr: np.ndarray,
     ndvi_before: np.ndarray,
+    valid_mask: Optional[np.ndarray] = None,
     dnbr_threshold: float = DNBR_BURN_THRESHOLD,
     ndvi_threshold: float = VEGETATION_NDVI_MIN,
 ) -> np.ndarray:
     """
     Generate binary burn mask.
 
-    A pixel is classified as burned when BOTH conditions are met:
+    A pixel is classified as burned when ALL conditions are met:
         1. dNBR > dnbr_threshold  (spectral evidence of burn)
-        2. NDVI_before > ndvi_threshold  (was vegetated before — avoids
-           false positives from bare soil, water, urban)
+        2. NDVI_before > ndvi_threshold  (was vegetated before)
+        3. valid_mask == True (not cloud/water masked)
 
     Args:
         dnbr: delta-NBR array, float32
         ndvi_before: NDVI from pre-fire image, float32
+        valid_mask: bool array, True=valid pixel (optional)
         dnbr_threshold: dNBR cutoff for burn detection (default 0.3)
         ndvi_threshold: minimum pre-fire NDVI (default 0.3)
 
     Returns:
         burn_mask: bool array. True = burned pixel.
-                   NaN input pixels → False (not burned).
     """
-    # Treat NaN as not-burned (safe default)
     dnbr_safe = np.nan_to_num(dnbr, nan=-999.0)
     ndvi_safe = np.nan_to_num(ndvi_before, nan=-999.0)
 
     burn_mask = (dnbr_safe > dnbr_threshold) & (ndvi_safe > ndvi_threshold)
 
+    if valid_mask is not None:
+        burn_mask = burn_mask & valid_mask
+
     burned_count = burn_mask.sum()
-    total_valid = np.sum(~np.isnan(dnbr) & ~np.isnan(ndvi_before))
+    total_valid = int(valid_mask.sum()) if valid_mask is not None else int(np.sum(~np.isnan(dnbr) & ~np.isnan(ndvi_before)))
 
     logger.info(
         f"Burn mask: {burned_count:,} burned pixels "
@@ -243,36 +246,38 @@ def build_burn_mask(
 def classify_burn(
     dnbr: np.ndarray,
     burn_mask: np.ndarray,
+    valid_mask: Optional[np.ndarray] = None,
 ) -> np.ndarray:
     """
-    Classify burn severity from dNBR values.
-
-    Only pixels where burn_mask=True are classified.
-    All other pixels are set to 255 (no-data / unburned / not vegetated).
+    Classify ALL valid pixels by dNBR severity — not just burned ones.
 
     Severity codes (stored as uint8):
-        0 = Unburned       (dNBR < 0.1)
+        0 = Unburned       (dNBR < 0.1, valid, vegetated)
         1 = Low severity   (0.1 ≤ dNBR < 0.3)
         2 = Moderate        (0.3 ≤ dNBR < 0.6)
         3 = Severe          (dNBR ≥ 0.6)
-        255 = No data / non-burn
+        255 = No data / cloud / water / non-vegetated
+
+    Classification applied on valid_mask to give proper distribution.
 
     Args:
         dnbr: delta-NBR array, float32
         burn_mask: bool array from build_burn_mask()
+        valid_mask: bool array of valid (non-cloud, non-water) pixels
 
     Returns:
         severity: uint8 array with severity class codes
     """
     severity = np.full(dnbr.shape, 255, dtype=np.uint8)
-
-    # Only classify where burn_mask is True
     dnbr_vals = np.nan_to_num(dnbr, nan=-999.0)
 
-    severity[burn_mask & (dnbr_vals < 0.1)] = 0   # Unburned (unlikely given mask threshold, but safe)
-    severity[burn_mask & (dnbr_vals >= 0.1) & (dnbr_vals < 0.3)] = 1  # Low
-    severity[burn_mask & (dnbr_vals >= 0.3) & (dnbr_vals < 0.6)] = 2  # Moderate
-    severity[burn_mask & (dnbr_vals >= 0.6)] = 3   # Severe
+    # Apply classification to ALL valid pixels for proper distribution
+    apply_mask = valid_mask if valid_mask is not None else ~np.isnan(dnbr)
+
+    severity[apply_mask & (dnbr_vals < 0.1)]  = 0  # Unburned
+    severity[apply_mask & (dnbr_vals >= 0.1) & (dnbr_vals < 0.3)] = 1  # Low
+    severity[apply_mask & (dnbr_vals >= 0.3) & (dnbr_vals < 0.6)] = 2  # Moderate
+    severity[apply_mask & (dnbr_vals >= 0.6)] = 3  # Severe
 
     # Log distribution
     for key, info in SEVERITY_THRESHOLDS.items():
@@ -290,16 +295,16 @@ def classify_burn(
 def calculate_area(
     burn_mask: np.ndarray,
     severity_map: np.ndarray,
+    valid_pixels: int = 0,
     pixel_area_ha: float = PIXEL_AREA_HA,
 ) -> Dict:
     """
     Calculate burned area in hectares from burn mask.
 
-    Assumes 10m spatial resolution: 1 pixel = 10m × 10m = 100 m² = 0.01 ha.
-
     Args:
         burn_mask: bool array, True=burned
         severity_map: uint8 severity class array
+        valid_pixels: number of valid (non-cloud/water) pixels for fraction calc
         pixel_area_ha: area per pixel in hectares (default 0.01)
 
     Returns:
@@ -307,6 +312,8 @@ def calculate_area(
     """
     burned_pixels = int(burn_mask.sum())
     burned_area_ha = round(burned_pixels * pixel_area_ha, 2)
+    total_pixels = int(burn_mask.size)
+    denom = valid_pixels if valid_pixels > 0 else total_pixels
 
     severity_dist = {}
     for key, info in SEVERITY_THRESHOLDS.items():
@@ -318,19 +325,20 @@ def calculate_area(
             "area_ha": area,
         }
 
-    total_pixels = int(burn_mask.size)
-
     result = {
         "total_pixels": total_pixels,
+        "valid_pixels": valid_pixels,
         "burned_pixels": burned_pixels,
         "burned_area_ha": burned_area_ha,
         "burned_fraction": round(burned_pixels / max(total_pixels, 1), 6),
+        "burned_fraction_valid": round(burned_pixels / max(denom, 1), 6),
         "pixel_resolution_m": 10,
         "pixel_area_ha": pixel_area_ha,
         "severity_distribution": severity_dist,
     }
 
     logger.info(f"Burned area: {burned_area_ha} ha ({burned_pixels:,} pixels)")
+    logger.info(f"  Burned fraction (of valid): {result['burned_fraction_valid']*100:.3f}%")
     for key, info in severity_dist.items():
         if info["pixel_count"] > 0:
             logger.info(f"  {info['label']}: {info['area_ha']} ha")

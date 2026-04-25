@@ -1,9 +1,9 @@
 {
   "metadata": {
     "pipeline": "burn_detection",
-    "pipeline_version": "1.0.0",
-    "processing_start": "2026-04-25T11:23:02Z",
-    "processing_end": "2026-04-25T11:23:35Z",
+    "pipeline_version": "2.0.0",
+    "processing_start": "2026-04-25T12:47:22Z",
+    "processing_end": "2026-04-25T12:47:54Z",
     "method": {
       "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
       "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
@@ -16,6 +16,7 @@
         "moderate": 0.6,
         "severe": "no_upper_limit"
       },
+      "mask_strategy": "after_only_fallback",
       "cloud_mask": "SCL classes 0,1,3,8,9,10,11 masked",
       "water_mask": "SCL class 6 masked",
       "pixel_resolution_m": 10
@@ -28,9 +29,9 @@
         "tile": "T53HQA"
       },
       "after": {
-        "product": "S2B_MSIL1C_20200110T004659",
-        "level": "L1C",
-        "date": "2020-01-10",
+        "product": "S2B_MSIL2A_20200130T004659",
+        "level": "L2A",
+        "date": "2020-01-30",
         "tile": "T53HQA"
       },
       "region": "Eastern Australia",
@@ -39,37 +40,49 @@
         "B04 (Red, 10m)",
         "B08 (NIR, 10m)",
         "B12 (SWIR, 20m→10m)"
-      ],
-      "cloud_mask": "SCL from BEFORE only (L2A)",
-      "valid_pixel_pct_combined": 23.55
+      ]
     }
   },
   "summary": {
-    "burned_area_ha": 10.2,
-    "burned_pixels": 1020,
-    "burned_fraction": 8e-06,
+    "burned_area_ha": 3310.93,
+    "burned_pixels": 331093,
+    "burned_fraction": 0.002746,
+    "burned_fraction_valid": 0.060457,
+    "valid_pixel_pct_before": 23.55,
+    "valid_pixel_pct_after": 23.56,
+    "valid_pixel_pct_combined": 4.54,
+    "total_pixels": 120560400,
+    "valid_pixels": 5476461,
     "severity_distribution": {
       "unburned": {
         "label": "Unburned",
-        "pixel_count": 0,
-        "area_ha": 0.0
+        "pixel_count": 4703736,
+        "area_ha": 47037.36,
+        "pct_of_valid": 85.89
       },
       "low": {
         "label": "Low Severity",
-        "pixel_count": 0,
-        "area_ha": 0.0
+        "pixel_count": 441632,
+        "area_ha": 4416.32,
+        "pct_of_valid": 8.06
       },
       "moderate": {
         "label": "Moderate Severity",
-        "pixel_count": 0,
-        "area_ha": 0.0
+        "pixel_count": 327940,
+        "area_ha": 3279.4,
+        "pct_of_valid": 5.99
       },
       "severe": {
         "label": "Severe",
-        "pixel_count": 1020,
-        "area_ha": 10.2
+        "pixel_count": 3153,
+        "area_ha": 31.53,
+        "pct_of_valid": 0.06
       }
     },
-    "confidence": 18.8
+    "confidence": 4.2,
+    "warnings": [
+      "Combined valid pixel coverage 4.54% is critically low (<30.0%). Falling back to AFTER-only mask.",
+      "Valid pixel coverage is 4.54% (below 50.0%). Results may be unreliable. Use with caution for insurance reporting."
+    ]
   }
 }
