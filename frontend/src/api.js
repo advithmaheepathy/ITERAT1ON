@@ -16,3 +16,6 @@ export const fetchDistrict = (id) => api.get(`/district/${id}`).then(r => r.data
 
 /** Trigger a simulated satellite pass */
 export const simulatePass = () => api.post('/simulate-pass').then(r => r.data)
+
+/** Send AOI bounding box for burn analysis */
+export const analyzeAOI = (payload) => api.post('/analyze', payload).then(r => r.data)

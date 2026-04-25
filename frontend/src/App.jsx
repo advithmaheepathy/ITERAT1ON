@@ -1,97 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { fetchDashboard, simulatePass } from './api'
-import MetricCard from './components/MetricCard'
-import DistrictGrid from './components/DistrictGrid'
-import Modal from './components/Modal'
-import SatelliteMap from './components/SatelliteMap'
-import BurnMap from './components/BurnMap'
+import React, { useState } from 'react'
+import { analyzeAOI } from './api'
+import AOISelector from './components/AOISelector'
 
-function timeAgo(isoString) {
-  if (!isoString) return '—'
-  const diff = Date.now() - new Date(isoString).getTime()
-  const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'Just now'
-  if (mins < 60) return `${mins} min${mins > 1 ? 's' : ''} ago`
-  const hrs = Math.floor(mins / 60)
-  return `${hrs} hr${hrs > 1 ? 's' : ''} ago`
-}
-
-function formatINR(val) {
-  if (val >= 10000000) return `₹${(val / 10000000).toFixed(1)} Cr`
-  if (val >= 100000) return `₹${(val / 100000).toFixed(1)} L`
-  return `₹${val.toLocaleString('en-IN')}`
-}
 
 export default function App() {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [scanning, setScanning] = useState(false)
-  const [selectedDistrict, setSelectedDistrict] = useState(null)
-  const [focusedDistrict, setFocusedDistrict] = useState(null)
-  const [lastUpdated, setLastUpdated] = useState(null)
-  const [tick, setTick] = useState(0)
+  const [analyzing, setAnalyzing] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState(null)
 
-  const loadDashboard = useCallback(async () => {
+  const handleAnalyze = async (payload) => {
+    setAnalyzing(true)
+    setAnalysisResult(null)
     try {
-      const d = await fetchDashboard()
-      setData(d)
-      setLastUpdated(new Date().toISOString())
+      const result = await analyzeAOI(payload)
+      setAnalysisResult(result)
     } catch (err) {
-      console.error('Failed to load dashboard:', err)
+      console.error('Analysis failed:', err)
+      setAnalysisResult({ status: 'error', message: err.message })
     } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => { loadDashboard() }, [loadDashboard])
-  useEffect(() => {
-    const interval = setInterval(() => setTick(t => t + 1), 30000)
-    return () => clearInterval(interval)
-  }, [])
-
-  const handleScan = async () => {
-    setScanning(true)
-    try {
-      await simulatePass()
-      await new Promise(r => setTimeout(r, 2000))
-      await loadDashboard()
-    } catch (err) {
-      console.error('Scan failed:', err)
-    } finally {
-      setScanning(false)
+      setAnalyzing(false)
     }
   }
-
-  const handleDistrictSelect = (district) => {
-    setFocusedDistrict(district)
-    setSelectedDistrict(district)
-  }
-
-  const handleMapSelect = (district) => {
-    setFocusedDistrict(district)
-    if (district) setSelectedDistrict(district)
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="spinner mx-auto mb-4" style={{ width: 40, height: 40, borderWidth: 3 }} />
-          <p className="text-sm text-slate-400">Connecting to ground station...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-400">Failed to connect to AgriSat-7 ground station</p>
-      </div>
-    )
-  }
-
-  const { satellite_hardware: hw, totals, districts, survey_economics: eco } = data
 
   return (
     <div className="min-h-screen scan-line-effect">
@@ -106,149 +34,39 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-sm font-bold text-white tracking-tight">
-                {hw.name}
+                AgriSat-7
                 <span className="ml-2 text-[10px] font-medium text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                  {hw.status}
+                  Online
                 </span>
               </h1>
               <p className="text-[10px] text-slate-500">
-                {hw.orbit} · {hw.ai_model}
+                LEO · VisionTransformer
               </p>
             </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:block text-right">
-              <p className="text-[10px] text-slate-500">Last updated</p>
-              <p className="text-xs text-slate-400 font-mono">{timeAgo(lastUpdated)}</p>
-            </div>
-            <button onClick={handleScan} disabled={scanning}
-              className="scan-button px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
-              {scanning ? (
-                <><div className="spinner" /><span>Scanning...</span></>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5M20.25 16.5V18A2.25 2.25 0 0118 20.25h-1.5M3.75 16.5V18A2.25 2.25 0 006 20.25h1.5M12 8.25v7.5M8.25 12h7.5" />
-                  </svg>
-                  <span>Run Satellite Survey</span>
-                </>
-              )}
-            </button>
           </div>
         </div>
       </header>
 
       {/* ═══════ Main Content ═══════ */}
       <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 space-y-6">
-        {scanning && (
-          <div className="glass-card p-4 flex items-center gap-3 border-indigo-500/30 bg-indigo-500/5 animate-fade-in">
-            <div className="spinner" style={{ borderTopColor: '#818cf8' }} />
-            <div>
-              <p className="text-sm font-medium text-indigo-300">Satellite survey in progress</p>
-              <p className="text-xs text-slate-500">Onboard AI scanning farmland — identifying crop damage via spectral analysis...</p>
-            </div>
-          </div>
+        {/* ─── AOI Selector ─── */}
+        <section>
+          <AOISelector onAnalyze={handleAnalyze} isAnalyzing={analyzing} />
+        </section>
+
+        {/* ─── Analysis Result ─── */}
+        {analysisResult && analysisResult.status === 'analysis_complete' && (
+          <section className="animate-fade-in">
+            <AnalysisResultPanel result={analysisResult} onClose={() => setAnalysisResult(null)} />
+          </section>
         )}
 
-        {/* ─── Top Metric Cards ─── */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard type="tiles" title="Total Farmland Surveyed"
-            value={`${(totals.total_surveyed_ha / 1000).toFixed(0)}K ha`}
-            subtitle={`${totals.district_count} districts covered`} />
-          <MetricCard type="alerts" title="Farmland Affected"
-            value={`${(totals.total_affected_ha / 1000).toFixed(0)}K ha`}
-            subtitle={`${totals.avg_damage_pct}% avg damage`} />
-          <MetricCard type="data" title="Cost Saved vs Surveyors"
-            value={formatINR(totals.cost_saved_inr)}
-            subtitle={`Surveyor: ${formatINR(totals.traditional_cost_inr)} → Satellite: ${formatINR(totals.satellite_cost_inr)}`} />
-          <MetricCard type="confidence" title="Time Saved"
-            value={`${totals.traditional_time_days - Math.ceil(totals.satellite_time_min / 60 / 24)} days`}
-            subtitle={`Surveyor: ${totals.traditional_time_days} days → Satellite: ${totals.satellite_time_min} min`} />
-        </section>
-
-        {/* ─── Satellite Map (HERO) ─── */}
-        <section>
-          <SatelliteMap
-            districts={districts}
-            focusedDistrict={focusedDistrict}
-            onSelectDistrict={handleMapSelect}
-          />
-        </section>
-
-        {/* ─── District Grid + Hardware Panel ─── */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <DistrictGrid districts={districts} onSelect={handleDistrictSelect} />
-          </div>
-          <div className="lg:col-span-1 space-y-4">
-            {/* Hardware Specs */}
-            <div className="glass-card p-5">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">
-                🛰️ Satellite Hardware
-              </h2>
-              <div className="space-y-2.5">
-                <HWRow label="Processor" value={hw.processor} />
-                <HWRow label="AI Model" value={hw.ai_model} />
-                <HWRow label="Spectral Bands" value={hw.spectral_bands.join(', ')} />
-                <HWRow label="Resolution" value={`${hw.spatial_resolution_m}m/px`} />
-                <HWRow label="Coverage Rate" value={`${hw.coverage_rate_ha_per_min.toLocaleString()} ha/min`} />
-                <HWRow label="Swath Width" value={`${hw.swath_width_km} km`} />
-                <HWRow label="Orbit" value={hw.orbit} />
-                <HWRow label="Revisit" value={`Every ${hw.revisit_hours} hrs`} />
-                <HWRow label="Crop ID Accuracy" value={`${hw.crop_id_accuracy_pct}%`} />
-                <HWRow label="Inference Speed" value={`${hw.inference_speed_tiles_per_sec} tiles/sec`} />
-              </div>
-            </div>
-
-            {/* Survey Economics */}
-            <div className="glass-card p-5">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">
-                💰 Cost Comparison
-              </h2>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-slate-400">Traditional Surveyor</span>
-                  <span className="text-sm font-bold text-red-400 font-mono">₹{eco.traditional_cost_per_ha}/ha</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-slate-400">Satellite Survey</span>
-                  <span className="text-sm font-bold text-emerald-400 font-mono">₹{eco.satellite_cost_per_ha}/ha</span>
-                </div>
-                <div className="border-t border-slate-700/40 pt-2 flex justify-between items-center">
-                  <span className="text-xs text-slate-400">Savings per hectare</span>
-                  <span className="text-sm font-bold text-indigo-400 font-mono">
-                    ₹{eco.traditional_cost_per_ha - eco.satellite_cost_per_ha}/ha
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xs text-slate-400">Time per district</span>
-                  <span className="text-xs text-slate-300">
-                    <span className="text-red-400 line-through">{eco.traditional_days_per_district} days</span>
-                    {' → '}
-                    <span className="text-emerald-400 font-bold">{eco.satellite_minutes_per_district} min</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Burn Severity Map Section ─── */}
-        <section className="mt-8">
-          <BurnMap map={data.burn_map} />
-        </section>
-
-        <footer className="text-center py-6 border-t border-slate-800/40">
+        <footer className="text-center py-6 border-t border-slate-800/40 mt-12">
           <p className="text-[11px] text-slate-600">
             AgriSat-7 Ground Station · Satellite Crop Insurance Survey System · {new Date().getFullYear()}
           </p>
         </footer>
       </main>
-
-      {selectedDistrict && (
-        <Modal district={selectedDistrict} onClose={() => setSelectedDistrict(null)} />
-      )}
     </div>
   )
 }
@@ -258,6 +76,105 @@ function HWRow({ label, value }) {
     <div className="flex justify-between items-start gap-2">
       <span className="text-[10px] uppercase tracking-wider text-slate-500 shrink-0">{label}</span>
       <span className="text-xs text-slate-300 font-mono text-right">{value}</span>
+    </div>
+  )
+}
+
+function AnalysisResultPanel({ result, onClose }) {
+  const { aoi, result: r } = result
+  const sev = r.summary.severity_distribution
+
+  const sevBars = [
+    { key: 'severe', label: 'Severe', color: 'bg-red-500', ...sev.severe },
+    { key: 'moderate', label: 'Moderate', color: 'bg-orange-500', ...sev.moderate_severity },
+    { key: 'low', label: 'Low', color: 'bg-yellow-500', ...sev.low_severity },
+    { key: 'unburned', label: 'Unburned', color: 'bg-emerald-500', ...sev.unburned },
+  ]
+
+  return (
+    <div className="glass-card p-5 border-amber-500/30">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center">
+            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+            </svg>
+          </div>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
+            Burn Detection Result
+          </h2>
+          <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            Complete
+          </span>
+        </div>
+        <button onClick={onClose} className="w-7 h-7 rounded-lg bg-slate-700/50 hover:bg-slate-600/60 flex items-center justify-center transition-colors">
+          <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* AOI Info */}
+        <div className="space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Area of Interest</p>
+          <div className="space-y-1.5">
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">Area</p>
+              <p className="text-sm font-bold text-white font-mono">{aoi.area_ha.toLocaleString()} ha</p>
+            </div>
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">Center</p>
+              <p className="text-xs font-mono text-emerald-400">{aoi.center[0]}°N, {aoi.center[1]}°E</p>
+            </div>
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">Confidence</p>
+              <p className="text-sm font-bold text-indigo-400 font-mono">{r.summary.confidence}%</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Burn Summary */}
+        <div className="space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Burn Summary</p>
+          <div className="grid grid-cols-2 gap-1.5">
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">Burned Area</p>
+              <p className="text-sm font-bold text-red-400 font-mono">{r.summary.burned_area_ha.toLocaleString()} ha</p>
+            </div>
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">Burned %</p>
+              <p className="text-sm font-bold text-red-400 font-mono">{(r.summary.burned_fraction * 100).toFixed(1)}%</p>
+            </div>
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">dNBR Mean</p>
+              <p className="text-xs font-mono text-amber-400">{r.dnbr_statistics.mean}</p>
+            </div>
+            <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
+              <p className="text-[9px] text-slate-500 uppercase">dNBR Max</p>
+              <p className="text-xs font-mono text-red-400">{r.dnbr_statistics.max}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Severity Distribution */}
+        <div className="space-y-2">
+          <p className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">Severity Distribution</p>
+          <div className="space-y-2">
+            {sevBars.map(s => (
+              <div key={s.key}>
+                <div className="flex justify-between text-[10px] mb-0.5">
+                  <span className="text-slate-400">{s.label}</span>
+                  <span className="text-slate-300 font-mono">{s.pct}% · {s.area_ha.toLocaleString()} ha</span>
+                </div>
+                <div className="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full transition-all duration-700 ${s.color}`} style={{ width: `${Math.max(s.pct, 1)}%` }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

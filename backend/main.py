@@ -215,3 +215,119 @@ def simulate_pass():
 
     save_data(data)
     return {"status": "survey_complete", "timestamp": now, "districts_scanned": len(data["districts"])}
+
+
+@app.post("/analyze")
+def analyze_aoi(payload: dict):
+    """
+    Accept an AOI bounding box and run analysis.
+    Expected payload:
+    {
+        "aoi": {
+            "type": "bbox",
+            "coordinates": {
+                "top_left": [lat, lon],
+                "top_right": [lat, lon],
+                "bottom_left": [lat, lon],
+                "bottom_right": [lat, lon]
+            }
+        },
+        "analysis": "burn_detection"
+    }
+    """
+    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    aoi = payload.get("aoi", {})
+    analysis_type = payload.get("analysis", "burn_detection")
+    coords = aoi.get("coordinates", {})
+
+    # Validate
+    required_keys = ["top_left", "top_right", "bottom_left", "bottom_right"]
+    for k in required_keys:
+        if k not in coords:
+            raise HTTPException(400, f"Missing coordinate: {k}")
+        if not isinstance(coords[k], list) or len(coords[k]) != 2:
+            raise HTTPException(400, f"Invalid coordinate format for {k}: expected [lat, lon]")
+
+    tl = coords["top_left"]
+    br = coords["bottom_right"]
+
+    # Compute bbox metrics
+    lat_diff = abs(tl[0] - br[0])
+    lon_diff = abs(br[1] - tl[1])
+    avg_lat = (tl[0] + br[0]) / 2
+    km_lat = lat_diff * 111
+    km_lon = lon_diff * 111 * math.cos(math.radians(avg_lat))
+    area_sq_km = km_lat * km_lon
+    area_ha = area_sq_km * 100
+    center_lat = round(avg_lat, 6)
+    center_lon = round((tl[1] + br[1]) / 2, 6)
+
+    # Generate synthetic dNBR analysis
+    size = 300
+    dnbr = generate_mock_dnbr(size=size)
+    total_pixels = size * size
+    pixel_area_ha = area_ha / total_pixels if total_pixels > 0 else 0.01
+
+    unburned_px = int(np.sum(dnbr < 0.1))
+    low_px = int(np.sum((dnbr >= 0.1) & (dnbr < 0.3)))
+    moderate_px = int(np.sum((dnbr >= 0.3) & (dnbr < 0.6)))
+    severe_px = int(np.sum(dnbr >= 0.6))
+    burned_px = low_px + moderate_px + severe_px
+
+    return {
+        "status": "analysis_complete",
+        "timestamp": now,
+        "aoi": {
+            "type": aoi.get("type", "bbox"),
+            "coordinates": coords,
+            "center": [center_lat, center_lon],
+            "area_ha": round(area_ha, 1),
+            "area_sq_km": round(area_sq_km, 2),
+        },
+        "analysis": analysis_type,
+        "result": {
+            "pipeline": "burn_detection",
+            "method": {
+                "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
+                "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
+                "dnbr_formula": "dNBR = NBR_before - NBR_after",
+                "burn_threshold": "dNBR > 0.1",
+                "pixel_resolution_m": 10,
+            },
+            "summary": {
+                "total_pixels": total_pixels,
+                "burned_pixels": burned_px,
+                "burned_area_ha": round(burned_px * pixel_area_ha, 1),
+                "burned_fraction": round(burned_px / total_pixels, 3),
+                "confidence": round(random.uniform(78, 95), 1),
+                "severity_distribution": {
+                    "unburned": {
+                        "pixel_count": unburned_px,
+                        "area_ha": round(unburned_px * pixel_area_ha, 1),
+                        "pct": round(unburned_px / total_pixels * 100, 1),
+                    },
+                    "low_severity": {
+                        "pixel_count": low_px,
+                        "area_ha": round(low_px * pixel_area_ha, 1),
+                        "pct": round(low_px / total_pixels * 100, 1),
+                    },
+                    "moderate_severity": {
+                        "pixel_count": moderate_px,
+                        "area_ha": round(moderate_px * pixel_area_ha, 1),
+                        "pct": round(moderate_px / total_pixels * 100, 1),
+                    },
+                    "severe": {
+                        "pixel_count": severe_px,
+                        "area_ha": round(severe_px * pixel_area_ha, 1),
+                        "pct": round(severe_px / total_pixels * 100, 1),
+                    },
+                },
+            },
+            "dnbr_statistics": {
+                "mean": round(float(np.mean(dnbr)), 4),
+                "std": round(float(np.std(dnbr)), 4),
+                "max": round(float(np.max(dnbr)), 4),
+                "median": round(float(np.median(dnbr)), 4),
+            },
+        },
+    }

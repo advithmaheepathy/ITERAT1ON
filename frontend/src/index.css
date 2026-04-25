@@ -212,3 +212,45 @@
   background: rgba(51, 65, 85, 0.95) !important;
   color: #e2e8f0 !important;
 }
+
+/* ─── Leaflet Draw Dark Theme ─── */
+.leaflet-draw-toolbar a {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+  color: #94a3b8 !important;
+}
+
+.leaflet-draw-toolbar a:hover {
+  background-color: rgba(51, 65, 85, 0.95) !important;
+}
+
+.leaflet-draw-actions {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+}
+
+.leaflet-draw-actions a {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+  font-size: 11px !important;
+}
+
+.leaflet-draw-actions a:hover {
+  background: rgba(51, 65, 85, 0.6) !important;
+}
+
+.leaflet-draw-tooltip {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  color: #e2e8f0 !important;
+  font-size: 11px !important;
+}
+
+.leaflet-draw-tooltip-subtext {
+  color: #94a3b8 !important;
+}
+
+.leaflet-draw-guide-dash {
+  background: rgba(245, 158, 11, 0.5) !important;
+}
