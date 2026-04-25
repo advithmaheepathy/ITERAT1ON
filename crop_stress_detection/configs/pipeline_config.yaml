@@ -1,0 +1,67 @@
+# Pipeline Configuration
+# All thresholds and parameters are documented with their rationale.
+
+# --- Sentinel-2 Band Mapping ---
+# These are band INDICES within a Sentinel-2 L2A product's granule folder.
+# The actual filenames vary by resolution and processing baseline.
+# B04 = Red (~665nm), used in NDVI denominator
+# B08 = NIR (~842nm), used in NDVI numerator
+# SCL = Scene Classification Layer, used for cloud masking
+sentinel2:
+  band_red: "B04"           # 10m resolution
+  band_nir: "B08"           # 10m resolution
+  band_scl: "SCL"           # 20m resolution (resampled to 10m)
+  resolution: 10            # meters per pixel for B04/B08
+  nodata_value: 0
+  reflectance_scale: 10000  # DN to surface reflectance: divide by this
+  
+  # Copernicus OData API download filter
+  # Modify these for your Area of Interest
+  download:
+    platform: "SENTINEL-2"
+    product_type: "S2MSI2A"          # L2A = atmospherically corrected
+    cloud_cover_max: 20              # percent, filter at download time
+    date_start: "2024-06-01"
+    date_end: "2024-09-30"
+    # AOI: defined in data/aoi.geojson (you must create this)
+
+# --- NDVI Thresholds ---
+# Sources: 
+#   Rouse et al. 1974 (original NDVI paper)
+#   ESA Sentinel Application Platform vegetation indices documentation
+#   USDA NASS cropland data layer validation studies
+#
+# These are agronomy-standard thresholds. They are NOT arbitrary.
+ndvi_thresholds:
+  bare_soil_max: 0.15       # NDVI < 0.15: bare soil / no vegetation
+  severe_stress_max: 0.30   # 0.15 <= NDVI < 0.30: severe stress / sparse veg
+  moderate_stress_max: 0.45 # 0.30 <= NDVI < 0.45: moderate stress
+  mild_stress_max: 0.60     # 0.45 <= NDVI < 0.60: mild stress / developing
+  healthy_min: 0.60         # NDVI >= 0.60: healthy vegetation
+  # Note: dense healthy crops typically 0.6-0.9 in peak growing season
+
+# --- Tiling ---
+tile_size_km: 5.0           # 5km x 5km tiles; adjust for your AOI size
+# At 10m/pixel: 5km = 500 pixels per side → 250,000 pixels per tile
+# This is a good tradeoff: enough pixels for stable statistics,
+# small enough to localize alerts.
+
+# --- Alert Rules ---
+# An alert is generated per-tile when ALL conditions met:
+alerts:
+  min_valid_pixel_fraction: 0.70  # at least 70% of tile must be cloud-free
+  min_vegetated_fraction: 0.30    # at least 30% of tile must be vegetated
+  stress_fraction_threshold: 0.40 # alert if >40% of vegetated pixels are stressed
+  # Stress = NDVI below moderate_stress_max
+
+# --- TerraMind ---
+terramind:
+  enabled: false              # set true only if you have model weights
+  threshold_cloud_cover: 0.20 # recommend gap-filling above this
+  model_path: "ibm-nasa-geospatial/Prithvi-100M"
+
+# --- Output ---
+output:
+  include_per_pixel_stats: false   # set true for debug (large output)
+  coordinate_precision: 6          # decimal degrees precision
+  timestamp_format: "iso8601"      # ISO 8601: YYYY-MM-DDTHH:MM:SSZ

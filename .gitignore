@@ -9,7 +9,6 @@ __pycache__/
 *$py.class
 venv/
 env/
-.env
 .venv
 
 # IDEs
@@ -19,3 +18,13 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Satellite data (raw downloads, processed GeoTIFFs, tiles)
+crop_stress_detection/data/raw/
+crop_stress_detection/data/processed/
+crop_stress_detection/data/test/
+crop_stress_detection/data/tiles/
+
+# Pipeline generated outputs
+crop_stress_detection/outputs/
+crop_stress_detection/logs/
