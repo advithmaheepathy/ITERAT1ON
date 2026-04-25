@@ -262,7 +262,56 @@ def analyze_aoi(payload: dict):
     center_lat = round(avg_lat, 6)
     center_lon = round((tl[1] + br[1]) / 2, 6)
 
-    # Generate synthetic dNBR analysis
+    # If custom analysis, return selected metrics instead of burn detection
+    if analysis_type == "custom":
+        import json
+        import os
+        
+        # Load the mock JSON
+        mock_file_path = os.path.join(os.path.dirname(__file__), "custom_mock_data.json")
+        try:
+            with open(mock_file_path, "r") as f:
+                mock_data = json.load(f)
+        except Exception as e:
+            mock_data = {"results": {}, "summary": {}}
+
+        custom_outputs = payload.get("customOutputs", {})
+        custom_metrics = {}
+        
+        # Map frontend flags to JSON keys
+        mapping = {
+            "showNdvi": ("NDVI", "ndvi"),
+            "showNdwi": ("NDWI", "ndwi"),
+            "showNbr": ("NBR", "nbr"),
+            "showLst": ("LST", "lst"),
+            "showLulc": ("LULC", "lulc"),
+            "showSmi": ("Soil Moisture Index", "soil_moisture_index"),
+            "showCloud": ("Cloud Cover & Masking", "cloud_masking"),
+            "showBiomass": ("Biomass & Carbon", "biomass_carbon"),
+        }
+
+        for flag, (display_name, json_key) in mapping.items():
+            if custom_outputs.get(flag) and json_key in mock_data.get("results", {}):
+                custom_metrics[display_name] = mock_data["results"][json_key]
+
+        return {
+            "status": "analysis_complete",
+            "timestamp": now,
+            "aoi": {
+                "type": aoi.get("type", "bbox"),
+                "coordinates": coords,
+                "center": [center_lat, center_lon],
+                "area_ha": round(area_ha, 1),
+                "area_sq_km": round(area_sq_km, 2),
+            },
+            "analysis": "custom",
+            "result": {
+                "custom_metrics": custom_metrics,
+                "summary": mock_data.get("summary", {})
+            }
+        }
+
+    # Generate synthetic dNBR analysis for standard mode
     size = 300
     dnbr = generate_mock_dnbr(size=size)
     total_pixels = size * size

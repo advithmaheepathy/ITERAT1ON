@@ -12,7 +12,7 @@ export default function App() {
     setAnalysisResult(null)
     try {
       const result = await analyzeAOI(payload)
-      setAnalysisResult(result)
+      setAnalysisResult({ ...result, displayConfig: payload.customOutputs })
     } catch (err) {
       console.error('Analysis failed:', err)
       setAnalysisResult({ status: 'error', message: err.message })
@@ -81,9 +81,96 @@ function HWRow({ label, value }) {
 }
 
 function AnalysisResultPanel({ result, onClose }) {
-  const { aoi, result: r } = result
-  const sev = r.summary.severity_distribution
+  const { aoi, result: r, analysis } = result
 
+  // Render Custom Analysis Results
+  if (analysis === 'custom') {
+    const customMetrics = r.custom_metrics || {}
+    
+    return (
+      <div className="glass-card p-5 border-amber-500/30 animate-fade-in">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+              </svg>
+            </div>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
+              Custom Parameters Result
+            </h2>
+            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              Complete
+            </span>
+          </div>
+          <button onClick={onClose} className="w-7 h-7 rounded-lg bg-slate-700/50 hover:bg-slate-600/60 flex items-center justify-center transition-colors">
+            <svg className="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Custom Summary Section */}
+        {r.summary && r.summary.overall_condition && (
+          <div className="mb-6 p-4 rounded-xl bg-slate-800/30 border border-slate-700/30">
+            <div className="flex items-center justify-between mb-3">
+               <h3 className="text-xs font-bold text-slate-300 uppercase tracking-widest">Executive Summary</h3>
+               <span className="text-[10px] uppercase font-bold px-2 py-1 rounded bg-slate-900 border border-slate-700 text-indigo-400">
+                 Confidence: {r.summary.confidence_score}%
+               </span>
+            </div>
+            <p className="text-sm text-white mb-3">
+              Overall Condition: <span className="font-bold text-amber-400 capitalize">{r.summary.overall_condition}</span>
+            </p>
+            <div className="space-y-1">
+              {r.summary.key_findings?.map((finding, idx) => (
+                <div key={idx} className="flex items-start gap-2">
+                  <span className="text-amber-500 mt-0.5">•</span>
+                  <span className="text-xs text-slate-300">{finding}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Detailed Metrics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.entries(customMetrics).map(([key, data]) => {
+            const { interpretation, ...stats } = data
+            return (
+              <div key={key} className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/50 transition-colors flex flex-col h-full">
+                <p className="text-xs uppercase tracking-widest text-indigo-400 font-bold mb-3 border-b border-slate-700/50 pb-2">{key}</p>
+                
+                <div className="space-y-2 mb-4 flex-grow">
+                  {Object.entries(stats).map(([statKey, statVal]) => (
+                    <div key={statKey} className="flex justify-between items-center bg-slate-900/40 p-2 rounded-lg">
+                      <span className="text-[10px] text-slate-400 uppercase tracking-wider">{statKey.replace(/_/g, ' ')}</span>
+                      <span className="text-xs font-bold text-white font-mono">{typeof statVal === 'number' ? statVal.toLocaleString() : String(statVal)}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                {interpretation && (
+                  <div className="mt-auto pt-3 border-t border-slate-700/50">
+                    <p className="text-[10px] text-amber-400 font-semibold mb-1 uppercase tracking-wider">Interpretation</p>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">{interpretation}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+          {Object.keys(customMetrics).length === 0 && (
+            <div className="col-span-full py-8 text-center text-slate-500 text-sm">
+              No parameters were selected for analysis.
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  // Standard Burn Detection Results
+  const sev = r.summary?.severity_distribution || {}
   const sevBars = [
     { key: 'severe', label: 'Severe', color: 'bg-red-500', ...sev.severe },
     { key: 'moderate', label: 'Moderate', color: 'bg-orange-500', ...sev.moderate_severity },
@@ -92,7 +179,7 @@ function AnalysisResultPanel({ result, onClose }) {
   ]
 
   return (
-    <div className="glass-card p-5 border-amber-500/30">
+    <div className="glass-card p-5 border-amber-500/30 animate-fade-in">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center">
@@ -121,15 +208,15 @@ function AnalysisResultPanel({ result, onClose }) {
           <div className="space-y-1.5">
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">Area</p>
-              <p className="text-sm font-bold text-white font-mono">{aoi.area_ha.toLocaleString()} ha</p>
+              <p className="text-sm font-bold text-white font-mono">{aoi.area_ha?.toLocaleString()} ha</p>
             </div>
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">Center</p>
-              <p className="text-xs font-mono text-emerald-400">{aoi.center[0]}°N, {aoi.center[1]}°E</p>
+              <p className="text-xs font-mono text-emerald-400">{aoi.center?.[0]}°N, {aoi.center?.[1]}°E</p>
             </div>
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">Confidence</p>
-              <p className="text-sm font-bold text-indigo-400 font-mono">{r.summary.confidence}%</p>
+              <p className="text-sm font-bold text-indigo-400 font-mono">{r.summary?.confidence}%</p>
             </div>
           </div>
         </div>
@@ -140,19 +227,19 @@ function AnalysisResultPanel({ result, onClose }) {
           <div className="grid grid-cols-2 gap-1.5">
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">Burned Area</p>
-              <p className="text-sm font-bold text-red-400 font-mono">{r.summary.burned_area_ha.toLocaleString()} ha</p>
+              <p className="text-sm font-bold text-red-400 font-mono">{r.summary?.burned_area_ha?.toLocaleString()} ha</p>
             </div>
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">Burned %</p>
-              <p className="text-sm font-bold text-red-400 font-mono">{(r.summary.burned_fraction * 100).toFixed(1)}%</p>
+              <p className="text-sm font-bold text-red-400 font-mono">{(r.summary?.burned_fraction * 100).toFixed(1)}%</p>
             </div>
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">dNBR Mean</p>
-              <p className="text-xs font-mono text-amber-400">{r.dnbr_statistics.mean}</p>
+              <p className="text-xs font-mono text-amber-400">{r.dnbr_statistics?.mean}</p>
             </div>
             <div className="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30">
               <p className="text-[9px] text-slate-500 uppercase">dNBR Max</p>
-              <p className="text-xs font-mono text-red-400">{r.dnbr_statistics.max}</p>
+              <p className="text-xs font-mono text-red-400">{r.dnbr_statistics?.max}</p>
             </div>
           </div>
         </div>
@@ -165,10 +252,10 @@ function AnalysisResultPanel({ result, onClose }) {
               <div key={s.key}>
                 <div className="flex justify-between text-[10px] mb-0.5">
                   <span className="text-slate-400">{s.label}</span>
-                  <span className="text-slate-300 font-mono">{s.pct}% · {s.area_ha.toLocaleString()} ha</span>
+                  <span className="text-slate-300 font-mono">{s.pct || 0}% · {s.area_ha?.toLocaleString() || 0} ha</span>
                 </div>
                 <div className="h-2 bg-slate-700/50 rounded-full overflow-hidden">
-                  <div className={`h-full rounded-full transition-all duration-700 ${s.color}`} style={{ width: `${Math.max(s.pct, 1)}%` }} />
+                  <div className={`h-full rounded-full transition-all duration-700 ${s.color}`} style={{ width: `${Math.max(s.pct || 0, 1)}%` }} />
                 </div>
               </div>
             ))}

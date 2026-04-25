@@ -1,0 +1,90 @@
+{
+  "request": {
+    "aoi": {
+      "type": "bbox",
+      "coordinates": {
+        "top_left": [13.0827, 80.2707],
+        "top_right": [13.0827, 80.3000],
+        "bottom_left": [13.0500, 80.2707],
+        "bottom_right": [13.0500, 80.3000]
+      }
+    },
+    "parameters_selected": [
+      "NDVI",
+      "NDWI",
+      "NBR",
+      "LST",
+      "LULC",
+      "Soil Moisture Index",
+      "Biomass & Carbon",
+      "Cloud Cover & Masking"
+    ],
+    "timestamp": "2026-04-25T16:10:00Z"
+  },
+  "results": {
+    "ndvi": {
+      "mean": 0.45,
+      "min": 0.1,
+      "max": 0.85,
+      "healthy_vegetation_pct": 65.2,
+      "interpretation": "Overall healthy vegetation with some sparse patches."
+    },
+    "ndwi": {
+      "mean": 0.18,
+      "min": -0.12,
+      "max": 0.62,
+      "water_detected_pct": 21.4,
+      "interpretation": "Moderate surface water presence detected, likely due to recent rainfall or irrigation."
+    },
+    "nbr": {
+      "mean": 0.25,
+      "min": -0.05,
+      "max": 0.55,
+      "burned_area_pct": 2.1,
+      "interpretation": "Minimal burn scars detected."
+    },
+    "lst": {
+      "mean_celsius": 32.6,
+      "min_celsius": 28.1,
+      "max_celsius": 39.4,
+      "hotspot_detected": true,
+      "interpretation": "Elevated land surface temperatures indicate dry soil and possible heat stress."
+    },
+    "lulc": {
+      "dominant_class": "Agriculture",
+      "agriculture_pct": 78.5,
+      "urban_pct": 12.0,
+      "interpretation": "Predominantly agricultural land use."
+    },
+    "soil_moisture_index": {
+      "mean": 0.34,
+      "min": 0.12,
+      "max": 0.71,
+      "dry_area_pct": 48.2,
+      "interpretation": "Large portions of the region show low moisture levels, suggesting drought conditions."
+    },
+    "biomass_carbon": {
+      "biomass_tons_per_hectare": 42.8,
+      "total_biomass_tons": 21400,
+      "carbon_stock_tons": 10700,
+      "vegetation_density": "moderate",
+      "interpretation": "Region shows moderate vegetation density with stable carbon storage."
+    },
+    "cloud_masking": {
+      "cloud_cover_pct": 6.3,
+      "valid_pixel_pct": 93.7,
+      "mask_applied": true,
+      "interpretation": "Low cloud cover ensures high reliability of analysis."
+    }
+  },
+  "summary": {
+    "overall_condition": "moderate stress",
+    "key_findings": [
+      "Moderate water presence detected",
+      "High temperature zones observed",
+      "Soil moisture is below optimal levels",
+      "Vegetation health is moderate"
+    ],
+    "confidence_score": 88.5
+  }
+}

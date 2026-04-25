@@ -107,6 +107,13 @@ function AutoPanForwarder() {
 export default function AOISelector({ onAnalyze, isAnalyzing }) {
   const [aoiCoords, setAoiCoords] = useState(null)
   const [drawnLayer, setDrawnLayer] = useState(null)
+  const [showConfig, setShowConfig] = useState(false)
+  const [customMode, setCustomMode] = useState(false)
+  const [dates, setDates] = useState({ before: '', after: '' })
+  const [outputs, setOutputs] = useState({
+    showNdvi: false, showNdwi: false, showNbr: false, showLst: false,
+    showLulc: false, showSmi: false, showCloud: false, showBiomass: false
+  })
   const featureGroupRef = useRef(null)
 
   const handleCreated = (e) => {
@@ -126,11 +133,13 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
       bottom_right: [parseFloat(bounds.getSouth().toFixed(6)), parseFloat(bounds.getEast().toFixed(6))],
     }
     setAoiCoords(coords)
+    setShowConfig(false)
   }
 
   const handleDeleted = () => {
     setAoiCoords(null)
     setDrawnLayer(null)
+    setShowConfig(false)
   }
 
   const handleEdited = (e) => {
@@ -153,8 +162,11 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
           type: 'bbox',
           coordinates: aoiCoords,
         },
-        analysis: 'burn_detection',
+        date_range: customMode ? null : dates,
+        customOutputs: customMode ? outputs : null,
+        analysis: customMode ? 'custom' : 'burn_detection',
       })
+      setShowConfig(false)
     }
   }
 
@@ -265,37 +277,124 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
             </div>
 
             {/* Action Panel */}
-            <div className="flex flex-col justify-center gap-3">
+            <div className="flex flex-col justify-center gap-3 relative">
               <div className="flex items-center gap-2 text-xs text-slate-400">
                 <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
                 </svg>
                 <span>Analysis: <span className="text-indigo-400 font-semibold">Burn Detection (dNBR)</span></span>
               </div>
-              <button
-                onClick={handleAnalyzeClick}
-                disabled={isAnalyzing}
-                className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{
-                  background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                  boxShadow: '0 4px 24px rgba(245, 158, 11, 0.35)',
-                }}
-              >
-                {isAnalyzing ? (
-                  <>
-                    <div className="spinner" style={{ borderTopColor: '#fff', width: 16, height: 16, borderWidth: 2 }} />
-                    <span>Analyzing...</span>
-                  </>
-                ) : (
-                  <>
+
+              {!showConfig ? (
+                <div className="space-y-2">
+                  <button
+                    onClick={() => { setShowConfig(true); setCustomMode(false); }}
+                    disabled={isAnalyzing}
+                    className="w-full py-3 rounded-xl text-sm font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]"
+                    style={{
+                      background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                      boxShadow: '0 4px 24px rgba(245, 158, 11, 0.35)',
+                    }}
+                  >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
                     </svg>
-                    <span>Analyze Selected Area</span>
-                  </>
-                )}
-              </button>
+                    <span>Start Analysing</span>
+                  </button>
+                  <button
+                    onClick={() => { setShowConfig(true); setCustomMode(true); }}
+                    disabled={isAnalyzing}
+                    className="w-full py-2.5 rounded-xl text-sm font-semibold text-amber-400 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed border border-amber-500/30 hover:bg-amber-500/10"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                    </svg>
+                    <span>Custom Analysis</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-slate-800/80 p-4 rounded-xl border border-slate-700/50 animate-fade-in">
+                  <div className="flex justify-between items-center mb-3">
+                    <p className="text-xs font-semibold text-slate-300">
+                      {customMode ? 'Custom Analysis Configuration' : 'Analysis Configuration'}
+                    </p>
+                    <button onClick={() => setShowConfig(false)} className="text-slate-500 hover:text-slate-300">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  
+                  <div className="space-y-3 mb-4">
+                    {!customMode && (
+                      <>
+                        <div>
+                          <label className="block text-[10px] text-slate-400 mb-1">Before Date (Pre-fire)</label>
+                          <input 
+                            type="date" 
+                            value={dates.before}
+                            onChange={(e) => setDates(d => ({ ...d, before: e.target.value }))}
+                            className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] text-slate-400 mb-1">After Date (Post-fire)</label>
+                          <input 
+                            type="date" 
+                            value={dates.after}
+                            onChange={(e) => setDates(d => ({ ...d, after: e.target.value }))}
+                            className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-1.5 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors"
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {customMode && (
+                      <div className="pt-2">
+                        <label className="block text-[10px] text-slate-400 mb-2">Select Parameters to Analyze</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { key: 'showNdvi', label: 'NDVI' },
+                            { key: 'showNdwi', label: 'NDWI' },
+                            { key: 'showNbr', label: 'NBR' },
+                            { key: 'showLst', label: 'LST' },
+                            { key: 'showLulc', label: 'LULC' },
+                            { key: 'showSmi', label: 'Soil Moisture Index' },
+                            { key: 'showCloud', label: 'Cloud Cover & Masking' },
+                            { key: 'showBiomass', label: 'Biomass & Carbon' },
+                          ].map(opt => (
+                            <label key={opt.key} className="flex items-center gap-2 cursor-pointer group">
+                              <input 
+                                type="checkbox" 
+                                checked={outputs[opt.key]} 
+                                onChange={e => setOutputs(o => ({...o, [opt.key]: e.target.checked}))} 
+                                className="accent-amber-500 bg-slate-900 border-slate-700 rounded" 
+                              />
+                              <span className="text-[10px] sm:text-xs text-slate-300 group-hover:text-white transition-colors">{opt.label}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    onClick={handleAnalyzeClick}
+                    disabled={isAnalyzing || (!customMode && (!dates.before || !dates.after)) || (customMode && !Object.values(outputs).some(v => v))}
+                    className="w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-indigo-500 hover:bg-indigo-400"
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <div className="spinner" style={{ borderTopColor: '#fff', width: 14, height: 14, borderWidth: 2 }} />
+                        <span>Generating...</span>
+                      </>
+                    ) : (
+                      <span>Get the Report</span>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
