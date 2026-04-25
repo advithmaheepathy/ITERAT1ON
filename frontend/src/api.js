@@ -19,3 +19,6 @@ export const simulatePass = () => api.post('/simulate-pass').then(r => r.data)
 
 /** Send AOI bounding box for burn analysis */
 export const analyzeAOI = (payload) => api.post('/analyze', payload).then(r => r.data)
+
+/** Fetch the API secret key for the API Services popup */
+export const fetchApiKey = () => api.get('/api/v1/key').then(r => r.data)

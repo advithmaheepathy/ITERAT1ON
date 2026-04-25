@@ -2,17 +2,42 @@
 AgriSat-7 — Satellite Crop Insurance Survey System
 Replaces traditional human surveyors with onboard AI inference.
 """
-import json, random, math
+import json, random, math, secrets, os
 from datetime import datetime, timezone
 from pathlib import Path
 import numpy as np
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Header, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="AgriSat-7 Crop Survey API", version="2.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 DATA_PATH = Path(__file__).parent / "data.json"
+API_KEYS_PATH = Path(__file__).parent / "api_keys.json"
+
+
+# ─── API Key Management ───────────────────────────────────────────
+def _load_or_create_api_key() -> str:
+    """Load the API key from disk, or generate and persist a new one."""
+    if API_KEYS_PATH.exists():
+        with open(API_KEYS_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if data.get("api_key"):
+                return data["api_key"]
+    key = f"agrisat7_{secrets.token_hex(24)}"
+    with open(API_KEYS_PATH, "w", encoding="utf-8") as f:
+        json.dump({"api_key": key, "created_at": datetime.now(timezone.utc).isoformat()}, f, indent=2)
+    return key
+
+
+API_SECRET = _load_or_create_api_key()
+
+
+async def verify_api_key(x_api_key: str = Header(..., alias="X-API-Key")):
+    """Dependency that validates the X-API-Key header."""
+    if x_api_key != API_SECRET:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
+    return x_api_key
 
 def load_data():
     with open(DATA_PATH, "r", encoding="utf-8") as f:
@@ -380,3 +405,171 @@ def analyze_aoi(payload: dict):
             },
         },
     }
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  PUBLIC API v1 — Key-authenticated endpoints for integrations
+# ═══════════════════════════════════════════════════════════════════
+
+@app.get("/api/v1/key")
+def get_api_key():
+    """Return the API secret (used by the frontend popup). No auth required."""
+    return {
+        "api_key": API_SECRET,
+        "usage": "Include this key in the X-API-Key header for all /api/v1/* requests.",
+        "base_url": "/api/v1",
+    }
+
+
+@app.get("/api/v1/districts", dependencies=[Depends(verify_api_key)])
+def api_list_districts():
+    """List all surveyed districts."""
+    data = load_data()
+    return {
+        "status": "ok",
+        "count": len(data["districts"]),
+        "districts": data["districts"],
+    }
+
+
+@app.get("/api/v1/district/{district_id}", dependencies=[Depends(verify_api_key)])
+def api_get_district(district_id: str):
+    """Get a single district by ID."""
+    data = load_data()
+    eco = data["survey_economics"]
+    for d in data["districts"]:
+        if d["id"] == district_id:
+            trad = d["total_farmland_ha"] * eco["traditional_cost_per_ha"]
+            sat = d["total_farmland_ha"] * eco["satellite_cost_per_ha"]
+            return {
+                "status": "ok",
+                **d,
+                "economics": {
+                    "traditional_cost_inr": trad,
+                    "satellite_cost_inr": sat,
+                    "cost_saved_inr": trad - sat,
+                },
+            }
+    raise HTTPException(404, f"District '{district_id}' not found")
+
+
+@app.get("/api/v1/query", dependencies=[Depends(verify_api_key)])
+def api_query_bbox(
+    top_lat: float = Query(..., description="Northern latitude of bounding box"),
+    top_lng: float = Query(..., description="Eastern longitude of bounding box"),
+    bottom_lat: float = Query(..., description="Southern latitude of bounding box"),
+    bottom_lng: float = Query(..., description="Western longitude of bounding box"),
+    ndvi: bool = Query(False, description="Include NDVI analysis"),
+    ndwi: bool = Query(False, description="Include NDWI analysis"),
+    nbr: bool = Query(False, description="Include NBR analysis"),
+    lst: bool = Query(False, description="Include LST analysis"),
+    lulc: bool = Query(False, description="Include LULC analysis"),
+    smi: bool = Query(False, description="Include Soil Moisture Index"),
+    cloud: bool = Query(False, description="Include Cloud Cover & Masking"),
+    biomass: bool = Query(False, description="Include Biomass & Carbon"),
+):
+    """
+    Query crop stress data within a bounding box defined by four coordinates.
+
+    Provide the top-left (top_lat, bottom_lng) and bottom-right (bottom_lat, top_lng)
+    corners. Optionally enable analysis parameters via boolean flags.
+
+    Returns districts inside the bbox and selected metric analysis.
+    """
+    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    # Validate bbox
+    north = max(top_lat, bottom_lat)
+    south = min(top_lat, bottom_lat)
+    east = max(top_lng, bottom_lng)
+    west = min(top_lng, bottom_lng)
+
+    if north == south or east == west:
+        raise HTTPException(400, "Bounding box has zero area — provide distinct coordinates")
+
+    # Compute area
+    lat_diff = abs(north - south)
+    lon_diff = abs(east - west)
+    avg_lat = (north + south) / 2
+    km_lat = lat_diff * 111
+    km_lon = lon_diff * 111 * math.cos(math.radians(avg_lat))
+    area_sq_km = km_lat * km_lon
+    area_ha = area_sq_km * 100
+    center_lat = round(avg_lat, 6)
+    center_lon = round((east + west) / 2, 6)
+
+    # Find districts inside the bbox
+    data = load_data()
+    eco = data["survey_economics"]
+    districts_inside = []
+    for d in data["districts"]:
+        if south <= d["lat"] <= north and west <= d["lng"] <= east:
+            trad = d["total_farmland_ha"] * eco["traditional_cost_per_ha"]
+            sat = d["total_farmland_ha"] * eco["satellite_cost_per_ha"]
+            districts_inside.append({
+                **d,
+                "economics": {
+                    "traditional_cost_inr": trad,
+                    "satellite_cost_inr": sat,
+                    "cost_saved_inr": trad - sat,
+                },
+            })
+
+    # Build selected parameter analysis
+    param_flags = {
+        "ndvi": ndvi, "ndwi": ndwi, "nbr": nbr, "lst": lst,
+        "lulc": lulc, "soil_moisture_index": smi,
+        "cloud_masking": cloud, "biomass_carbon": biomass,
+    }
+    any_param = any(param_flags.values())
+    analysis_results = {}
+
+    if any_param:
+        mock_file = Path(__file__).parent / "custom_mock_data.json"
+        try:
+            with open(mock_file, "r", encoding="utf-8") as f:
+                mock_data = json.load(f)
+        except Exception:
+            mock_data = {"results": {}, "summary": {}}
+
+        display_names = {
+            "ndvi": "NDVI", "ndwi": "NDWI", "nbr": "NBR", "lst": "LST",
+            "lulc": "LULC", "soil_moisture_index": "Soil Moisture Index",
+            "cloud_masking": "Cloud Cover & Masking", "biomass_carbon": "Biomass & Carbon",
+        }
+        for key, enabled in param_flags.items():
+            if enabled and key in mock_data.get("results", {}):
+                analysis_results[display_names[key]] = mock_data["results"][key]
+
+    response = {
+        "status": "ok",
+        "timestamp": now,
+        "aoi": {
+            "type": "bbox",
+            "coordinates": {
+                "top_left": [north, west],
+                "top_right": [north, east],
+                "bottom_left": [south, west],
+                "bottom_right": [south, east],
+            },
+            "center": [center_lat, center_lon],
+            "area_ha": round(area_ha, 1),
+            "area_sq_km": round(area_sq_km, 2),
+        },
+        "districts_found": len(districts_inside),
+        "districts": districts_inside,
+    }
+
+    if any_param:
+        mock_summary = {}
+        try:
+            mock_summary = mock_data.get("summary", {})
+        except Exception:
+            pass
+        response["analysis"] = {
+            "parameters_requested": [k for k, v in param_flags.items() if v],
+            "results": analysis_results,
+            "summary": mock_summary,
+        }
+
+    return response
