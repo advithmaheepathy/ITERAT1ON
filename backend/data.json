@@ -1,0 +1,243 @@
+{
+  "satellite_hardware": {
+    "name": "AgriSat-7",
+    "processor": "NVIDIA Jetson AGX Orin 64GB",
+    "ai_model": "CropNet v3.2 (MobileNet backbone)",
+    "spectral_bands": ["B2 Blue","B3 Green","B4 Red","B8 NIR","B11 SWIR"],
+    "spatial_resolution_m": 10,
+    "swath_width_km": 290,
+    "coverage_rate_ha_per_min": 25000,
+    "orbit": "Sun-synchronous LEO 620km",
+    "revisit_hours": 6,
+    "inference_speed_tiles_per_sec": 140,
+    "crop_id_accuracy_pct": 94.2,
+    "status": "Operational"
+  },
+  "survey_economics": {
+    "traditional_cost_per_ha": 800,
+    "satellite_cost_per_ha": 12,
+    "traditional_days_per_district": 21,
+    "satellite_minutes_per_district": 4
+  },
+  "districts": [
+    {
+      "id":"d001","name":"Nalgonda","state":"Telangana",
+      "lat":17.05,"lng":79.27,
+      "boundary":[[16.70,78.85],[16.70,79.70],[17.40,79.70],[17.40,78.85]],
+      "total_farmland_ha":155000,
+      "surveyed_ha":155000,
+      "affected_ha":46500,
+      "damage_pct":30.0,
+      "primary_crop":"Cotton & Paddy Rice",
+      "secondary_crop":"Groundnut",
+      "disaster_type":"drought",
+      "ndvi":0.43,
+      "confidence":89.4,
+      "soil_moisture_pct":19,
+      "last_rainfall_mm":0.0,
+      "scan_duration_sec":240,
+      "tiles_processed":1650,
+      "affected_zones":[
+        {"lat":17.12,"lng":79.15,"radius_km":12,"severity":"critical","label":"Severe drought — 30% farmland destroyed, cotton crop wilted"},
+        {"lat":16.95,"lng":79.38,"radius_km":10,"severity":"critical","label":"Groundwater table dropped 4m — paddy transplant failed"},
+        {"lat":17.22,"lng":79.48,"radius_km":8,"severity":"warning","label":"Cotton boll damage — heat stress 44°C, partial crop loss"},
+        {"lat":16.82,"lng":79.05,"radius_km":7,"severity":"warning","label":"No irrigation — groundnut crop yellowing"}
+      ]
+    },
+    {
+      "id":"d002","name":"Vidarbha","state":"Maharashtra",
+      "lat":20.72,"lng":78.60,
+      "boundary":[[20.35,78.15],[20.35,79.05],[21.10,79.05],[21.10,78.15]],
+      "total_farmland_ha":220000,
+      "surveyed_ha":220000,
+      "affected_ha":88000,
+      "damage_pct":40.0,
+      "primary_crop":"Cotton",
+      "secondary_crop":"Soybean",
+      "disaster_type":"drought",
+      "ndvi":0.38,
+      "confidence":88.7,
+      "soil_moisture_pct":14,
+      "last_rainfall_mm":0.0,
+      "scan_duration_sec":310,
+      "tiles_processed":2200,
+      "affected_zones":[
+        {"lat":20.65,"lng":78.42,"radius_km":14,"severity":"critical","label":"Cotton crop destroyed — 40% farmland, soil moisture 14%"},
+        {"lat":20.82,"lng":78.75,"radius_km":11,"severity":"critical","label":"Canopy temperature 47°C — total crop failure zone"},
+        {"lat":20.50,"lng":78.85,"radius_km":8,"severity":"warning","label":"Soybean stress — NDVI dropped below 0.35"}
+      ]
+    },
+    {
+      "id":"d003","name":"Thanjavur","state":"Tamil Nadu",
+      "lat":10.79,"lng":79.14,
+      "boundary":[[10.55,78.85],[10.55,79.45],[11.05,79.45],[11.05,78.85]],
+      "total_farmland_ha":185000,
+      "surveyed_ha":185000,
+      "affected_ha":9250,
+      "damage_pct":5.0,
+      "primary_crop":"Paddy Rice",
+      "secondary_crop":"Banana",
+      "disaster_type":"none",
+      "ndvi":0.82,
+      "confidence":91.2,
+      "soil_moisture_pct":68,
+      "last_rainfall_mm":12.4,
+      "scan_duration_sec":195,
+      "tiles_processed":1850,
+      "affected_zones":[
+        {"lat":10.78,"lng":79.10,"radius_km":4,"severity":"info","label":"Minor leaf curl — 5% paddy area, manageable"}
+      ]
+    },
+    {
+      "id":"d004","name":"Brahmaputra Floodplain","state":"Assam",
+      "lat":26.14,"lng":91.73,
+      "boundary":[[25.80,91.30],[25.80,92.15],[26.50,92.15],[26.50,91.30]],
+      "total_farmland_ha":145000,
+      "surveyed_ha":98000,
+      "affected_ha":52200,
+      "damage_pct":36.0,
+      "primary_crop":"Jute",
+      "secondary_crop":"Paddy Rice",
+      "disaster_type":"flood",
+      "ndvi":0.48,
+      "confidence":76.4,
+      "soil_moisture_pct":95,
+      "last_rainfall_mm":84.6,
+      "scan_duration_sec":280,
+      "tiles_processed":980,
+      "affected_zones":[
+        {"lat":26.10,"lng":91.58,"radius_km":13,"severity":"critical","label":"Active flood — 36% farmland submerged, jute destroyed"},
+        {"lat":26.28,"lng":91.90,"radius_km":9,"severity":"critical","label":"Waterlogging 3+ days — paddy root rot confirmed"}
+      ]
+    },
+    {
+      "id":"d005","name":"Thar Region","state":"Rajasthan",
+      "lat":26.79,"lng":70.95,
+      "boundary":[[26.40,70.50],[26.40,71.40],[27.20,71.40],[27.20,70.50]],
+      "total_farmland_ha":164000,
+      "surveyed_ha":164000,
+      "affected_ha":98400,
+      "damage_pct":60.0,
+      "primary_crop":"Bajra (Pearl Millet)",
+      "secondary_crop":"Guar",
+      "disaster_type":"drought",
+      "ndvi":0.25,
+      "confidence":85.3,
+      "soil_moisture_pct":8,
+      "last_rainfall_mm":0.0,
+      "scan_duration_sec":220,
+      "tiles_processed":1640,
+      "affected_zones":[
+        {"lat":26.72,"lng":70.80,"radius_km":16,"severity":"critical","label":"Desertification — 60% farmland, bajra crop total failure"},
+        {"lat":26.95,"lng":71.15,"radius_km":12,"severity":"critical","label":"Sand encroachment — guar fields buried"},
+        {"lat":26.55,"lng":70.70,"radius_km":8,"severity":"warning","label":"Remaining crops critical — zero rainfall for 45 days"}
+      ]
+    },
+    {
+      "id":"d006","name":"Punjab Canal Belt","state":"Punjab",
+      "lat":31.10,"lng":75.34,
+      "boundary":[[30.75,74.95],[30.75,75.75],[31.45,75.75],[31.45,74.95]],
+      "total_farmland_ha":310000,
+      "surveyed_ha":310000,
+      "affected_ha":15500,
+      "damage_pct":5.0,
+      "primary_crop":"Wheat",
+      "secondary_crop":"Rice",
+      "disaster_type":"none",
+      "ndvi":0.78,
+      "confidence":93.1,
+      "soil_moisture_pct":55,
+      "last_rainfall_mm":8.2,
+      "scan_duration_sec":185,
+      "tiles_processed":3100,
+      "affected_zones":[]
+    },
+    {
+      "id":"d007","name":"Sundarbans","state":"West Bengal",
+      "lat":21.95,"lng":88.87,
+      "boundary":[[21.65,88.50],[21.65,89.25],[22.25,89.25],[22.25,88.50]],
+      "total_farmland_ha":112000,
+      "surveyed_ha":92000,
+      "affected_ha":28000,
+      "damage_pct":25.0,
+      "primary_crop":"Paddy Rice",
+      "secondary_crop":"Prawn farming",
+      "disaster_type":"flood",
+      "ndvi":0.55,
+      "confidence":74.2,
+      "soil_moisture_pct":88,
+      "last_rainfall_mm":32.1,
+      "scan_duration_sec":260,
+      "tiles_processed":920,
+      "affected_zones":[
+        {"lat":21.88,"lng":88.75,"radius_km":10,"severity":"critical","label":"Salinity intrusion — 25% paddy destroyed by tidal surge"},
+        {"lat":22.05,"lng":89.00,"radius_km":7,"severity":"warning","label":"Waterlogging — rice fields submerged 1+ week"}
+      ]
+    },
+    {
+      "id":"d008","name":"Deccan Plateau","state":"Karnataka",
+      "lat":15.35,"lng":75.12,
+      "boundary":[[15.00,74.75],[15.00,75.50],[15.70,75.50],[15.70,74.75]],
+      "total_farmland_ha":198000,
+      "surveyed_ha":198000,
+      "affected_ha":69300,
+      "damage_pct":35.0,
+      "primary_crop":"Sorghum",
+      "secondary_crop":"Groundnut",
+      "disaster_type":"pest",
+      "ndvi":0.40,
+      "confidence":86.5,
+      "soil_moisture_pct":18,
+      "last_rainfall_mm":0.0,
+      "scan_duration_sec":250,
+      "tiles_processed":1980,
+      "affected_zones":[
+        {"lat":15.30,"lng":74.98,"radius_km":12,"severity":"critical","label":"Bollworm infestation — 35% sorghum destroyed"},
+        {"lat":15.50,"lng":75.30,"radius_km":9,"severity":"warning","label":"Drought + pest compound stress — groundnut failing"}
+      ]
+    },
+    {
+      "id":"d009","name":"Guntur","state":"Andhra Pradesh",
+      "lat":16.30,"lng":80.44,
+      "boundary":[[16.05,80.10],[16.05,80.80],[16.55,80.80],[16.55,80.10]],
+      "total_farmland_ha":176000,
+      "surveyed_ha":176000,
+      "affected_ha":44000,
+      "damage_pct":25.0,
+      "primary_crop":"Chilli & Tobacco",
+      "secondary_crop":"Cotton",
+      "disaster_type":"pest",
+      "ndvi":0.52,
+      "confidence":84.8,
+      "soil_moisture_pct":32,
+      "last_rainfall_mm":4.1,
+      "scan_duration_sec":230,
+      "tiles_processed":1760,
+      "affected_zones":[
+        {"lat":16.25,"lng":80.35,"radius_km":10,"severity":"critical","label":"Thrips infestation — 25% chilli crop blackened"},
+        {"lat":16.40,"lng":80.55,"radius_km":7,"severity":"warning","label":"Tobacco mosaic virus — spreading across 3 mandals"}
+      ]
+    },
+    {
+      "id":"d010","name":"Malwa Plateau","state":"Madhya Pradesh",
+      "lat":23.26,"lng":77.41,
+      "boundary":[[22.90,77.00],[22.90,77.80],[23.60,77.80],[23.60,77.00]],
+      "total_farmland_ha":256000,
+      "surveyed_ha":256000,
+      "affected_ha":25600,
+      "damage_pct":10.0,
+      "primary_crop":"Soybean",
+      "secondary_crop":"Wheat",
+      "disaster_type":"none",
+      "ndvi":0.72,
+      "confidence":90.8,
+      "soil_moisture_pct":48,
+      "last_rainfall_mm":6.7,
+      "scan_duration_sec":200,
+      "tiles_processed":2560,
+      "affected_zones":[
+        {"lat":23.20,"lng":77.35,"radius_km":5,"severity":"info","label":"Minor nutrient deficiency — 10% soybean area, recoverable"}
+      ]
+    }
+  ]
+}
