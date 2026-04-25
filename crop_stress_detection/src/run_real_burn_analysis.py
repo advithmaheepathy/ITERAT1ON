@@ -1,12 +1,11 @@
 """
 run_real_burn_analysis.py
 =========================
-Run burn detection on real Sentinel-2 L2A data:
-    BEFORE: S2A_MSIL2A_20191216 (L2A)
-    AFTER:  S2B_MSIL2A_20200110 (L2A)
+Run burn detection on real Sentinel-2 data:
+    BEFORE: S2A_MSIL2A_20191216 (L2A — has SCL)
+    AFTER:  S2B_MSIL1C_20200110 (L1C — no SCL)
 
 Tile T53HQA — eastern Australia, 2019-2020 bushfire season.
-Both images are L2A with SCL for cloud masking.
 """
 
 import sys
@@ -54,7 +53,7 @@ BASE = Path(__file__).parent.parent
 RAW = BASE / "data" / "raw"
 
 BEFORE_SAFE = RAW / "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE"
-AFTER_SAFE = RAW / "S2B_MSIL2A_20200110T004659_N0500_R102_T53HQA_20230424T053441.SAFE"
+AFTER_SAFE = RAW / "S2B_MSIL1C_20200110T004659_N0500_R102_T53HQA_20230424T042733.SAFE"
 
 # BEFORE bands (L2A)
 BEFORE_B04 = BEFORE_SAFE / "GRANULE" / "L2A_T53HQA_A023408_20191216T004701" / "IMG_DATA" / "R10m" / "T53HQA_20191216T004701_B04_10m.jp2"
@@ -62,11 +61,10 @@ BEFORE_B08 = BEFORE_SAFE / "GRANULE" / "L2A_T53HQA_A023408_20191216T004701" / "I
 BEFORE_B12 = BEFORE_SAFE / "GRANULE" / "L2A_T53HQA_A023408_20191216T004701" / "IMG_DATA" / "R20m" / "T53HQA_20191216T004701_B12_20m.jp2"
 BEFORE_SCL = BEFORE_SAFE / "GRANULE" / "L2A_T53HQA_A023408_20191216T004701" / "IMG_DATA" / "R20m" / "T53HQA_20191216T004701_SCL_20m.jp2"
 
-# AFTER bands (L2A)
-AFTER_B04 = AFTER_SAFE / "GRANULE" / "L2A_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "R10m" / "T53HQA_20200110T004659_B04_10m.jp2"
-AFTER_B08 = AFTER_SAFE / "GRANULE" / "L2A_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "R10m" / "T53HQA_20200110T004659_B08_10m.jp2"
-AFTER_B12 = AFTER_SAFE / "GRANULE" / "L2A_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "R20m" / "T53HQA_20200110T004659_B12_20m.jp2"
-AFTER_SCL = AFTER_SAFE / "GRANULE" / "L2A_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "R20m" / "T53HQA_20200110T004659_SCL_20m.jp2"
+# AFTER bands (L1C)
+AFTER_B04 = AFTER_SAFE / "GRANULE" / "L1C_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "T53HQA_20200110T004659_B04.jp2"
+AFTER_B08 = AFTER_SAFE / "GRANULE" / "L1C_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "T53HQA_20200110T004659_B08.jp2"
+AFTER_B12 = AFTER_SAFE / "GRANULE" / "L1C_T53HQA_A014857_20200110T005652" / "IMG_DATA" / "T53HQA_20200110T004659_B12.jp2"
 
 OUTPUT_DIR = BASE / "outputs"
 
@@ -130,7 +128,7 @@ def main():
 
     # Verify all files exist
     all_paths = [BEFORE_B04, BEFORE_B08, BEFORE_B12, BEFORE_SCL,
-                 AFTER_B04, AFTER_B08, AFTER_B12, AFTER_SCL]
+                 AFTER_B04, AFTER_B08, AFTER_B12]
     for p in all_paths:
         if not p.exists():
             logger.error(f"Missing: {p}")
@@ -138,9 +136,8 @@ def main():
 
     logger.info("=" * 60)
     logger.info("REAL BURN ANALYSIS — 2019-2020 Australian Bushfires")
-    logger.info("BEFORE: S2A L2A 2019-12-16  |  AFTER: S2B L2A 2020-01-10")
+    logger.info("BEFORE: S2A L2A 2019-12-16  |  AFTER: S2B L1C 2020-01-10")
     logger.info("Tile: T53HQA (Eastern Australia)")
-    logger.info("Both images are L2A with SCL cloud masking")
     logger.info("=" * 60)
 
     # ── Load BEFORE bands ──
@@ -164,14 +161,11 @@ def main():
         b08_after_raw, b08_after_meta = load_band_jp2(AFTER_B08)
         b08_after = resample_to_target(b08_after_raw, b08_after_meta, b04_meta)
 
-    # ── Cloud + water masking (both dates) ──
+    # ── Cloud + water masking (from BEFORE L2A only) ──
     logger.info("\n── CLOUD & WATER MASKING ──")
     logger.info("BEFORE SCL:")
-    mask_before = load_scl_mask(BEFORE_SCL, b04_meta)
-    logger.info("AFTER SCL:")
-    mask_after = load_scl_mask(AFTER_SCL, b04_meta)
+    combined_mask = load_scl_mask(BEFORE_SCL, b04_meta)
 
-    combined_mask = mask_before & mask_after
     valid_pct = round(combined_mask.mean() * 100, 2)
     logger.info(f"Combined valid: {valid_pct}%")
 
@@ -221,15 +215,15 @@ def main():
             "tile": "T53HQA",
         },
         "after": {
-            "product": "S2B_MSIL2A_20200110T004659",
-            "level": "L2A",
+            "product": "S2B_MSIL1C_20200110T004659",
+            "level": "L1C",
             "date": "2020-01-10",
             "tile": "T53HQA",
         },
         "region": "Eastern Australia",
         "event": "2019-2020 Australian Bushfire Season",
         "bands_used": ["B04 (Red, 10m)", "B08 (NIR, 10m)", "B12 (SWIR, 20m→10m)"],
-        "cloud_mask": "SCL from both BEFORE and AFTER (both L2A)",
+        "cloud_mask": "SCL from BEFORE only (L2A)",
         "valid_pixel_pct_combined": valid_pct,
     }
 

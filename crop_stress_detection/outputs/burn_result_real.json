@@ -2,8 +2,8 @@
   "metadata": {
     "pipeline": "burn_detection",
     "pipeline_version": "1.0.0",
-    "processing_start": "2026-04-25T10:46:49Z",
-    "processing_end": "2026-04-25T10:47:19Z",
+    "processing_start": "2026-04-25T11:23:02Z",
+    "processing_end": "2026-04-25T11:23:35Z",
     "method": {
       "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
       "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
@@ -28,8 +28,8 @@
         "tile": "T53HQA"
       },
       "after": {
-        "product": "S2B_MSIL2A_20200110T004659",
-        "level": "L2A",
+        "product": "S2B_MSIL1C_20200110T004659",
+        "level": "L1C",
         "date": "2020-01-10",
         "tile": "T53HQA"
       },
@@ -40,14 +40,14 @@
         "B08 (NIR, 10m)",
         "B12 (SWIR, 20m→10m)"
       ],
-      "cloud_mask": "SCL from both BEFORE and AFTER (both L2A)",
-      "valid_pixel_pct_combined": 0.0
+      "cloud_mask": "SCL from BEFORE only (L2A)",
+      "valid_pixel_pct_combined": 23.55
     }
   },
   "summary": {
-    "burned_area_ha": 0.0,
-    "burned_pixels": 0,
-    "burned_fraction": 0.0,
+    "burned_area_ha": 10.2,
+    "burned_pixels": 1020,
+    "burned_fraction": 8e-06,
     "severity_distribution": {
       "unburned": {
         "label": "Unburned",
@@ -66,10 +66,10 @@
       },
       "severe": {
         "label": "Severe",
-        "pixel_count": 0,
-        "area_ha": 0.0
+        "pixel_count": 1020,
+        "area_ha": 10.2
       }
     },
-    "confidence": 0.0
+    "confidence": 18.8
   }
 }

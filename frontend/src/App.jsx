@@ -4,6 +4,7 @@ import MetricCard from './components/MetricCard'
 import DistrictGrid from './components/DistrictGrid'
 import Modal from './components/Modal'
 import SatelliteMap from './components/SatelliteMap'
+import BurnMap from './components/BurnMap'
 
 function timeAgo(isoString) {
   if (!isoString) return '—'
@@ -231,6 +232,11 @@ export default function App() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* ─── Burn Severity Map Section ─── */}
+        <section className="mt-8">
+          <BurnMap map={data.burn_map} />
         </section>
 
         <footer className="text-center py-6 border-t border-slate-800/40">

@@ -5,6 +5,7 @@ Replaces traditional human surveyors with onboard AI inference.
 import json, random, math
 from datetime import datetime, timezone
 from pathlib import Path
+import numpy as np
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -22,6 +23,22 @@ def save_data(data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
+def generate_mock_dnbr(size=300):
+    """Generate a synthetic dNBR array with some burn clusters."""
+    # Base noise (mostly unburned)
+    dnbr = np.random.normal(0, 0.05, (size, size))
+    
+    # Create some burn hotspots
+    for _ in range(8):
+        cx, cy = random.randint(0, size), random.randint(0, size)
+        radius = random.randint(15, 60)
+        y, x = np.ogrid[-cx:size-cx, -cy:size-cy]
+        mask = x**2 + y**2 <= radius**2
+        dnbr[mask] += np.random.uniform(0.2, 0.9, mask.sum())
+    
+    return dnbr
+
+
 @app.get("/dashboard")
 def get_dashboard():
     """Full dashboard: hardware specs, economics, all districts."""
@@ -36,10 +53,21 @@ def get_dashboard():
     trad_cost = total_farmland * eco["traditional_cost_per_ha"]
     sat_cost = total_farmland * eco["satellite_cost_per_ha"]
 
+    # Generate synthetic dNBR and downsampled burn map
+    dnbr = generate_mock_dnbr(size=400)
+    burn_map = np.zeros_like(dnbr, dtype=int)
+    burn_map[(dnbr >= 0.1) & (dnbr < 0.3)] = 1
+    burn_map[(dnbr >= 0.3) & (dnbr < 0.6)] = 2
+    burn_map[dnbr >= 0.6] = 3
+    
+    # Downsample for frontend (400x400 -> 40x40 grid if ::10)
+    burn_map_small = burn_map[::10, ::10]
+
     return {
         "satellite_hardware": hw,
         "survey_economics": eco,
         "districts": districts,
+        "burn_map": burn_map_small.tolist(),
         "totals": {
             "total_farmland_ha": total_farmland,
             "total_surveyed_ha": total_surveyed,
