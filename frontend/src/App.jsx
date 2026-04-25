@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { fetchDashboard, simulatePass } from './api'
 import MetricCard from './components/MetricCard'
 import DistrictGrid from './components/DistrictGrid'
-import AlertFeed from './components/AlertFeed'
-import NDVITrend from './components/NDVITrend'
 import Modal from './components/Modal'
 import SatelliteMap from './components/SatelliteMap'
 
@@ -17,12 +15,18 @@ function timeAgo(isoString) {
   return `${hrs} hr${hrs > 1 ? 's' : ''} ago`
 }
 
+function formatINR(val) {
+  if (val >= 10000000) return `₹${(val / 10000000).toFixed(1)} Cr`
+  if (val >= 100000) return `₹${(val / 100000).toFixed(1)} L`
+  return `₹${val.toLocaleString('en-IN')}`
+}
+
 export default function App() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [scanning, setScanning] = useState(false)
-  const [selectedDistrict, setSelectedDistrict] = useState(null)   // modal
-  const [focusedDistrict, setFocusedDistrict] = useState(null)     // map focus
+  const [selectedDistrict, setSelectedDistrict] = useState(null)
+  const [focusedDistrict, setFocusedDistrict] = useState(null)
   const [lastUpdated, setLastUpdated] = useState(null)
   const [tick, setTick] = useState(0)
 
@@ -38,11 +42,7 @@ export default function App() {
     }
   }, [])
 
-  useEffect(() => {
-    loadDashboard()
-  }, [loadDashboard])
-
-  // Update "time ago" every 30 seconds
+  useEffect(() => { loadDashboard() }, [loadDashboard])
   useEffect(() => {
     const interval = setInterval(() => setTick(t => t + 1), 30000)
     return () => clearInterval(interval)
@@ -61,13 +61,11 @@ export default function App() {
     }
   }
 
-  // When a district tile is clicked: focus map + open modal
   const handleDistrictSelect = (district) => {
     setFocusedDistrict(district)
     setSelectedDistrict(district)
   }
 
-  // When a district is clicked on the map: focus + open modal
   const handleMapSelect = (district) => {
     setFocusedDistrict(district)
     if (district) setSelectedDistrict(district)
@@ -92,7 +90,7 @@ export default function App() {
     )
   }
 
-  const { satellite, summary, districts, alerts, ndvi_overview } = data
+  const { satellite_hardware: hw, totals, districts, survey_economics: eco } = data
 
   return (
     <div className="min-h-screen scan-line-effect">
@@ -107,13 +105,13 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-sm font-bold text-white tracking-tight">
-                {satellite.name}
+                {hw.name}
                 <span className="ml-2 text-[10px] font-medium text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                  {satellite.status}
+                  {hw.status}
                 </span>
               </h1>
               <p className="text-[10px] text-slate-500">
-                {satellite.orbit} · {satellite.altitude_km} km · Pass #{satellite.passes_today}
+                {hw.orbit} · {hw.ai_model}
               </p>
             </div>
           </div>
@@ -123,23 +121,16 @@ export default function App() {
               <p className="text-[10px] text-slate-500">Last updated</p>
               <p className="text-xs text-slate-400 font-mono">{timeAgo(lastUpdated)}</p>
             </div>
-
-            <button
-              onClick={handleScan}
-              disabled={scanning}
-              className="scan-button px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
+            <button onClick={handleScan} disabled={scanning}
+              className="scan-button px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-300 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
               {scanning ? (
-                <>
-                  <div className="spinner" />
-                  <span>Scanning...</span>
-                </>
+                <><div className="spinner" /><span>Scanning...</span></>
               ) : (
                 <>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 3.75H6A2.25 2.25 0 003.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0120.25 6v1.5M20.25 16.5V18A2.25 2.25 0 0118 20.25h-1.5M3.75 16.5V18A2.25 2.25 0 006 20.25h1.5M12 8.25v7.5M8.25 12h7.5" />
                   </svg>
-                  <span>Run Satellite Scan</span>
+                  <span>Run Satellite Survey</span>
                 </>
               )}
             </button>
@@ -149,23 +140,30 @@ export default function App() {
 
       {/* ═══════ Main Content ═══════ */}
       <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6 space-y-6">
-        {/* Scanning overlay */}
         {scanning && (
           <div className="glass-card p-4 flex items-center gap-3 border-indigo-500/30 bg-indigo-500/5 animate-fade-in">
             <div className="spinner" style={{ borderTopColor: '#818cf8' }} />
             <div>
-              <p className="text-sm font-medium text-indigo-300">Satellite pass in progress</p>
-              <p className="text-xs text-slate-500">Onboard AI processing spectral bands — compressing insights for downlink...</p>
+              <p className="text-sm font-medium text-indigo-300">Satellite survey in progress</p>
+              <p className="text-xs text-slate-500">Onboard AI scanning farmland — identifying crop damage via spectral analysis...</p>
             </div>
           </div>
         )}
 
         {/* ─── Top Metric Cards ─── */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <MetricCard type="tiles" title="Tiles Scanned Today" value={summary.tiles_scanned.toLocaleString()} subtitle={`${summary.coverage_percent}% coverage area`} />
-          <MetricCard type="alerts" title="Stress Alerts Fired" value={summary.stress_alerts} subtitle="Active warnings & critical" />
-          <MetricCard type="data" title="Data Downlinked" value={`${summary.data_downlinked_kb} KB`} subtitle={`${summary.raw_data_saved_gb} GB raw saved onboard`} />
-          <MetricCard type="confidence" title="Avg Confidence" value={`${summary.average_confidence}%`} subtitle="Onboard inference accuracy" />
+          <MetricCard type="tiles" title="Total Farmland Surveyed"
+            value={`${(totals.total_surveyed_ha / 1000).toFixed(0)}K ha`}
+            subtitle={`${totals.district_count} districts covered`} />
+          <MetricCard type="alerts" title="Farmland Affected"
+            value={`${(totals.total_affected_ha / 1000).toFixed(0)}K ha`}
+            subtitle={`${totals.avg_damage_pct}% avg damage`} />
+          <MetricCard type="data" title="Cost Saved vs Surveyors"
+            value={formatINR(totals.cost_saved_inr)}
+            subtitle={`Surveyor: ${formatINR(totals.traditional_cost_inr)} → Satellite: ${formatINR(totals.satellite_cost_inr)}`} />
+          <MetricCard type="confidence" title="Time Saved"
+            value={`${totals.traditional_time_days - Math.ceil(totals.satellite_time_min / 60 / 24)} days`}
+            subtitle={`Surveyor: ${totals.traditional_time_days} days → Satellite: ${totals.satellite_time_min} min`} />
         </section>
 
         {/* ─── Satellite Map (HERO) ─── */}
@@ -177,33 +175,83 @@ export default function App() {
           />
         </section>
 
-        {/* ─── District Grid + Alert Feed ─── */}
+        {/* ─── District Grid + Hardware Panel ─── */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <DistrictGrid districts={districts} onSelect={handleDistrictSelect} />
           </div>
-          <div className="lg:col-span-1">
-            <AlertFeed alerts={alerts} />
+          <div className="lg:col-span-1 space-y-4">
+            {/* Hardware Specs */}
+            <div className="glass-card p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">
+                🛰️ Satellite Hardware
+              </h2>
+              <div className="space-y-2.5">
+                <HWRow label="Processor" value={hw.processor} />
+                <HWRow label="AI Model" value={hw.ai_model} />
+                <HWRow label="Spectral Bands" value={hw.spectral_bands.join(', ')} />
+                <HWRow label="Resolution" value={`${hw.spatial_resolution_m}m/px`} />
+                <HWRow label="Coverage Rate" value={`${hw.coverage_rate_ha_per_min.toLocaleString()} ha/min`} />
+                <HWRow label="Swath Width" value={`${hw.swath_width_km} km`} />
+                <HWRow label="Orbit" value={hw.orbit} />
+                <HWRow label="Revisit" value={`Every ${hw.revisit_hours} hrs`} />
+                <HWRow label="Crop ID Accuracy" value={`${hw.crop_id_accuracy_pct}%`} />
+                <HWRow label="Inference Speed" value={`${hw.inference_speed_tiles_per_sec} tiles/sec`} />
+              </div>
+            </div>
+
+            {/* Survey Economics */}
+            <div className="glass-card p-5">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">
+                💰 Cost Comparison
+              </h2>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-slate-400">Traditional Surveyor</span>
+                  <span className="text-sm font-bold text-red-400 font-mono">₹{eco.traditional_cost_per_ha}/ha</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-slate-400">Satellite Survey</span>
+                  <span className="text-sm font-bold text-emerald-400 font-mono">₹{eco.satellite_cost_per_ha}/ha</span>
+                </div>
+                <div className="border-t border-slate-700/40 pt-2 flex justify-between items-center">
+                  <span className="text-xs text-slate-400">Savings per hectare</span>
+                  <span className="text-sm font-bold text-indigo-400 font-mono">
+                    ₹{eco.traditional_cost_per_ha - eco.satellite_cost_per_ha}/ha
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-slate-400">Time per district</span>
+                  <span className="text-xs text-slate-300">
+                    <span className="text-red-400 line-through">{eco.traditional_days_per_district} days</span>
+                    {' → '}
+                    <span className="text-emerald-400 font-bold">{eco.satellite_minutes_per_district} min</span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ─── NDVI Trend ─── */}
-        <section>
-          <NDVITrend ndviOverview={ndvi_overview} />
-        </section>
-
-        {/* ─── Footer ─── */}
         <footer className="text-center py-6 border-t border-slate-800/40">
           <p className="text-[11px] text-slate-600">
-            AgriSat-7 Ground Station · Simulated Onboard AI Crop Intelligence · {new Date().getFullYear()}
+            AgriSat-7 Ground Station · Satellite Crop Insurance Survey System · {new Date().getFullYear()}
           </p>
         </footer>
       </main>
 
-      {/* ─── Modal ─── */}
       {selectedDistrict && (
         <Modal district={selectedDistrict} onClose={() => setSelectedDistrict(null)} />
       )}
+    </div>
+  )
+}
+
+function HWRow({ label, value }) {
+  return (
+    <div className="flex justify-between items-start gap-2">
+      <span className="text-[10px] uppercase tracking-wider text-slate-500 shrink-0">{label}</span>
+      <span className="text-xs text-slate-300 font-mono text-right">{value}</span>
     </div>
   )
 }

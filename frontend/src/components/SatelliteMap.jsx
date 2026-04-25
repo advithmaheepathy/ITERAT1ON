@@ -2,12 +2,18 @@ import React, { useEffect, useRef, useMemo } from 'react'
 import { MapContainer, TileLayer, Polygon, CircleMarker, Popup, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
+/* ─── Derive stress level from damage_pct ─── */
+function getStressLevel(d) {
+  if (d.damage_pct >= 30) return 'high'
+  if (d.damage_pct >= 15) return 'medium'
+  return 'low'
+}
+
 /* ─── Color mappings ─── */
 const STRESS_COLORS = {
   high:   { fill: '#ef4444', border: '#dc2626', opacity: 0.25, borderOpacity: 0.8 },
   medium: { fill: '#eab308', border: '#ca8a04', opacity: 0.20, borderOpacity: 0.7 },
   low:    { fill: '#22c55e', border: '#16a34a', opacity: 0.15, borderOpacity: 0.6 },
-  cloudy: { fill: '#3b82f6', border: '#2563eb', opacity: 0.18, borderOpacity: 0.6 },
 }
 
 const ZONE_COLORS = {
@@ -105,7 +111,7 @@ export default function SatelliteMap({ districts, focusedDistrict, onSelectDistr
           {/* District boundary polygons */}
           {polygons.map(d => {
             if (!d.positions.length) return null
-            const colors = STRESS_COLORS[d.stress_level] || STRESS_COLORS.low
+            const colors = STRESS_COLORS[getStressLevel(d)] || STRESS_COLORS.low
             const isFocused = focusedDistrict?.id === d.id
 
             return (
@@ -127,11 +133,11 @@ export default function SatelliteMap({ districts, focusedDistrict, onSelectDistr
                 <Popup className="satellite-popup">
                   <div className="text-xs">
                     <p className="font-bold text-sm mb-1">{d.name}</p>
-                    <p className="text-gray-500">{d.state} · {d.crop}</p>
+                    <p className="text-gray-500">{d.state} · {d.primary_crop}</p>
                     <div className="mt-2 space-y-0.5">
                       <p>NDVI: <span className="font-mono font-bold">{d.ndvi?.toFixed(2)}</span></p>
-                      <p>Stress: <span className="font-bold capitalize">{d.stress_level}</span></p>
-                      <p>Affected: <span className="font-mono">{d.affected_hectares?.toLocaleString()} ha</span></p>
+                      <p>Damage: <span className="font-bold">{d.damage_pct}%</span></p>
+                      <p>Affected: <span className="font-mono">{d.affected_ha?.toLocaleString()} ha</span></p>
                       <p>Confidence: <span className="font-mono">{d.confidence}%</span></p>
                     </div>
                   </div>
