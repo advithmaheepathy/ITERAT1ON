@@ -24,13 +24,11 @@ A satellite command center dashboard that performs **real burn severity analysis
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/advithmaheepathy/crop-stress-alert-system.git
-cd crop-stress-alert-system
+git clone https://github.com/advithmaheepathy/ITERAT1ON.git
+cd ITERAT1ON
 
-# Backend
-cd backend
+# Python dependencies (covers backend + analysis + ML)
 pip install -r requirements.txt
-cd ..
 
 # Frontend
 cd frontend
@@ -77,11 +75,24 @@ C:\dss\                          (or your DSS_DATA_DIR)
 
 ### 3. Run
 
-Open **two terminals**:
+**Option A — Standalone inference (no servers needed):**
+
+```bash
+# ML prediction only (pre-fire image)
+python infer.py --pre "C:/dss/S2A_MSIL2A_.../S2A_..."
+
+# Full analysis (both images)
+python infer.py --pre "C:/dss/S2A_MSIL2A_.../S2A_..." --post "C:/dss/S2B_MSIL2A_.../S2B_..."
+```
+
+**Option B — Dashboard UI (interactive map):**
+
+Open two terminals:
 
 ```bash
 # Terminal 1 — Backend API (port 8000)
 cd backend
+pip install -r requirements.txt
 uvicorn main:app --reload
 
 # Terminal 2 — Frontend Dev Server (port 5173)
