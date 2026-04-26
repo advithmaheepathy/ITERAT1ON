@@ -38,7 +38,11 @@ cd ..
 
 ### 2. Download & Place Dataset
 
-The Sentinel-2 datasets are **not included** in this repository (~2 GB total). You need two `.SAFE` products:
+The Sentinel-2 datasets are **not included** in this repository (~2 GB total).
+
+📥 **[Download Dataset from Google Drive](https://drive.google.com/drive/folders/18iNEElfZFUZi_ScFkwEEHCSDrfKwnE4s?usp=sharing)**
+
+You need two `.SAFE` products:
 
 | Product | Filename |
 |---------|----------|
