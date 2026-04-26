@@ -333,6 +333,50 @@ def analyze_aoi(payload: dict):
             }
         }
 
+    # ── Predict Damage (pre-fire only, uses fine-tuned model) ─────────
+    if analysis_type == "predict_damage":
+        script_path = Path(__file__).parent.parent / "crop_stress_detection" / "src" / "predict_damage.py"
+        output_json_path = Path(__file__).parent.parent / "crop_stress_detection" / "outputs" / "damage_prediction.json"
+
+        dss_dir = Path(os.environ.get("DSS_DATA_DIR", "C:/dss"))
+        before_safe = dss_dir / "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE" / "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE"
+
+        if not before_safe.exists():
+            raise HTTPException(400, f"Pre-fire dataset not found in '{dss_dir}'.")
+
+        try:
+            script_cwd = Path(__file__).parent.parent / "crop_stress_detection"
+            script_env = os.environ.copy()
+            script_env["PYTHONIOENCODING"] = "utf-8"
+            subprocess.run([
+                "python", str(script_path),
+                "--pre", str(before_safe),
+                "--output", str(output_json_path)
+            ], check=True, capture_output=True, cwd=str(script_cwd), env=script_env)
+
+            if output_json_path.exists():
+                with open(output_json_path, "r", encoding="utf-8") as f:
+                    prediction_result = json.load(f)
+            else:
+                raise HTTPException(500, "Prediction script ran but no output found.")
+        except subprocess.CalledProcessError as e:
+            print(f"Predict Error: {e.stderr.decode()}")
+            raise HTTPException(500, "Failed to run damage prediction.")
+
+        return {
+            "status": "analysis_complete",
+            "timestamp": now,
+            "aoi": {
+                "type": aoi.get("type", "bbox"),
+                "coordinates": coords,
+                "center": [center_lat, center_lon],
+                "area_ha": round(area_ha, 1),
+                "area_sq_km": round(area_sq_km, 2),
+            },
+            "analysis": "predict_damage",
+            "result": prediction_result
+        }
+
     # Execute the external crop stress detection script
     script_path = Path(__file__).parent.parent / "crop_stress_detection" / "src" / "burn_analysis_v3.py"
     output_json_path = Path(__file__).parent.parent / "crop_stress_detection" / "outputs" / "burn_result_v3.json"

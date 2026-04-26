@@ -81,9 +81,28 @@ Open `http://localhost:5173` in your browser.
 ### 4. Use
 
 1. Draw a rectangle on the map using the tool in the top-right corner.
-2. Click **Start Comparing** to run the real burn severity analysis.
-3. Wait ~60–90 seconds while the script processes 120M+ pixels.
-4. View the summary results. Click **Advanced Details** to see the full JSON output.
+2. **Start Comparing** — Full burn severity analysis using both pre/post images (~90s)
+3. **Predict Damage** — ML-powered damage forecast using only the pre-fire image (~30s)
+4. **Custom Analysis** — Select individual spectral parameters to analyze
+5. View the summary results. Click **Advanced Details** to see the full JSON output.
+
+### 5. Fine-Tune ML Models (Optional)
+
+The ML models are pre-trained and saved in `crop_stress_detection/models/`. To re-train:
+
+```bash
+cd crop_stress_detection
+
+# 1. Severity Classifier (Random Forest) — validates dNBR with ML
+python src/finetune_severity_classifier.py \
+  --pre "C:/dss/S2A_.../S2A_..." \
+  --post "C:/dss/S2B_.../S2B_..."
+
+# 2. Vegetation Recovery Predictor — predicts damage from pre-fire only
+python src/finetune_vegetation_recovery.py \
+  --pre "C:/dss/S2A_.../S2A_..." \
+  --post "C:/dss/S2B_.../S2B_..."
+```
 
 ---
 
@@ -99,23 +118,36 @@ crop-stress-alert-system/
 │   └── src/components/          # AOISelector, ApiServicesModal, etc.
 └── crop_stress_detection/       # Sentinel-2 analysis engine
     ├── src/
-    │   ├── burn_analysis_v3.py  # Main analysis script (dNBR, USGS standard)
-    │   └── preprocess.py        # Band loading, cloud masking, resampling
+    │   ├── burn_analysis_v3.py                # dNBR burn analysis (USGS standard)
+    │   ├── predict_damage.py                  # ML damage prediction (pre-fire only)
+    │   ├── finetune_severity_classifier.py    # RF fine-tuning script
+    │   ├── finetune_vegetation_recovery.py    # Vegetation predictor fine-tuning
+    │   └── preprocess.py                      # Band loading, cloud masking
+    ├── models/                  # Saved ML models (.joblib)
     ├── outputs/                 # Generated JSON results
     └── environment.yml          # Conda env (alternative to pip)
 ```
 
 ## How It Works
 
-When you click **Start Comparing**, the system:
-
+### Burn Detection (Start Comparing)
 1. **Backend** receives the AOI bounding box via `/analyze` endpoint
-2. **Subprocess** executes `burn_analysis_v3.py` with the two Sentinel-2 datasets
+2. **Subprocess** executes `burn_analysis_v3.py` with both Sentinel-2 datasets
 3. **Script** loads B04 (Red), B08 (NIR), B12 (SWIR) bands from both dates
 4. **Computes** NBR for each date, then dNBR = NBR_pre − NBR_post
 5. **Classifies** severity using USGS Key et al. (2006) standard thresholds
-6. **Returns** a comprehensive JSON with statistics, severity distribution, and NDVI change
-7. **Frontend** renders the summary with severity bars + expandable advanced details
+6. **Returns** JSON with statistics, severity distribution, and NDVI change
+
+### ML Damage Prediction (Predict Damage)
+1. Uses **only the pre-fire image** — no post-fire data needed
+2. Loads a **fine-tuned Gradient Boosting model** (trained on real Sentinel-2 data)
+3. Extracts spectral features (B04, B08, B12, NDVI, NBR) from 100K sampled pixels
+4. **Predicts vegetation damage** (delta NDVI) for each pixel
+5. Returns predicted damage level, distribution, and confidence metrics
+
+### ML Fine-Tuning
+- **Severity Classifier**: Random Forest trained on 150K pixels, 99.99% accuracy — validates that dNBR is the dominant predictor of burn severity
+- **Vegetation Recovery**: Gradient Boosting regressor, R²=0.47, 88.1% category accuracy — predicts damage from pre-fire spectral features alone
 
 ## Environment Variables
 
@@ -127,5 +159,6 @@ When you click **Start Comparing**, the system:
 
 - **Backend:** Python, FastAPI, Uvicorn, Rasterio, NumPy
 - **Frontend:** React 18, Vite, Tailwind CSS, Leaflet, Axios
+- **ML:** scikit-learn (Random Forest, Gradient Boosting), joblib
 - **Analysis:** dNBR burn severity (USGS standard), NDVI vegetation change
 - **Data:** Sentinel-2 L2A (Copernicus Data Space)

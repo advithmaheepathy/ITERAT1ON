@@ -2,8 +2,8 @@
   "metadata": {
     "pipeline_version": "3.0.0",
     "analysis_type": "burn_severity_dnbr",
-    "processing_start": "2026-04-26T01:35:44Z",
-    "processing_end": "2026-04-26T01:36:33Z",
+    "processing_start": "2026-04-26T03:56:20Z",
+    "processing_end": "2026-04-26T03:57:26Z",
     "pre_fire": {
       "safe_name": "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE",
       "acquisition_date": "2019-12-16T00:47:01Z",

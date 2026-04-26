@@ -81,6 +81,7 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
   const [drawnLayer, setDrawnLayer] = useState(null)
   const [showConfig, setShowConfig] = useState(false)
   const [customMode, setCustomMode] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
   const [dates, setDates] = useState({ before: '', after: '' })
   const [outputs, setOutputs] = useState({
     showNdvi: false, showNdwi: false, showNbr: false, showLst: false,
@@ -269,7 +270,7 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
               {!showConfig ? (
                 <div className="space-y-2">
                   <button
-                    onClick={() => { setShowConfig(true); setCustomMode(false); }}
+                    onClick={() => setShowConfirm(true)}
                     disabled={isAnalyzing}
                     className="w-full py-2.5 rounded text-sm font-semibold text-gh-text transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed bg-[#238636] hover:bg-[#2ea043]"
                   >
@@ -278,6 +279,24 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
                     </svg>
                     <span>Start Comparing</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (aoiCoords && onAnalyze) {
+                        onAnalyze({
+                          aoi: { type: 'bbox', coordinates: aoiCoords },
+                          analysis: 'predict_damage',
+                        })
+                      }
+                    }}
+                    disabled={isAnalyzing}
+                    className="w-full py-2.5 rounded text-sm font-semibold text-gh-text transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed border border-[#238636] hover:bg-[#238636]/20"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                    <span>Predict Damage</span>
+                    <span className="text-[9px] text-gh-muted font-normal">(ML · pre-fire only)</span>
                   </button>
                   <button
                     onClick={() => { setShowConfig(true); setCustomMode(true); }}
@@ -372,6 +391,45 @@ export default function AOISelector({ onAnalyze, isAnalyzing }) {
                   </button>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Confirmation Dialog */}
+      {showConfirm && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 max-w-sm w-full mx-4 shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-[#1c2128] border border-gh-border flex items-center justify-center">
+                <svg className="w-5 h-5 text-gh-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-gh-text">Processing Time</h3>
+                <p className="text-[11px] text-gh-muted">Real satellite data analysis</p>
+              </div>
+            </div>
+            <p className="text-xs text-gh-text leading-relaxed mb-5">
+              This will process <span className="font-bold text-gh-accent">120M+ pixels</span> of Sentinel-2 imagery across multiple spectral bands. The analysis takes about <span className="font-bold text-gh-warning">1–2 minutes</span> to complete.
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 py-2 rounded text-xs font-semibold text-gh-muted border border-[#30363D] hover:bg-[#1c2128] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowConfirm(false)
+                  setShowConfig(true)
+                  setCustomMode(false)
+                }}
+                className="flex-1 py-2 rounded text-xs font-semibold text-gh-text bg-[#238636] hover:bg-[#2ea043] transition-colors"
+              >
+                Proceed
+              </button>
             </div>
           </div>
         </div>

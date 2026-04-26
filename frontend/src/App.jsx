@@ -232,6 +232,103 @@ function AnalysisResultPanel({ result, onClose }) {
     )
   }
 
+  // ── Predict Damage Results ──────────────────────────────────────────
+  if (analysis === 'predict_damage') {
+    const pred = r.prediction || {}
+    const dist = r.damage_distribution || {}
+    const stats = r.statistics || {}
+    const distBars = [
+      { key: 'severe', label: 'Severe', color: 'bg-gh-danger', ...(dist.severe || {}) },
+      { key: 'moderate', label: 'Moderate', color: 'bg-[#ff7b72]', ...(dist.moderate || {}) },
+      { key: 'mild', label: 'Mild', color: 'bg-gh-warning', ...(dist.mild || {}) },
+      { key: 'no_damage', label: 'No Damage', color: 'bg-gh-success', ...(dist.no_damage || {}) },
+    ]
+    const levelColor = {
+      'Severe': 'text-gh-danger', 'Moderate': 'text-[#ff7b72]',
+      'Mild': 'text-gh-warning', 'Minimal': 'text-gh-success'
+    }[pred.overall_damage_level] || 'text-gh-text'
+
+    return (
+      <div className="flat-panel p-5 animate-fade-in">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded bg-[#1c2128] border border-gh-border flex items-center justify-center">
+              <svg className="w-4 h-4 text-gh-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+            </div>
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-gh-text">
+              ML Damage Prediction
+            </h2>
+            <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-sm bg-[#1c2128] border border-gh-border text-gh-warning">
+              Pre-fire Only
+            </span>
+          </div>
+          <button onClick={onClose} className="w-7 h-7 rounded bg-[#1c2128] border border-gh-border hover:border-gh-muted flex items-center justify-center transition-colors">
+            <svg className="w-3.5 h-3.5 text-gh-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Main prediction */}
+        <div className="mb-5 p-4 rounded bg-[#1c2128] border border-gh-border">
+          <p className="text-[10px] uppercase tracking-widest text-gh-muted font-semibold mb-2">Predicted Damage Level</p>
+          <p className={`text-2xl font-bold ${levelColor} mb-1`}>{pred.overall_damage_level || '—'}</p>
+          <p className="text-xs text-gh-muted">{pred.interpretation}</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Damage Distribution */}
+          <div className="space-y-2">
+            <p className="text-[10px] uppercase tracking-widest text-gh-muted font-semibold">Predicted Damage Distribution</p>
+            <div className="space-y-2">
+              {distBars.map(d => (
+                <div key={d.key}>
+                  <div className="flex justify-between text-[10px] mb-0.5">
+                    <span className="text-gh-muted">{d.label}</span>
+                    <span className="text-gh-text font-mono">{d.pct || 0}%</span>
+                  </div>
+                  <div className="h-2 bg-gh-bg rounded-sm overflow-hidden border border-gh-border">
+                    <div className={`h-full transition-all duration-700 ${d.color}`} style={{ width: `${Math.max(d.pct || 0, 1)}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="space-y-2">
+            <p className="text-[10px] uppercase tracking-widest text-gh-muted font-semibold">Model Statistics</p>
+            <div className="grid grid-cols-2 gap-1.5">
+              <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
+                <p className="text-[9px] text-gh-muted uppercase">Mean dNDVI</p>
+                <p className="text-sm font-bold text-gh-text font-mono">{stats.predicted_mean?.toFixed(4)}</p>
+              </div>
+              <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
+                <p className="text-[9px] text-gh-muted uppercase">Std Dev</p>
+                <p className="text-sm font-bold text-gh-text font-mono">{stats.predicted_std?.toFixed(4)}</p>
+              </div>
+              <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
+                <p className="text-[9px] text-gh-muted uppercase">Pixels Analyzed</p>
+                <p className="text-xs font-mono text-gh-text">{stats.pixels_analyzed?.toLocaleString()}</p>
+              </div>
+              <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
+                <p className="text-[9px] text-gh-muted uppercase">Processing</p>
+                <p className="text-xs font-mono text-gh-text">{r.processing_time_seconds}s</p>
+              </div>
+            </div>
+            <div className="p-2 rounded bg-gh-bg border border-gh-border mt-2">
+              <p className="text-[9px] text-gh-muted uppercase mb-1">Model</p>
+              <p className="text-[11px] text-gh-accent font-mono">{r.model}</p>
+              <p className="text-[10px] text-gh-muted mt-1">{r.input}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // Standard Results — summary view + advanced toggle
   const [showAdvanced, setShowAdvanced] = useState(false)
   const sev = r.summary?.severity_distribution || r.severity_distribution || {}
