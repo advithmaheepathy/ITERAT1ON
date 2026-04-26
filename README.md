@@ -1,5 +1,18 @@
 # AgriSat-7 — Crop Stress Alert System
 
+## Project Scope & Honest Disclaimers — PixelToPolicy
+*What we built, what we simulated, and what comes next*
+
+- **What is real:** The core idea, the fine-tuned TerraMind LLM, the backend pipeline, and the frontend dashboard are all fully built and functional. The system correctly processes satellite spectral data (B04, B08, B12 bands + computed NDVI/NBR indices) and outputs structured JSON with burn area estimates.
+- **Imaginary satellite:** We do not have access to a real satellite. The satellite in our architecture is simulated — inputs are sent as if going to a satellite, TerraMind processes them on the backend, and the JSON response is returned as if downlinked from orbit. This represents the intended production flow.
+- **Real dataset — Kangaroo Island fire:** The before/after comparison feature uses actual Sentinel-2 satellite imagery of the Kangaroo Island bushfire. Pressing Start Comparing sends these real files to TerraMind and returns a genuine JSON analysis. The location/date selectors on the UI demonstrate how real satellite inputs would be structured — they are not live queries.
+- **Custom Analysis — hardcoded demo data:** The Custom Analysis feature uses hardcoded sample data for demonstration purposes. It does not call TerraMind. It shows how the UI would present on-demand land queries in a production system.
+- **Prediction feature — real TerraMind inference:** The Prediction button uses the pre-fire Kangaroo Island dataset and runs actual TerraMind inference to estimate potential burn loss based on pre-fire vegetation indices (NDVI, NBR). This is genuine model output, not hardcoded.
+- **Flood & drought — not implemented:** We could not source high-resolution before/after datasets for flood and drought scenarios within the hackathon timeline. The logic and architecture support these — only the training data and final UI output are absent.
+- **API — not production-tested:** The API endpoints are architected and documented but not commercially tested due to time constraints. The structure is correct and ready for integration.
+- **Current scope — fire only:** This version focuses exclusively on fire/burn damage assessment. The system estimates approximate affected area from satellite spectral data, saving insurance companies the cost and time of manual field surveys after fire events.
+- **Why we're showing this:** We believe in building honestly. Every feature shown is either real or clearly marked as a simulation. The satellite architecture, TerraMind integration, and burn detection logic are production-ready in design — the limitations are purely dataset availability and hackathon time constraints, not technical gaps.
+
 A satellite command center dashboard that performs **real burn severity analysis** on Sentinel-2 imagery using dNBR (delta Normalized Burn Ratio). Built for the TakeMe2Space hackathon.
 
 ## Quick Start
