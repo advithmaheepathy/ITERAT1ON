@@ -6,98 +6,70 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-draw/dist/leaflet.draw.css'
 
 /**
- * Fixes the "rectangle stuck at edge" bug by adding Auto-Pan.
- * 
- * Leaflet-draw does not support panning the map while drawing a shape.
- * So if you drag to the edge of the map div, the rectangle gets stuck
- * and cannot extend further. This component detects when the mouse is near
- * the edge during a draw, and automatically pans the map.
+ * Auto-pan: when drawing a rectangle near the map edge, pan the map
+ * and fire a Leaflet-level mousemove so the draw handler updates.
  */
 function AutoPanForwarder() {
   const map = useMap()
 
   useEffect(() => {
     let toolActive = false
-    let isDragging = false
+    let mouseDown = false
     let panInterval = null
-    let lastEvent = null
+    let lastX = 0, lastY = 0
     const container = map.getContainer()
+    const EDGE = 50, SPEED = 20, TICK = 30
 
-    const onToolEnable = () => { toolActive = true }
-    const onToolDisable = () => { 
-      toolActive = false
-      stopDrag()
-    }
+    const clearPan = () => { if (panInterval) { clearInterval(panInterval); panInterval = null } }
 
-    const startDrag = () => {
-      if (toolActive) isDragging = true
-    }
+    const onDrawStart = () => { toolActive = true }
+    const onDrawStop = () => { toolActive = false; clearPan() }
+    const onDown = () => { mouseDown = true }
+    const onUp = () => { mouseDown = false; clearPan() }
 
-    const stopDrag = () => {
-      isDragging = false
-      if (panInterval) {
-        clearInterval(panInterval)
-        panInterval = null
-      }
-    }
+    const onMove = (e) => {
+      lastX = e.clientX; lastY = e.clientY
+      if (!toolActive || !mouseDown) { clearPan(); return }
 
-    const onMouseMove = (e) => {
-      if (!isDragging) return
-      lastEvent = e
-      
-      const rect = container.getBoundingClientRect()
-      const edge = 40 // pixels from edge to trigger pan
+      const r = container.getBoundingClientRect()
       let dx = 0, dy = 0
-      
-      if (e.clientX < rect.left + edge) dx = -15
-      else if (e.clientX > rect.right - edge) dx = 15
-      
-      if (e.clientY < rect.top + edge) dy = -15
-      else if (e.clientY > rect.bottom - edge) dy = 15
-      
-      if (dx !== 0 || dy !== 0) {
-        if (!panInterval) {
-          panInterval = setInterval(() => {
-            map.panBy([dx, dy], { animate: false })
-            
-            // Forward a synthetic mousemove so the drawing updates while panning
-            if (lastEvent) {
-              const x = lastEvent.clientX - rect.left
-              const y = lastEvent.clientY - rect.top
-              const cp = L.point(x, y)
-              map.fire('mousemove', {
-                latlng: map.containerPointToLatLng(cp),
-                layerPoint: map.containerPointToLayerPoint(cp),
-                containerPoint: cp,
-                originalEvent: lastEvent
-              })
-            }
-          }, 30)
-        }
-      } else {
-        if (panInterval) {
-          clearInterval(panInterval)
-          panInterval = null
-        }
-      }
+      if (lastX < r.left + EDGE) dx = -SPEED
+      else if (lastX > r.right - EDGE) dx = SPEED
+      if (lastY < r.top + EDGE) dy = -SPEED
+      else if (lastY > r.bottom - EDGE) dy = SPEED
+
+      if (dx === 0 && dy === 0) { clearPan(); return }
+      if (panInterval) return // already panning
+
+      panInterval = setInterval(() => {
+        map.panBy([dx, dy], { animate: false })
+        // Recompute latlng after pan and fire directly on the Leaflet map
+        const cr = container.getBoundingClientRect()
+        const cp = L.point(lastX - cr.left, lastY - cr.top)
+        map.fire('mousemove', {
+          latlng: map.containerPointToLatLng(cp),
+          layerPoint: map.containerPointToLayerPoint(cp),
+          containerPoint: cp,
+          originalEvent: { clientX: lastX, clientY: lastY, preventDefault(){}, stopPropagation(){} }
+        })
+      }, TICK)
     }
 
-    map.on('draw:drawstart', onToolEnable)
-    map.on('draw:drawstop', onToolDisable)
-    map.on('draw:created', onToolDisable)
-    container.addEventListener('mousedown', startDrag, { capture: true })
-    
-    document.addEventListener('mousemove', onMouseMove)
-    document.addEventListener('mouseup', stopDrag)
+    map.on('draw:drawstart', onDrawStart)
+    map.on('draw:drawstop', onDrawStop)
+    map.on('draw:created', onDrawStop)
+    document.addEventListener('mousedown', onDown, true)
+    document.addEventListener('mouseup', onUp, true)
+    document.addEventListener('mousemove', onMove)
 
     return () => {
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', stopDrag)
-      map.off('draw:drawstart', onToolEnable)
-      map.off('draw:drawstop', onToolDisable)
-      map.off('draw:created', onToolDisable)
-      container.removeEventListener('mousedown', startDrag, { capture: true })
-      if (panInterval) clearInterval(panInterval)
+      map.off('draw:drawstart', onDrawStart)
+      map.off('draw:drawstop', onDrawStop)
+      map.off('draw:created', onDrawStop)
+      document.removeEventListener('mousedown', onDown, true)
+      document.removeEventListener('mouseup', onUp, true)
+      document.removeEventListener('mousemove', onMove)
+      clearPan()
     }
   }, [map])
 

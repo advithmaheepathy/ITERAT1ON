@@ -110,6 +110,39 @@ function HWRow({ label, value }) {
   )
 }
 
+function DynamicJSONViewer({ data }) {
+  if (typeof data !== 'object' || data === null) {
+    return <span className="text-xs font-mono text-gh-text break-all">{String(data)}</span>
+  }
+
+  if (Array.isArray(data)) {
+    return (
+      <div className="flex flex-col gap-1 w-full">
+        {data.map((item, i) => (
+          <div key={i} className="pl-3 border-l-2 border-[#30363D] py-0.5">
+            <DynamicJSONViewer data={item} />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col w-full">
+      {Object.entries(data).map(([k, v]) => (
+        <div key={k} className="flex flex-col lg:flex-row lg:items-start gap-1 lg:gap-4 py-1.5 border-b border-[#30363D] last:border-0">
+          <span className="text-[10px] uppercase tracking-widest text-gh-muted font-semibold lg:w-1/3 shrink-0 pt-0.5">
+            {k.replace(/_/g, ' ')}
+          </span>
+          <div className="lg:w-2/3">
+            <DynamicJSONViewer data={v} />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function AnalysisResultPanel({ result, onClose }) {
   const { aoi, result: r, analysis } = result
 
@@ -199,14 +232,20 @@ function AnalysisResultPanel({ result, onClose }) {
     )
   }
 
-  // Standard Burn Detection Results
-  const sev = r.summary?.severity_distribution || {}
+  // Standard Results — summary view + advanced toggle
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const sev = r.summary?.severity_distribution || r.severity_distribution || {}
   const sevBars = [
-    { key: 'severe', label: 'Severe', color: 'bg-gh-danger', ...sev.severe },
-    { key: 'moderate', label: 'Moderate', color: 'bg-[#ff7b72]', ...sev.moderate_severity },
-    { key: 'low', label: 'Low', color: 'bg-gh-warning', ...sev.low_severity },
-    { key: 'unburned', label: 'Unburned', color: 'bg-gh-success', ...sev.unburned },
+    { key: 'severe', label: 'Severe', color: 'bg-gh-danger', ...(sev.severe || sev.high || {}) },
+    { key: 'moderate', label: 'Moderate', color: 'bg-[#ff7b72]', ...(sev.moderate || sev.moderate_high || sev.moderate_severity || {}) },
+    { key: 'low', label: 'Low', color: 'bg-gh-warning', ...(sev.low || sev.low_severity || {}) },
+    { key: 'unburned', label: 'Unburned', color: 'bg-gh-success', ...(sev.unburned || {}) },
   ]
+  const burnedHa = r.summary?.burned_area_ha ?? r.summary?.total_burned_ha ?? r.burned_area_ha ?? '—'
+  const burnedFrac = r.summary?.burned_fraction ?? r.summary?.burned_fraction_of_valid ?? 0
+  const confidence = r.summary?.confidence ?? '—'
+  const totalPx = r.summary?.total_pixels ?? '—'
+  const validPx = r.summary?.valid_pixels ?? r.summary?.joint_valid_pixels ?? '—'
 
   return (
     <div className="flat-panel p-5 animate-fade-in">
@@ -246,7 +285,7 @@ function AnalysisResultPanel({ result, onClose }) {
             </div>
             <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
               <p className="text-[9px] text-gh-muted uppercase">Confidence</p>
-              <p className="text-sm font-bold text-gh-text font-mono">{r.summary?.confidence}%</p>
+              <p className="text-sm font-bold text-gh-text font-mono">{confidence}%</p>
             </div>
           </div>
         </div>
@@ -257,19 +296,19 @@ function AnalysisResultPanel({ result, onClose }) {
           <div className="grid grid-cols-2 gap-1.5">
             <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
               <p className="text-[9px] text-gh-muted uppercase">Burned Area</p>
-              <p className="text-sm font-bold text-gh-danger font-mono">{r.summary?.burned_area_ha?.toLocaleString()} ha</p>
+              <p className="text-sm font-bold text-gh-danger font-mono">{Number(burnedHa).toLocaleString()} ha</p>
             </div>
             <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
               <p className="text-[9px] text-gh-muted uppercase">Burned %</p>
-              <p className="text-sm font-bold text-gh-danger font-mono">{(r.summary?.burned_fraction * 100).toFixed(1)}%</p>
+              <p className="text-sm font-bold text-gh-danger font-mono">{(burnedFrac * 100).toFixed(1)}%</p>
             </div>
             <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
-              <p className="text-[9px] text-gh-muted uppercase">dNBR Mean</p>
-              <p className="text-xs font-mono text-gh-warning">{r.dnbr_statistics?.mean}</p>
+              <p className="text-[9px] text-gh-muted uppercase">Total Pixels</p>
+              <p className="text-xs font-mono text-gh-text">{Number(totalPx).toLocaleString()}</p>
             </div>
             <div className="p-2 rounded bg-[#1c2128] border border-gh-border">
-              <p className="text-[9px] text-gh-muted uppercase">dNBR Max</p>
-              <p className="text-xs font-mono text-gh-danger">{r.dnbr_statistics?.max}</p>
+              <p className="text-[9px] text-gh-muted uppercase">Valid Pixels</p>
+              <p className="text-xs font-mono text-gh-text">{Number(validPx).toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -282,15 +321,33 @@ function AnalysisResultPanel({ result, onClose }) {
               <div key={s.key}>
                 <div className="flex justify-between text-[10px] mb-0.5">
                   <span className="text-gh-muted">{s.label}</span>
-                  <span className="text-gh-text font-mono">{s.pct || 0}% · {s.area_ha?.toLocaleString() || 0} ha</span>
+                  <span className="text-gh-text font-mono">{s.pct_of_valid || s.pct || 0}% · {(s.area_ha || 0).toLocaleString()} ha</span>
                 </div>
                 <div className="h-2 bg-[#1c2128] rounded-sm overflow-hidden border border-gh-border">
-                  <div className={`h-full transition-all duration-700 ${s.color}`} style={{ width: `${Math.max(s.pct || 0, 1)}%` }} />
+                  <div className={`h-full transition-all duration-700 ${s.color}`} style={{ width: `${Math.max(s.pct_of_valid || s.pct || 0, 1)}%` }} />
                 </div>
               </div>
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Advanced Details Toggle */}
+      <div className="mt-5 border-t border-gh-border pt-4">
+        <button
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="flex items-center gap-2 text-xs text-gh-muted hover:text-gh-accent transition-colors font-semibold uppercase tracking-wider"
+        >
+          <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${showAdvanced ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+          Advanced Details
+        </button>
+        {showAdvanced && (
+          <div className="mt-3 bg-[#0D1117] border border-[#30363D] rounded p-4 overflow-y-auto max-h-[500px] shadow-inner animate-fade-in">
+            <DynamicJSONViewer data={r || {}} />
+          </div>
+        )}
       </div>
     </div>
   )

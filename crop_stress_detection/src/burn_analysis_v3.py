@@ -37,12 +37,14 @@ from rasterio.warp import reproject, Resampling as WarpResampling
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.preprocess import find_safe_bands, read_band_as_float32, resample_to_match, _read_scl_raw
 
+Path("logs").mkdir(exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     datefmt="%Y-%m-%dT%H:%M:%S",
     handlers=[logging.StreamHandler(sys.stdout),
-              logging.FileHandler("logs/burn_analysis_v3.log")],
+              logging.FileHandler("logs/burn_analysis_v3.log", encoding="utf-8")],
 )
 logger = logging.getLogger("burn_analysis_v3")
 

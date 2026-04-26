@@ -1,3 +1,8 @@
 fastapi==0.115.0
 uvicorn[standard]==0.30.0
 numpy>=1.24.0
+
+# Required for burn analysis (Start Comparing)
+rasterio>=1.3.9
+shapely>=2.0.3
+pyproj>=3.6.1

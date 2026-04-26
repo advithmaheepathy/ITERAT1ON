@@ -2,7 +2,7 @@
 AgriSat-7 — Satellite Crop Insurance Survey System
 Replaces traditional human surveyors with onboard AI inference.
 """
-import json, random, math, secrets, os
+import json, random, math, secrets, os, subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 import numpy as np
@@ -289,9 +289,6 @@ def analyze_aoi(payload: dict):
 
     # If custom analysis, return selected metrics instead of burn detection
     if analysis_type == "custom":
-        import json
-        import os
-        
         # Load the mock JSON
         mock_file_path = os.path.join(os.path.dirname(__file__), "custom_mock_data.json")
         try:
@@ -336,17 +333,41 @@ def analyze_aoi(payload: dict):
             }
         }
 
-    # Generate synthetic dNBR analysis for standard mode
-    size = 300
-    dnbr = generate_mock_dnbr(size=size)
-    total_pixels = size * size
-    pixel_area_ha = area_ha / total_pixels if total_pixels > 0 else 0.01
+    # Execute the external crop stress detection script
+    script_path = Path(__file__).parent.parent / "crop_stress_detection" / "src" / "burn_analysis_v3.py"
+    output_json_path = Path(__file__).parent.parent / "crop_stress_detection" / "outputs" / "burn_result_v3.json"
+    
+    # Dataset directory — configurable via DSS_DATA_DIR env var, defaults to C:/dss
+    dss_dir = Path(os.environ.get("DSS_DATA_DIR", "C:/dss"))
+    before_safe = dss_dir / "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE" / "S2A_MSIL2A_20191216T004701_N0500_R102_T53HQA_20230619T020958.SAFE"
+    after_safe = dss_dir / "S2B_MSIL2A_20200130T004659_N0500_R102_T53HQA_20230426T105901.SAFE" / "S2B_MSIL2A_20200130T004659_N0500_R102_T53HQA_20230426T105901.SAFE"
 
-    unburned_px = int(np.sum(dnbr < 0.1))
-    low_px = int(np.sum((dnbr >= 0.1) & (dnbr < 0.3)))
-    moderate_px = int(np.sum((dnbr >= 0.3) & (dnbr < 0.6)))
-    severe_px = int(np.sum(dnbr >= 0.6))
-    burned_px = low_px + moderate_px + severe_px
+    if not before_safe.exists() or not after_safe.exists():
+        raise HTTPException(400, f"Sentinel-2 datasets not found in '{dss_dir}'. Set the DSS_DATA_DIR environment variable to the folder containing the .SAFE directories. See README for details.")
+
+    try:
+        # Run the script synchronously
+        script_cwd = Path(__file__).parent.parent / "crop_stress_detection"
+        # Force UTF-8 encoding so Unicode box-drawing chars don't crash on Windows cp1252
+        script_env = os.environ.copy()
+        script_env["PYTHONIOENCODING"] = "utf-8"
+        subprocess.run([
+            "python", str(script_path),
+            "--pre", str(before_safe),
+            "--post", str(after_safe),
+            "--output", str(output_json_path)
+        ], check=True, capture_output=True, cwd=str(script_cwd), env=script_env)
+        
+        # Read the generated JSON
+        if output_json_path.exists():
+            with open(output_json_path, "r", encoding="utf-8") as f:
+                script_result = json.load(f)
+        else:
+            raise HTTPException(500, "Script executed but no JSON output was found.")
+            
+    except subprocess.CalledProcessError as e:
+        print(f"Script Error: {e.stderr.decode()}")
+        raise HTTPException(500, "Failed to execute crop stress detection script.")
 
     return {
         "status": "analysis_complete",
@@ -359,51 +380,7 @@ def analyze_aoi(payload: dict):
             "area_sq_km": round(area_sq_km, 2),
         },
         "analysis": analysis_type,
-        "result": {
-            "pipeline": "burn_detection",
-            "method": {
-                "ndvi_formula": "NDVI = (B08 - B04) / (B08 + B04)",
-                "nbr_formula": "NBR = (B08 - B12) / (B08 + B12)",
-                "dnbr_formula": "dNBR = NBR_before - NBR_after",
-                "burn_threshold": "dNBR > 0.1",
-                "pixel_resolution_m": 10,
-            },
-            "summary": {
-                "total_pixels": total_pixels,
-                "burned_pixels": burned_px,
-                "burned_area_ha": round(burned_px * pixel_area_ha, 1),
-                "burned_fraction": round(burned_px / total_pixels, 3),
-                "confidence": round(random.uniform(78, 95), 1),
-                "severity_distribution": {
-                    "unburned": {
-                        "pixel_count": unburned_px,
-                        "area_ha": round(unburned_px * pixel_area_ha, 1),
-                        "pct": round(unburned_px / total_pixels * 100, 1),
-                    },
-                    "low_severity": {
-                        "pixel_count": low_px,
-                        "area_ha": round(low_px * pixel_area_ha, 1),
-                        "pct": round(low_px / total_pixels * 100, 1),
-                    },
-                    "moderate_severity": {
-                        "pixel_count": moderate_px,
-                        "area_ha": round(moderate_px * pixel_area_ha, 1),
-                        "pct": round(moderate_px / total_pixels * 100, 1),
-                    },
-                    "severe": {
-                        "pixel_count": severe_px,
-                        "area_ha": round(severe_px * pixel_area_ha, 1),
-                        "pct": round(severe_px / total_pixels * 100, 1),
-                    },
-                },
-            },
-            "dnbr_statistics": {
-                "mean": round(float(np.mean(dnbr)), 4),
-                "std": round(float(np.std(dnbr)), 4),
-                "max": round(float(np.max(dnbr)), 4),
-                "median": round(float(np.median(dnbr)), 4),
-            },
-        },
+        "result": script_result
     }
 
 
